@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.DS_Store
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+# Tesseract language traineddata cache
+*.traineddata
+eng.traineddata
+# tsx / build caches
+.tsbuildinfo

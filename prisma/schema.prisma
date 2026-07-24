@@ -1,0 +1,216 @@
+// Seattle Solvers Tools API — data model
+// Postgres (Supabase). See ../.env.example for connection settings.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────── Enums ───────────────────────────
+
+enum Role {
+  MEMBER
+  TEAM_ADMIN
+  SUPER_ADMIN
+}
+
+// Whether a part belongs to the shared global library or to a single team.
+enum PartScope {
+  GLOBAL
+  TEAM
+}
+
+// Review status for parts (global library submissions use PENDING).
+enum PartStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+enum Vendor {
+  GOBILDA
+  REV
+  AXON
+  FERRA
+  MELONBOTICS
+  OFFSET
+  MATA
+  UXCELL
+  OTHER
+}
+
+enum ReceiptStatus {
+  PROCESSING
+  PARSED
+  CONFIRMED
+  FAILED
+}
+
+enum OcrMethod {
+  TESSERACT
+  CLAUDE
+  HYBRID
+}
+
+// ─────────────────────────── Accounts ───────────────────────────
+
+model Team {
+  id         String   @id @default(cuid())
+  number     Int      @unique
+  name       String
+  inviteCode String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  users         User[]
+  inventory     InventoryItem[]
+  receipts      Receipt[]
+  createdParts  Part[]          @relation("PartCreatedByTeam")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  displayName  String
+  role         Role     @default(MEMBER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Nullable so a SUPER_ADMIN (Seattle Solvers staff) need not belong to a team.
+  teamId String?
+  team   Team?   @relation(fields: [teamId], references: [id])
+
+  createdParts     Part[]    @relation("PartCreatedByUser")
+  uploadedReceipts Receipt[]
+
+  @@index([teamId])
+}
+
+// ─────────────────────────── Catalog ───────────────────────────
+
+model Category {
+  id    String @id @default(cuid())
+  name  String
+  slug  String @unique
+  sort  Int    @default(0)
+
+  parts Part[]
+}
+
+model Manufacturer {
+  id         String  @id @default(cuid())
+  name       String
+  slug       String  @unique
+  websiteUrl String?
+
+  parts Part[]
+
+  // Which Vendor enum this manufacturer maps to for receipt parsing (if any).
+  vendor Vendor?
+}
+
+model Part {
+  id          String     @id @default(cuid())
+  name        String
+  sku         String?
+  description String?
+  productUrl  String? // item / product detail page
+  purchaseUrl String? // add-to-cart / buy page (often same as productUrl)
+  imageUrl    String?
+  scope       PartScope  @default(GLOBAL)
+  status      PartStatus @default(APPROVED)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  manufacturerId String
+  manufacturer   Manufacturer @relation(fields: [manufacturerId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  // Provenance for team-created parts / library submissions.
+  createdByTeamId String?
+  createdByTeam   Team?   @relation("PartCreatedByTeam", fields: [createdByTeamId], references: [id])
+  createdByUserId String?
+  createdByUser   User?   @relation("PartCreatedByUser", fields: [createdByUserId], references: [id])
+
+  inventoryItems   InventoryItem[]
+  receiptLineItems ReceiptLineItem[]
+
+  @@index([manufacturerId])
+  @@index([categoryId])
+  @@index([scope, status])
+  @@index([createdByTeamId])
+}
+
+// ─────────────────────────── Inventory ───────────────────────────
+
+model InventoryItem {
+  id        String   @id @default(cuid())
+  quantity  Int      @default(0)
+  location  String?
+  notes     String?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  partId String
+  part   Part   @relation(fields: [partId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, partId])
+  @@index([teamId])
+}
+
+// ─────────────────────────── Receipts ───────────────────────────
+
+model Receipt {
+  id          String        @id @default(cuid())
+  vendor      Vendor
+  imageUrl    String? // Supabase Storage path/URL
+  status      ReceiptStatus @default(PROCESSING)
+  method      OcrMethod?
+  rawText     String? // full OCR text (Tesseract)
+  parsedJson  Json? // structured parse result (from vendor parser or Claude)
+  orderTotal  Decimal?      @db.Decimal(10, 2)
+  purchasedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  uploadedByUserId String?
+  uploadedByUser   User?   @relation(fields: [uploadedByUserId], references: [id])
+
+  lineItems ReceiptLineItem[]
+
+  @@index([teamId])
+}
+
+model ReceiptLineItem {
+  id              String   @id @default(cuid())
+  rawText         String?
+  parsedName      String
+  parsedSku       String?
+  quantity        Int      @default(1)
+  unitPrice       Decimal? @db.Decimal(10, 2)
+  lineTotal       Decimal? @db.Decimal(10, 2)
+  matchConfidence Float    @default(0) // 0-1, how confident the part match is
+  applied         Boolean  @default(false) // whether it was written to inventory
+
+  receiptId String
+  receipt   Receipt @relation(fields: [receiptId], references: [id], onDelete: Cascade)
+
+  matchedPartId String?
+  matchedPart   Part?   @relation(fields: [matchedPartId], references: [id])
+
+  @@index([receiptId])
+}
