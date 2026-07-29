@@ -1,18 +1,19 @@
-import type { ParsedLineItem, VendorParser } from '../types.js';
-import { findOrderTotal, findPurchaseDate, parseGenericItemLine, toLines } from './common.js';
+import type { VendorParser } from '../types.js';
+import { findOrderTotal, findPurchaseDate, parseGenericBlocks, toLines } from './common.js';
 
 /**
- * Last-resort text parser for vendors without a tuned parser. Treats any line
- * that has a price and a plausible name as a line item.
+ * Vendor-agnostic parser, used for vendors with no tuned parser and as the
+ * second pass behind every tuned one.
+ *
+ * Block-based, so it reads both shapes a receipt arrives in: a stacked digital
+ * order confirmation (name, quantity and prices on separate lines) and a
+ * single-line OCR'd photo.
  */
 export const parseGeneric: VendorParser = (text, vendor) => {
   const lines = toLines(text);
-  const items: ParsedLineItem[] = [];
-  for (const line of lines) {
-    const item = parseGenericItemLine(line);
-    if (item) items.push(item);
-  }
+  const items = parseGenericBlocks(lines);
   if (items.length === 0) return null;
+
   return {
     vendor,
     items,

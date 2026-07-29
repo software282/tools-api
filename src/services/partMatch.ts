@@ -17,7 +17,7 @@ function tokens(s: string): Set<string> {
 }
 
 /** Jaccard similarity of the word sets of two strings (0-1). */
-function similarity(a: string, b: string): number {
+export function similarity(a: string, b: string): number {
   const ta = tokens(a);
   const tb = tokens(b);
   if (ta.size === 0 || tb.size === 0) return 0;
@@ -27,11 +27,62 @@ function similarity(a: string, b: string): number {
   return union === 0 ? 0 : intersection / union;
 }
 
+/** Minimum Jaccard score before a name match is considered at all. */
+export const NAME_MATCH_FLOOR = 0.3;
+
+/**
+ * How far ahead of the runner-up the best candidate must be.
+ *
+ * Vendor part names are frequently near-duplicates that differ only in the spec
+ * that matters — two goBILDA Yellow Jacket motors identical but for "19.2:1" vs
+ * "26.9:1" score ~0.9 against each other. Picking the higher score in that
+ * situation is a coin flip that silently writes the wrong part into inventory,
+ * so an ambiguous match is reported as no match and left for the user to resolve
+ * via PATCH /receipts/:id/lines/:lineId.
+ */
+export const AMBIGUITY_MARGIN = 0.05;
+
+export interface NameCandidate {
+  id: string;
+  name: string;
+}
+
+/**
+ * Pick the single best name match, or null when there isn't a clear winner.
+ *
+ * Pure and exported so the ambiguity rule can be tested directly, without a
+ * database or a receipt.
+ */
+export function pickBestNameMatch(
+  name: string,
+  candidates: NameCandidate[],
+): { id: string; confidence: number } | null {
+  let best: { id: string; score: number } | null = null;
+  let runnerUp = 0;
+
+  for (const candidate of candidates) {
+    const score = similarity(name, candidate.name);
+    if (!best || score > best.score) {
+      runnerUp = best ? best.score : runnerUp;
+      best = { id: candidate.id, score };
+    } else if (score > runnerUp) {
+      runnerUp = score;
+    }
+  }
+
+  if (!best) return null;
+  if (best.score < NAME_MATCH_FLOOR) return null;
+  if (best.score - runnerUp < AMBIGUITY_MARGIN) return null;
+
+  return { id: best.id, confidence: Number(best.score.toFixed(2)) };
+}
+
 /**
  * Match parsed receipt line items to parts visible to the team.
  *  - Exact SKU match wins (confidence 1.0).
- *  - Otherwise fuzzy name match within the vendor's manufacturer (best Jaccard
- *    over ~0.3), falling back to a global name search.
+ *  - Otherwise the best fuzzy name match within the vendor's manufacturer, but
+ *    only when it clears NAME_MATCH_FLOOR *and* beats the runner-up by
+ *    AMBIGUITY_MARGIN.
  */
 export async function matchLineItems(
   items: ParsedLineItem[],
@@ -75,14 +126,10 @@ export async function matchLineItems(
 
     // 2. Fuzzy name match within the vendor's manufacturer candidates.
     if (!matchedPartId) {
-      let best: { id: string; score: number } | null = null;
-      for (const c of candidates) {
-        const score = similarity(item.name, c.name);
-        if (!best || score > best.score) best = { id: c.id, score };
-      }
-      if (best && best.score >= 0.3) {
-        matchedPartId = best.id;
-        confidence = Number(best.score.toFixed(2));
+      const match = pickBestNameMatch(item.name, candidates);
+      if (match) {
+        matchedPartId = match.id;
+        confidence = match.confidence;
       }
     }
 

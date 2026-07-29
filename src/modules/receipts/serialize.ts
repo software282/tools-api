@@ -40,7 +40,7 @@ export function serializeReceipt(receipt: ReceiptWithLines) {
     vendor: receipt.vendor,
     status: receipt.status,
     method: receipt.method,
-    imageUrl: receipt.imageUrl,
+    fileUrl: receipt.fileUrl,
     orderTotal: dec(receipt.orderTotal),
     purchasedAt: receipt.purchasedAt ? receipt.purchasedAt.toISOString() : null,
     createdAt: receipt.createdAt.toISOString(),

@@ -51,10 +51,17 @@ enum ReceiptStatus {
   FAILED
 }
 
-enum OcrMethod {
-  TESSERACT
-  CLAUDE
-  HYBRID
+// How a receipt's text was obtained. Most orders are placed online, so the
+// digital paths (pasted text, HTML email, born-digital PDF) are the common case
+// and involve no OCR and no model call at all. TESSERACT/CLAUDE_VISION exist for
+// photos of physical receipts.
+enum ExtractionMethod {
+  PASTED_TEXT // order confirmation pasted as plain text
+  PASTED_HTML // order confirmation email pasted as HTML
+  PDF_TEXT // text layer of a digital PDF invoice
+  TESSERACT // OCR of a photo or screenshot
+  CLAUDE_TEXT // digital text no vendor parser could read
+  CLAUDE_VISION // image neither OCR nor the vendor parsers could read
 }
 
 // ─────────────────────────── Accounts ───────────────────────────
@@ -67,10 +74,10 @@ model Team {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  users         User[]
-  inventory     InventoryItem[]
-  receipts      Receipt[]
-  createdParts  Part[]          @relation("PartCreatedByTeam")
+  users        User[]
+  inventory    InventoryItem[]
+  receipts     Receipt[]
+  createdParts Part[]          @relation("PartCreatedByTeam")
 }
 
 model User {
@@ -81,6 +88,11 @@ model User {
   role         Role     @default(MEMBER)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  // Bumped whenever every existing session for this user must stop working
+  // (password change, "sign out everywhere"). Tokens carry the value they were
+  // issued with; a mismatch is rejected. See src/plugins/auth.ts.
+  tokenVersion Int @default(0)
 
   // Nullable so a SUPER_ADMIN (Seattle Solvers staff) need not belong to a team.
   teamId String?
@@ -95,10 +107,10 @@ model User {
 // ─────────────────────────── Catalog ───────────────────────────
 
 model Category {
-  id    String @id @default(cuid())
-  name  String
-  slug  String @unique
-  sort  Int    @default(0)
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
+  sort Int    @default(0)
 
   parts Part[]
 }
@@ -172,17 +184,19 @@ model InventoryItem {
 // ─────────────────────────── Receipts ───────────────────────────
 
 model Receipt {
-  id          String        @id @default(cuid())
+  id          String            @id @default(cuid())
   vendor      Vendor
-  imageUrl    String? // Supabase Storage path/URL
-  status      ReceiptStatus @default(PROCESSING)
-  method      OcrMethod?
-  rawText     String? // full OCR text (Tesseract)
+  // Supabase Storage URL of the uploaded file, when there was one. Null for
+  // pasted text, which is the most common case.
+  fileUrl     String?
+  status      ReceiptStatus     @default(PROCESSING)
+  method      ExtractionMethod?
+  rawText     String? // the extracted text, whatever the source
   parsedJson  Json? // structured parse result (from vendor parser or Claude)
-  orderTotal  Decimal?      @db.Decimal(10, 2)
+  orderTotal  Decimal?          @db.Decimal(10, 2)
   purchasedAt DateTime?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 
   teamId String
   team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)

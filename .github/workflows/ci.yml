@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # Generates the Prisma client types the rest of the steps typecheck against.
+      # No database connection is needed for this.
+      - run: npx prisma generate
+
+      # Every step below runs without a database. Placeholders satisfy the
+      # boot-time env schema in src/config/env.ts; nothing here opens a connection.
+      - name: Typecheck
+        run: npm run typecheck
+        env:
+          JWT_SECRET: ci-placeholder-secret-value
+          DATABASE_URL: postgresql://user:pass@localhost:5432/postgres
+
+      - name: Test
+        run: npm test
+        env:
+          JWT_SECRET: ci-placeholder-secret-value
+          DATABASE_URL: postgresql://user:pass@localhost:5432/postgres
+
+      - name: Check the committed OpenAPI document is up to date
+        run: |
+          # Assert the file is tracked first: `git diff` ignores untracked files,
+          # so without this the check passes vacuously when nobody committed it.
+          if ! git ls-files --error-unmatch openapi.json > /dev/null 2>&1; then
+            echo "::error::openapi.json is not committed. Run 'npm run openapi' and commit it."
+            exit 1
+          fi
+          npm run openapi
+          if ! git diff --quiet -- openapi.json; then
+            echo "::error::openapi.json is stale. Run 'npm run openapi' and commit the result."
+            git diff -- openapi.json
+            exit 1
+          fi
+        env:
+          JWT_SECRET: ci-placeholder-secret-value
+          DATABASE_URL: postgresql://user:pass@localhost:5432/postgres
+
+      # Gates the >90% digital receipt accuracy bar. Scores the deterministic
+      # parsers against tests/fixtures/receipts — no database, no API calls.
+      - name: Receipt parsing accuracy
+        run: npm run accuracy
+
+      - name: Validate the Prisma schema
+        run: npx prisma validate
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/postgres

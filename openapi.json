@@ -1,0 +1,4193 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Seattle Solvers Tools API",
+    "description": "FTC parts inventory, search, and receipt reading for tools.seattlesolvers.",
+    "version": "0.1.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {}
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/teams": {
+      "post": {
+        "summary": "Create a new team and its first (admin) member",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "teamNumber": {
+                    "type": "integer",
+                    "exclusiveMinimum": true,
+                    "minimum": 0
+                  },
+                  "teamName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120
+                  },
+                  "displayName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "teamNumber",
+                  "teamName",
+                  "displayName",
+                  "email",
+                  "password"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MEMBER",
+                            "TEAM_ADMIN",
+                            "SUPER_ADMIN"
+                          ]
+                        },
+                        "teamId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "displayName",
+                        "role",
+                        "teamId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inviteCode": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name",
+                        "inviteCode"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "token",
+                    "user",
+                    "team"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/join": {
+      "post": {
+        "summary": "Join an existing team using its invite code",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "inviteCode": {
+                    "type": "string",
+                    "minLength": 4,
+                    "maxLength": 40
+                  },
+                  "displayName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "inviteCode",
+                  "displayName",
+                  "email",
+                  "password"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MEMBER",
+                            "TEAM_ADMIN",
+                            "SUPER_ADMIN"
+                          ]
+                        },
+                        "teamId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "displayName",
+                        "role",
+                        "teamId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inviteCode": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name",
+                        "inviteCode"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "token",
+                    "user",
+                    "team"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "Log in with email and password",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MEMBER",
+                            "TEAM_ADMIN",
+                            "SUPER_ADMIN"
+                          ]
+                        },
+                        "teamId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "displayName",
+                        "role",
+                        "teamId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inviteCode": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name",
+                        "inviteCode"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "token",
+                    "user",
+                    "team"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "summary": "Get the current user and their team",
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MEMBER",
+                            "TEAM_ADMIN",
+                            "SUPER_ADMIN"
+                          ]
+                        },
+                        "teamId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "displayName",
+                        "role",
+                        "teamId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inviteCode": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name",
+                        "inviteCode"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "user",
+                    "team"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/invite-code": {
+      "get": {
+        "summary": "Get the current team's invite code",
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "number": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "inviteCode": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "number",
+                    "name",
+                    "inviteCode"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/password": {
+      "patch": {
+        "summary": "Change your own password",
+        "tags": [
+          "auth"
+        ],
+        "description": "Requires the current password. Every existing session is revoked, including the token used to make this call — log in again afterwards to get a fresh one.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "currentPassword",
+                  "newPassword"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MEMBER",
+                            "TEAM_ADMIN",
+                            "SUPER_ADMIN"
+                          ]
+                        },
+                        "teamId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "displayName",
+                        "role",
+                        "teamId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inviteCode": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name",
+                        "inviteCode"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "token",
+                    "user",
+                    "team"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "summary": "List all part categories",
+        "tags": [
+          "catalog"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "sort": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "slug",
+                      "sort"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/manufacturers": {
+      "get": {
+        "summary": "List all manufacturers",
+        "tags": [
+          "catalog"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "websiteUrl": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "vendor": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "slug",
+                      "websiteUrl",
+                      "vendor"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/parts": {
+      "get": {
+        "summary": "Search the parts library (global + your team's custom parts)",
+        "tags": [
+          "parts"
+        ],
+        "description": "Anonymous callers see the approved global library. Authenticated callers also see their team's custom parts and an `ownedQuantity` for each result.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "in": "query",
+            "name": "q",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "category",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "manufacturer",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "GLOBAL",
+                "TEAM"
+              ]
+            },
+            "in": "query",
+            "name": "scope",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "ownedOnly",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": true,
+              "minimum": 0,
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": true,
+              "minimum": 0,
+              "maximum": 100,
+              "default": 25
+            },
+            "in": "query",
+            "name": "pageSize",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "sku": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "productUrl": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "purchaseUrl": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "scope": {
+                            "type": "string",
+                            "enum": [
+                              "GLOBAL",
+                              "TEAM"
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "APPROVED",
+                              "PENDING",
+                              "REJECTED"
+                            ]
+                          },
+                          "manufacturer": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "slug"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "category": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "slug"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "createdByTeamId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "ownedQuantity": {
+                            "type": "integer",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "sku",
+                          "description",
+                          "productUrl",
+                          "purchaseUrl",
+                          "imageUrl",
+                          "scope",
+                          "status",
+                          "manufacturer",
+                          "category",
+                          "createdByTeamId",
+                          "createdAt"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "pageSize": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "totalPages": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "page",
+                    "pageSize",
+                    "total",
+                    "totalPages"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a custom part for your team (optionally submit to the global library)",
+        "tags": [
+          "parts"
+        ],
+        "description": "Creates a part scoped to your team that you can use immediately. If `submitToLibrary` is true, a copy is queued for Seattle Solvers to review and, if approved, publish to every team.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "sku": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "productUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "purchaseUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "manufacturerId": {
+                    "type": "string"
+                  },
+                  "categoryId": {
+                    "type": "string"
+                  },
+                  "submitToLibrary": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "name",
+                  "productUrl",
+                  "manufacturerId",
+                  "categoryId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "sku": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "productUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "purchaseUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "scope": {
+                      "type": "string",
+                      "enum": [
+                        "GLOBAL",
+                        "TEAM"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "APPROVED",
+                        "PENDING",
+                        "REJECTED"
+                      ]
+                    },
+                    "manufacturer": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "createdByTeamId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "ownedQuantity": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "sku",
+                    "description",
+                    "productUrl",
+                    "purchaseUrl",
+                    "imageUrl",
+                    "scope",
+                    "status",
+                    "manufacturer",
+                    "category",
+                    "createdByTeamId",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/parts/{id}": {
+      "get": {
+        "summary": "Get a single part by id",
+        "tags": [
+          "parts"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "sku": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "productUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "purchaseUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "scope": {
+                      "type": "string",
+                      "enum": [
+                        "GLOBAL",
+                        "TEAM"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "APPROVED",
+                        "PENDING",
+                        "REJECTED"
+                      ]
+                    },
+                    "manufacturer": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "createdByTeamId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "ownedQuantity": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "sku",
+                    "description",
+                    "productUrl",
+                    "purchaseUrl",
+                    "imageUrl",
+                    "scope",
+                    "status",
+                    "manufacturer",
+                    "category",
+                    "createdByTeamId",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Edit one of your team's custom parts",
+        "tags": [
+          "parts"
+        ],
+        "description": "Only TEAM-scoped parts your own team created can be edited. Parts in the shared global library are read-only here — submit a correction through an admin instead.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "sku": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "productUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "purchaseUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "manufacturerId": {
+                    "type": "string"
+                  },
+                  "categoryId": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "sku": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "productUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "purchaseUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "scope": {
+                      "type": "string",
+                      "enum": [
+                        "GLOBAL",
+                        "TEAM"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "APPROVED",
+                        "PENDING",
+                        "REJECTED"
+                      ]
+                    },
+                    "manufacturer": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "createdByTeamId": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "ownedQuantity": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "sku",
+                    "description",
+                    "productUrl",
+                    "purchaseUrl",
+                    "imageUrl",
+                    "scope",
+                    "status",
+                    "manufacturer",
+                    "category",
+                    "createdByTeamId",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete one of your team's custom parts",
+        "tags": [
+          "parts"
+        ],
+        "description": "Refused while your team still holds stock of the part — set its inventory quantity to 0 first, so a delete can never silently discard a count.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory": {
+      "get": {
+        "summary": "The inventory sheet: parts your team tracks and how many you have",
+        "tags": [
+          "inventory"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "in": "query",
+            "name": "q",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "category",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "manufacturer",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "in": "query",
+            "name": "includeZero",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": true,
+              "minimum": 0,
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": true,
+              "minimum": 0,
+              "maximum": 200,
+              "default": 50
+            },
+            "in": "query",
+            "name": "pageSize",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "partId": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "location": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "notes": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          },
+                          "part": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "sku": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "description": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "productUrl": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "purchaseUrl": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "imageUrl": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "scope": {
+                                "type": "string",
+                                "enum": [
+                                  "GLOBAL",
+                                  "TEAM"
+                                ]
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "APPROVED",
+                                  "PENDING",
+                                  "REJECTED"
+                                ]
+                              },
+                              "manufacturer": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "slug": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name",
+                                  "slug"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "category": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "slug": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name",
+                                  "slug"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "createdByTeamId": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "createdAt": {
+                                "type": "string"
+                              },
+                              "ownedQuantity": {
+                                "type": "integer",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "sku",
+                              "description",
+                              "productUrl",
+                              "purchaseUrl",
+                              "imageUrl",
+                              "scope",
+                              "status",
+                              "manufacturer",
+                              "category",
+                              "createdByTeamId",
+                              "createdAt"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "partId",
+                          "quantity",
+                          "location",
+                          "notes",
+                          "updatedAt",
+                          "part"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "pageSize": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "totalPages": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "page",
+                    "pageSize",
+                    "total",
+                    "totalPages"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/{partId}": {
+      "put": {
+        "summary": "Set the quantity (and optional location/notes) of a part",
+        "tags": [
+          "inventory"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "location": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 1000
+                  }
+                },
+                "required": [
+                  "quantity"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "partId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "partId": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "location": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "notes": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "part": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "sku": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "description": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "productUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "purchaseUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "scope": {
+                          "type": "string",
+                          "enum": [
+                            "GLOBAL",
+                            "TEAM"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "APPROVED",
+                            "PENDING",
+                            "REJECTED"
+                          ]
+                        },
+                        "manufacturer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "slug"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "category": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "slug"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "createdByTeamId": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "ownedQuantity": {
+                          "type": "integer",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "sku",
+                        "description",
+                        "productUrl",
+                        "purchaseUrl",
+                        "imageUrl",
+                        "scope",
+                        "status",
+                        "manufacturer",
+                        "category",
+                        "createdByTeamId",
+                        "createdAt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "partId",
+                    "quantity",
+                    "location",
+                    "notes",
+                    "updatedAt",
+                    "part"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Stop tracking a part (removes the row from your inventory sheet)",
+        "tags": [
+          "inventory"
+        ],
+        "description": "Different from setting the quantity to 0: that keeps the part on your sheet with no stock, this removes the row entirely. The part itself is untouched.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "partId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/{partId}/adjust": {
+      "post": {
+        "summary": "Adjust a part quantity by a delta (e.g. +5 after a purchase, -1 when used)",
+        "tags": [
+          "inventory"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "delta": {
+                    "type": "integer"
+                  },
+                  "location": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 1000
+                  }
+                },
+                "required": [
+                  "delta"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "partId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "partId": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "location": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "notes": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "part": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "sku": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "description": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "productUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "purchaseUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "scope": {
+                          "type": "string",
+                          "enum": [
+                            "GLOBAL",
+                            "TEAM"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "APPROVED",
+                            "PENDING",
+                            "REJECTED"
+                          ]
+                        },
+                        "manufacturer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "slug"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "category": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "slug"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "createdByTeamId": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "ownedQuantity": {
+                          "type": "integer",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "sku",
+                        "description",
+                        "productUrl",
+                        "purchaseUrl",
+                        "imageUrl",
+                        "scope",
+                        "status",
+                        "manufacturer",
+                        "category",
+                        "createdByTeamId",
+                        "createdAt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "partId",
+                    "quantity",
+                    "location",
+                    "notes",
+                    "updatedAt",
+                    "part"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/export.csv": {
+      "get": {
+        "summary": "Download the team inventory as CSV",
+        "tags": [
+          "inventory"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/api/v1/receipts": {
+      "post": {
+        "summary": "Paste an order confirmation (the usual way to add a receipt)",
+        "tags": [
+          "receipts"
+        ],
+        "description": "Send the text of an order confirmation email or web receipt. Plain text and HTML email bodies both work — HTML is detected automatically. Nothing is deciphered here: the characters are already exact, so no OCR and normally no model call is involved. Returns the parsed receipt with matched parts for review; call /confirm to apply it to inventory.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vendor": {
+                    "type": "string",
+                    "enum": [
+                      "GOBILDA",
+                      "REV",
+                      "AXON",
+                      "FERRA",
+                      "MELONBOTICS",
+                      "OFFSET",
+                      "MATA",
+                      "UXCELL",
+                      "OTHER"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 200000
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": [
+                      "auto",
+                      "text",
+                      "html"
+                    ],
+                    "default": "auto"
+                  }
+                },
+                "required": [
+                  "vendor",
+                  "text"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "vendor": {
+                      "type": "string",
+                      "enum": [
+                        "GOBILDA",
+                        "REV",
+                        "AXON",
+                        "FERRA",
+                        "MELONBOTICS",
+                        "OFFSET",
+                        "MATA",
+                        "UXCELL",
+                        "OTHER"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PROCESSING",
+                        "PARSED",
+                        "CONFIRMED",
+                        "FAILED"
+                      ]
+                    },
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "PASTED_TEXT",
+                        "PASTED_HTML",
+                        "PDF_TEXT",
+                        "TESSERACT",
+                        "CLAUDE_TEXT",
+                        "CLAUDE_VISION"
+                      ],
+                      "nullable": true
+                    },
+                    "fileUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "orderTotal": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "purchasedAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "lineItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "rawText": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "parsedName": {
+                            "type": "string"
+                          },
+                          "parsedSku": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unitPrice": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "lineTotal": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "matchConfidence": {
+                            "type": "number"
+                          },
+                          "applied": {
+                            "type": "boolean"
+                          },
+                          "matchedPart": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "sku": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "manufacturer": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "sku",
+                              "manufacturer"
+                            ],
+                            "additionalProperties": false,
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "rawText",
+                          "parsedName",
+                          "parsedSku",
+                          "quantity",
+                          "unitPrice",
+                          "lineTotal",
+                          "matchConfidence",
+                          "applied",
+                          "matchedPart"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "vendor",
+                    "status",
+                    "method",
+                    "fileUrl",
+                    "orderTotal",
+                    "purchasedAt",
+                    "createdAt",
+                    "lineItems"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List your team's uploaded receipts, newest first",
+        "tags": [
+          "receipts"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": true,
+              "minimum": 0,
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": true,
+              "minimum": 0,
+              "maximum": 100,
+              "default": 25
+            },
+            "in": "query",
+            "name": "pageSize",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "vendor": {
+                            "type": "string",
+                            "enum": [
+                              "GOBILDA",
+                              "REV",
+                              "AXON",
+                              "FERRA",
+                              "MELONBOTICS",
+                              "OFFSET",
+                              "MATA",
+                              "UXCELL",
+                              "OTHER"
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "PROCESSING",
+                              "PARSED",
+                              "CONFIRMED",
+                              "FAILED"
+                            ]
+                          },
+                          "method": {
+                            "type": "string",
+                            "enum": [
+                              "PASTED_TEXT",
+                              "PASTED_HTML",
+                              "PDF_TEXT",
+                              "TESSERACT",
+                              "CLAUDE_TEXT",
+                              "CLAUDE_VISION"
+                            ],
+                            "nullable": true
+                          },
+                          "fileUrl": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "orderTotal": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "purchasedAt": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "lineItemCount": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "vendor",
+                          "status",
+                          "method",
+                          "fileUrl",
+                          "orderTotal",
+                          "purchasedAt",
+                          "createdAt",
+                          "lineItemCount"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "pageSize": {
+                      "type": "integer"
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "totalPages": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "page",
+                    "pageSize",
+                    "total",
+                    "totalPages"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/receipts/upload": {
+      "post": {
+        "summary": "Upload a receipt file — a digital PDF invoice, or a photo of a paper receipt",
+        "tags": [
+          "receipts"
+        ],
+        "description": "multipart/form-data with fields `vendor` and `file`. A PDF is read from its text layer, so a downloaded invoice needs no OCR. An image (jpg/png/webp/gif) is OCR'd, falling back to Claude vision only when that is not good enough — this is the physical-receipt path. For an emailed confirmation prefer POST /receipts, which is exact and cheaper.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "vendor": {
+                      "type": "string",
+                      "enum": [
+                        "GOBILDA",
+                        "REV",
+                        "AXON",
+                        "FERRA",
+                        "MELONBOTICS",
+                        "OFFSET",
+                        "MATA",
+                        "UXCELL",
+                        "OTHER"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PROCESSING",
+                        "PARSED",
+                        "CONFIRMED",
+                        "FAILED"
+                      ]
+                    },
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "PASTED_TEXT",
+                        "PASTED_HTML",
+                        "PDF_TEXT",
+                        "TESSERACT",
+                        "CLAUDE_TEXT",
+                        "CLAUDE_VISION"
+                      ],
+                      "nullable": true
+                    },
+                    "fileUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "orderTotal": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "purchasedAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "lineItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "rawText": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "parsedName": {
+                            "type": "string"
+                          },
+                          "parsedSku": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unitPrice": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "lineTotal": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "matchConfidence": {
+                            "type": "number"
+                          },
+                          "applied": {
+                            "type": "boolean"
+                          },
+                          "matchedPart": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "sku": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "manufacturer": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "sku",
+                              "manufacturer"
+                            ],
+                            "additionalProperties": false,
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "rawText",
+                          "parsedName",
+                          "parsedSku",
+                          "quantity",
+                          "unitPrice",
+                          "lineTotal",
+                          "matchConfidence",
+                          "applied",
+                          "matchedPart"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "vendor",
+                    "status",
+                    "method",
+                    "fileUrl",
+                    "orderTotal",
+                    "purchasedAt",
+                    "createdAt",
+                    "lineItems"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/receipts/{id}": {
+      "get": {
+        "summary": "Get a receipt with its parsed line items",
+        "tags": [
+          "receipts"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "vendor": {
+                      "type": "string",
+                      "enum": [
+                        "GOBILDA",
+                        "REV",
+                        "AXON",
+                        "FERRA",
+                        "MELONBOTICS",
+                        "OFFSET",
+                        "MATA",
+                        "UXCELL",
+                        "OTHER"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PROCESSING",
+                        "PARSED",
+                        "CONFIRMED",
+                        "FAILED"
+                      ]
+                    },
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "PASTED_TEXT",
+                        "PASTED_HTML",
+                        "PDF_TEXT",
+                        "TESSERACT",
+                        "CLAUDE_TEXT",
+                        "CLAUDE_VISION"
+                      ],
+                      "nullable": true
+                    },
+                    "fileUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "orderTotal": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "purchasedAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "lineItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "rawText": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "parsedName": {
+                            "type": "string"
+                          },
+                          "parsedSku": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer"
+                          },
+                          "unitPrice": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "lineTotal": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "matchConfidence": {
+                            "type": "number"
+                          },
+                          "applied": {
+                            "type": "boolean"
+                          },
+                          "matchedPart": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "sku": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "manufacturer": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "sku",
+                              "manufacturer"
+                            ],
+                            "additionalProperties": false,
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "rawText",
+                          "parsedName",
+                          "parsedSku",
+                          "quantity",
+                          "unitPrice",
+                          "lineTotal",
+                          "matchConfidence",
+                          "applied",
+                          "matchedPart"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "vendor",
+                    "status",
+                    "method",
+                    "fileUrl",
+                    "orderTotal",
+                    "purchasedAt",
+                    "createdAt",
+                    "lineItems"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/receipts/{id}/lines/{lineId}": {
+      "patch": {
+        "summary": "Correct a parsed line item (fix the matched part, quantity, or name)",
+        "tags": [
+          "receipts"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "matchedPartId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "parsedName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "parsedSku": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "nullable": true
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "lineId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "rawText": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "parsedName": {
+                      "type": "string"
+                    },
+                    "parsedSku": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unitPrice": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "lineTotal": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "matchConfidence": {
+                      "type": "number"
+                    },
+                    "applied": {
+                      "type": "boolean"
+                    },
+                    "matchedPart": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "sku": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "manufacturer": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "sku",
+                        "manufacturer"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "rawText",
+                    "parsedName",
+                    "parsedSku",
+                    "quantity",
+                    "unitPrice",
+                    "lineTotal",
+                    "matchConfidence",
+                    "applied",
+                    "matchedPart"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/receipts/{id}/confirm": {
+      "post": {
+        "summary": "Apply matched line items to your team inventory",
+        "tags": [
+          "receipts"
+        ],
+        "description": "Adds each matched line item's quantity to inventory. Lines without a matched part are skipped and reported. Idempotent per line via the `applied` flag.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lineItemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "receipt": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "vendor": {
+                          "type": "string",
+                          "enum": [
+                            "GOBILDA",
+                            "REV",
+                            "AXON",
+                            "FERRA",
+                            "MELONBOTICS",
+                            "OFFSET",
+                            "MATA",
+                            "UXCELL",
+                            "OTHER"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "PROCESSING",
+                            "PARSED",
+                            "CONFIRMED",
+                            "FAILED"
+                          ]
+                        },
+                        "method": {
+                          "type": "string",
+                          "enum": [
+                            "PASTED_TEXT",
+                            "PASTED_HTML",
+                            "PDF_TEXT",
+                            "TESSERACT",
+                            "CLAUDE_TEXT",
+                            "CLAUDE_VISION"
+                          ],
+                          "nullable": true
+                        },
+                        "fileUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "orderTotal": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "purchasedAt": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "lineItems": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "rawText": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "parsedName": {
+                                "type": "string"
+                              },
+                              "parsedSku": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "quantity": {
+                                "type": "integer"
+                              },
+                              "unitPrice": {
+                                "type": "number",
+                                "nullable": true
+                              },
+                              "lineTotal": {
+                                "type": "number",
+                                "nullable": true
+                              },
+                              "matchConfidence": {
+                                "type": "number"
+                              },
+                              "applied": {
+                                "type": "boolean"
+                              },
+                              "matchedPart": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "sku": {
+                                    "type": "string",
+                                    "nullable": true
+                                  },
+                                  "manufacturer": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name",
+                                  "sku",
+                                  "manufacturer"
+                                ],
+                                "additionalProperties": false,
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "rawText",
+                              "parsedName",
+                              "parsedSku",
+                              "quantity",
+                              "unitPrice",
+                              "lineTotal",
+                              "matchConfidence",
+                              "applied",
+                              "matchedPart"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "vendor",
+                        "status",
+                        "method",
+                        "fileUrl",
+                        "orderTotal",
+                        "purchasedAt",
+                        "createdAt",
+                        "lineItems"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "appliedCount": {
+                      "type": "integer"
+                    },
+                    "skipped": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "lineItemId": {
+                            "type": "string"
+                          },
+                          "reason": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "lineItemId",
+                          "reason"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "receipt",
+                    "appliedCount",
+                    "skipped"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/current": {
+      "get": {
+        "summary": "Get your own team, including its invite code and member count",
+        "tags": [
+          "teams"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "number": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "inviteCode": {
+                      "type": "string"
+                    },
+                    "memberCount": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "number",
+                    "name",
+                    "inviteCode",
+                    "memberCount"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Rename your team",
+        "tags": [
+          "teams"
+        ],
+        "description": "The FTC team number is immutable — it identifies the team and is referenced by submitted parts.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "number": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "inviteCode": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "number",
+                    "name",
+                    "inviteCode"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/members": {
+      "get": {
+        "summary": "List the members of your team",
+        "tags": [
+          "teams"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "displayName": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string",
+                        "enum": [
+                          "MEMBER",
+                          "TEAM_ADMIN",
+                          "SUPER_ADMIN"
+                        ]
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "email",
+                      "displayName",
+                      "role",
+                      "createdAt"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/members/{userId}": {
+      "patch": {
+        "summary": "Promote or demote a member of your team",
+        "tags": [
+          "teams"
+        ],
+        "description": "Takes effect immediately — the target does not need to log out and back in.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "MEMBER",
+                      "TEAM_ADMIN"
+                    ]
+                  }
+                },
+                "required": [
+                  "role"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "userId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "displayName": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string",
+                      "enum": [
+                        "MEMBER",
+                        "TEAM_ADMIN",
+                        "SUPER_ADMIN"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email",
+                    "displayName",
+                    "role",
+                    "createdAt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove a member from your team",
+        "tags": [
+          "teams"
+        ],
+        "description": "Keeps their account but detaches it from the team, so their receipts and submitted parts retain their author. They can join another team (or yours again) with an invite code via POST /teams/join. Access is revoked immediately.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "userId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/join": {
+      "post": {
+        "summary": "Join a team with an invite code, using your existing account",
+        "tags": [
+          "teams"
+        ],
+        "description": "For accounts that do not currently belong to a team. To sign up and join in one step, use POST /auth/join instead. Leave your current team first if you have one.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "inviteCode": {
+                    "type": "string",
+                    "minLength": 4,
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "inviteCode"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "number": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "inviteCode": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "number",
+                    "name",
+                    "inviteCode"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/invite-code/rotate": {
+      "post": {
+        "summary": "Issue a new invite code, invalidating the old one",
+        "tags": [
+          "teams"
+        ],
+        "description": "Use after someone leaves, or if the code was shared more widely than intended.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "number": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "inviteCode": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "number",
+                    "name",
+                    "inviteCode"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/submissions": {
+      "get": {
+        "summary": "List parts submitted for the global library, pending review",
+        "tags": [
+          "admin"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "APPROVED",
+                "REJECTED"
+              ],
+              "default": "PENDING"
+            },
+            "in": "query",
+            "name": "status",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "sku": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "description": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "productUrl": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "purchaseUrl": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "imageUrl": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "manufacturer": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "category": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "submittedByTeam": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "number": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "number",
+                          "name"
+                        ],
+                        "additionalProperties": false,
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "sku",
+                      "description",
+                      "productUrl",
+                      "purchaseUrl",
+                      "imageUrl",
+                      "createdAt",
+                      "manufacturer",
+                      "category",
+                      "submittedByTeam"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/submissions/{id}/approve": {
+      "post": {
+        "summary": "Approve a submission — publishes it to the global library for all teams",
+        "tags": [
+          "admin"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "sku": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "productUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "purchaseUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "manufacturer": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "submittedByTeam": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "sku",
+                    "description",
+                    "productUrl",
+                    "purchaseUrl",
+                    "imageUrl",
+                    "createdAt",
+                    "manufacturer",
+                    "category",
+                    "submittedByTeam"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/submissions/{id}/reject": {
+      "post": {
+        "summary": "Reject a submission",
+        "tags": [
+          "admin"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "sku": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "productUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "purchaseUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "manufacturer": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "submittedByTeam": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "sku",
+                    "description",
+                    "productUrl",
+                    "purchaseUrl",
+                    "imageUrl",
+                    "createdAt",
+                    "manufacturer",
+                    "category",
+                    "submittedByTeam"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ]
+}

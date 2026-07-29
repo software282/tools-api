@@ -1,4 +1,4 @@
-import type { Vendor } from '@prisma/client';
+import type { ExtractionMethod, Vendor } from '@prisma/client';
 
 export interface ParsedLineItem {
   /** The raw text line this item came from (for auditing / manual correction). */
@@ -19,13 +19,27 @@ export interface ParsedReceipt {
   items: ParsedLineItem[];
 }
 
-export interface OcrResult {
-  method: 'TESSERACT' | 'CLAUDE' | 'HYBRID';
+/**
+ * What the caller supplied. The digital variants carry exact text and are the
+ * common case; `image` is a photo of a physical receipt.
+ */
+export type ReceiptInput =
+  | { kind: 'text'; text: string; vendor: Vendor }
+  | { kind: 'html'; html: string; vendor: Vendor }
+  | { kind: 'pdf'; buffer: Buffer; vendor: Vendor }
+  | { kind: 'image'; buffer: Buffer; contentType: string; vendor: Vendor };
+
+export interface ExtractionResult {
+  method: ExtractionMethod;
+  /** The extracted text, whatever the source. */
   rawText: string | null;
   parsed: ParsedReceipt;
-  /** Whether the Claude vision fallback was invoked. */
+  /** Whether a Claude call (text or vision) was needed. */
   usedClaude: boolean;
-  /** Tesseract mean word confidence (0-100), when a text pass ran. */
+  /**
+   * Confidence in the *text* itself, 0-100. Always 100 for digital sources, since
+   * their characters are exact; Tesseract's mean word confidence for images.
+   */
   textConfidence?: number;
 }
 

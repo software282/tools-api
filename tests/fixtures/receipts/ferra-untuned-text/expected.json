@@ -1,0 +1,11 @@
+{
+  "vendor": "FERRA",
+  "synthetic": true,
+  "note": "Ferra has no tuned parser; this measures the generic block parser, which most vendors depend on. No SKUs asserted because Ferra's format is unknown here.",
+  "orderTotal": 86.5,
+  "purchasedAt": "2026-02-03",
+  "items": [
+    { "name": "Ferra Ultraplanetary Gearbox Kit", "quantity": 1, "unitPrice": 54.0, "lineTotal": 54.0 },
+    { "name": "Ferra 8mm Hex Adapter", "quantity": 4, "unitPrice": 6.25, "lineTotal": 25.0 }
+  ]
+}

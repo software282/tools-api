@@ -1,0 +1,11 @@
+{
+  "vendor": "REV",
+  "synthetic": true,
+  "note": "Invented. Uses 'Quantity N' rather than 'Qty:' to exercise the other label form.",
+  "orderTotal": 137.75,
+  "purchasedAt": "2026-02-14",
+  "items": [
+    { "sku": "REV-31-1425", "name": "Through Bore Encoder", "quantity": 3, "unitPrice": 32.0, "lineTotal": 96.0 },
+    { "sku": "REV-41-1097", "name": "15mm Extrusion 420mm", "quantity": 2, "unitPrice": 14.5, "lineTotal": 29.0 }
+  ]
+}

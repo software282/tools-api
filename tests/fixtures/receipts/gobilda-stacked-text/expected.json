@@ -1,0 +1,30 @@
+{
+  "vendor": "GOBILDA",
+  "synthetic": true,
+  "note": "Invented layout in the shape a real goBILDA confirmation takes. Replace input.txt with a real one and correct this file.",
+  "orderTotal": 139.46,
+  "purchasedAt": "2026-01-23",
+  "items": [
+    {
+      "sku": "5203-2402-0027",
+      "name": "5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 312 RPM)",
+      "quantity": 2,
+      "unitPrice": 43.0,
+      "lineTotal": 86.0
+    },
+    {
+      "sku": "3407-0016-0002",
+      "name": "Aluminum REX Shaft - 8mm",
+      "quantity": 4,
+      "unitPrice": 8.99,
+      "lineTotal": 35.96
+    },
+    {
+      "sku": "2903-0016-0002",
+      "name": "Nylon Spacer 8mm Bore",
+      "quantity": 10,
+      "unitPrice": 0.5,
+      "lineTotal": 5.0
+    }
+  ]
+}

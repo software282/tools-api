@@ -1,11 +1,13 @@
 import type { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { customAlphabet } from 'nanoid';
 import { prisma } from '../../lib/prisma.js';
+import { env } from '../../config/env.js';
 import { hashPassword, signToken, verifyPassword } from '../../lib/auth.js';
+import { makeInviteCode } from '../../lib/inviteCode.js';
 import { conflict, notFound, unauthorized } from '../../lib/errors.js';
 import {
   authResultSchema,
+  changePasswordBody,
   createTeamBody,
   joinTeamBody,
   loginBody,
@@ -13,9 +15,6 @@ import {
   publicTeamSchema,
 } from './schemas.js';
 import type { Team, User } from '@prisma/client';
-
-// Unambiguous invite codes (no 0/O/1/I/L).
-const makeInviteCode = customAlphabet('ABCDEFGHJKMNPQRSTUVWXYZ23456789', 8);
 
 function toPublicTeam(team: Team) {
   return { id: team.id, number: team.number, name: team.name, inviteCode: team.inviteCode };
@@ -31,12 +30,22 @@ function toPublicUser(user: User) {
   };
 }
 
+/**
+ * Credential endpoints get a much tighter per-IP budget than the global one:
+ * these are the routes where an attacker guesses (passwords, invite codes)
+ * rather than merely reads.
+ */
+const credentialRateLimit = {
+  rateLimit: { max: env.RATE_LIMIT_AUTH_MAX, timeWindow: '1 minute' },
+};
+
 const routes = async (app: FastifyInstance) => {
   const r = app.withTypeProvider<ZodTypeProvider>();
 
   r.post(
     '/teams',
     {
+      config: credentialRateLimit,
       schema: {
         tags: ['auth'],
         summary: 'Create a new team and its first (admin) member',
@@ -79,7 +88,12 @@ const routes = async (app: FastifyInstance) => {
         },
       });
 
-      const token = signToken({ sub: user.id, role: user.role, teamId: user.teamId });
+      const token = signToken({
+        sub: user.id,
+        role: user.role,
+        teamId: user.teamId,
+        tv: user.tokenVersion,
+      });
       return reply.status(201).send({ token, user: toPublicUser(user), team: toPublicTeam(team) });
     },
   );
@@ -87,6 +101,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/join',
     {
+      config: credentialRateLimit,
       schema: {
         tags: ['auth'],
         summary: 'Join an existing team using its invite code',
@@ -110,7 +125,12 @@ const routes = async (app: FastifyInstance) => {
         data: { email: email.toLowerCase(), passwordHash, displayName, role: 'MEMBER', teamId: team.id },
       });
 
-      const token = signToken({ sub: user.id, role: user.role, teamId: user.teamId });
+      const token = signToken({
+        sub: user.id,
+        role: user.role,
+        teamId: user.teamId,
+        tv: user.tokenVersion,
+      });
       return reply.status(201).send({ token, user: toPublicUser(user), team: toPublicTeam(team) });
     },
   );
@@ -118,6 +138,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/login',
     {
+      config: credentialRateLimit,
       schema: {
         tags: ['auth'],
         summary: 'Log in with email and password',
@@ -136,7 +157,12 @@ const routes = async (app: FastifyInstance) => {
       const ok = await verifyPassword(password, user.passwordHash);
       if (!ok) throw unauthorized('Invalid email or password', 'INVALID_CREDENTIALS');
 
-      const token = signToken({ sub: user.id, role: user.role, teamId: user.teamId });
+      const token = signToken({
+        sub: user.id,
+        role: user.role,
+        teamId: user.teamId,
+        tv: user.tokenVersion,
+      });
       return {
         token,
         user: toPublicUser(user),
@@ -182,6 +208,55 @@ const routes = async (app: FastifyInstance) => {
       const team = await prisma.team.findUnique({ where: { id: req.auth!.teamId! } });
       if (!team) throw notFound('Team not found');
       return toPublicTeam(team);
+    },
+  );
+
+  r.patch(
+    '/password',
+    {
+      preHandler: app.requireAuth,
+      // Guessing `currentPassword` is an attack too.
+      config: credentialRateLimit,
+      schema: {
+        tags: ['auth'],
+        summary: 'Change your own password',
+        description:
+          'Requires the current password. Every existing session is revoked, including the token used to make this call — log in again afterwards to get a fresh one.',
+        security: [{ bearerAuth: [] }],
+        body: changePasswordBody,
+        response: { 200: authResultSchema },
+      },
+    },
+    async (req) => {
+      const user = await prisma.user.findUnique({
+        where: { id: req.auth!.sub },
+        include: { team: true },
+      });
+      if (!user) throw unauthorized();
+
+      const ok = await verifyPassword(req.body.currentPassword, user.passwordHash);
+      if (!ok) throw unauthorized('Current password is incorrect', 'INVALID_CREDENTIALS');
+
+      // Bumping tokenVersion invalidates every token issued so far, so hand back
+      // a freshly-signed one to avoid logging the caller out of their own client.
+      const updated = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          passwordHash: await hashPassword(req.body.newPassword),
+          tokenVersion: { increment: 1 },
+        },
+      });
+
+      return {
+        token: signToken({
+          sub: updated.id,
+          role: updated.role,
+          teamId: updated.teamId,
+          tv: updated.tokenVersion,
+        }),
+        user: toPublicUser(updated),
+        team: user.team ? toPublicTeam(user.team) : null,
+      };
     },
   );
 };

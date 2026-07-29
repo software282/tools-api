@@ -8,8 +8,21 @@ import {
   paginatedParts,
   partSchema,
   partSearchQuery,
+  updatePartBody,
 } from './schemas.js';
 import { getPartById, searchParts, serializePart } from './service.js';
+
+/** Validate manufacturer/category ids exist, for a clear error instead of an FK violation. */
+async function assertCatalogRefs(manufacturerId?: string, categoryId?: string) {
+  const [manufacturer, category] = await Promise.all([
+    manufacturerId
+      ? prisma.manufacturer.findUnique({ where: { id: manufacturerId } })
+      : Promise.resolve(true),
+    categoryId ? prisma.category.findUnique({ where: { id: categoryId } }) : Promise.resolve(true),
+  ]);
+  if (!manufacturer) throw badRequest('Unknown manufacturerId', 'INVALID_MANUFACTURER');
+  if (!category) throw badRequest('Unknown categoryId', 'INVALID_CATEGORY');
+}
 
 const routes = async (app: FastifyInstance) => {
   const r = app.withTypeProvider<ZodTypeProvider>();
@@ -73,13 +86,7 @@ const routes = async (app: FastifyInstance) => {
       const teamId = req.auth!.teamId!;
       const userId = req.auth!.sub;
 
-      // Validate FK references up front for clear error messages.
-      const [manufacturer, category] = await Promise.all([
-        prisma.manufacturer.findUnique({ where: { id: data.manufacturerId } }),
-        prisma.category.findUnique({ where: { id: data.categoryId } }),
-      ]);
-      if (!manufacturer) throw badRequest('Unknown manufacturerId', 'INVALID_MANUFACTURER');
-      if (!category) throw badRequest('Unknown categoryId', 'INVALID_CATEGORY');
+      await assertCatalogRefs(data.manufacturerId, data.categoryId);
 
       const teamPart = await prisma.part.create({
         data: {
@@ -117,6 +124,94 @@ const routes = async (app: FastifyInstance) => {
       }
 
       return reply.status(201).send(serializePart(teamPart, teamId));
+    },
+  );
+
+  r.patch(
+    '/:id',
+    {
+      preHandler: [app.requireAuth, app.requireTeam],
+      schema: {
+        tags: ['parts'],
+        summary: "Edit one of your team's custom parts",
+        description:
+          'Only TEAM-scoped parts your own team created can be edited. Parts in the shared global library are read-only here — submit a correction through an admin instead.',
+        security: [{ bearerAuth: [] }],
+        params: z.object({ id: z.string() }),
+        body: updatePartBody,
+        response: { 200: partSchema },
+      },
+    },
+    async (req) => {
+      const teamId = req.auth!.teamId!;
+      const existing = await prisma.part.findFirst({
+        where: { id: req.params.id, scope: 'TEAM', createdByTeamId: teamId },
+        select: { id: true },
+      });
+      if (!existing) {
+        throw notFound(
+          "Part not found, or it is not a custom part your team owns",
+          'PART_NOT_EDITABLE',
+        );
+      }
+
+      await assertCatalogRefs(req.body.manufacturerId, req.body.categoryId);
+
+      const updated = await prisma.part.update({
+        where: { id: existing.id },
+        data: req.body,
+        include: {
+          manufacturer: { select: { id: true, name: true, slug: true } },
+          category: { select: { id: true, name: true, slug: true } },
+          inventoryItems: { where: { teamId }, take: 1 },
+        },
+      });
+      return serializePart(updated, teamId);
+    },
+  );
+
+  r.delete(
+    '/:id',
+    {
+      preHandler: [app.requireAuth, app.requireTeam],
+      schema: {
+        tags: ['parts'],
+        summary: "Delete one of your team's custom parts",
+        description:
+          'Refused while your team still holds stock of the part — set its inventory quantity to 0 first, so a delete can never silently discard a count.',
+        security: [{ bearerAuth: [] }],
+        params: z.object({ id: z.string() }),
+        response: { 204: z.null() },
+      },
+    },
+    async (req, reply) => {
+      const teamId = req.auth!.teamId!;
+      const existing = await prisma.part.findFirst({
+        where: { id: req.params.id, scope: 'TEAM', createdByTeamId: teamId },
+        select: { id: true },
+      });
+      if (!existing) {
+        throw notFound(
+          "Part not found, or it is not a custom part your team owns",
+          'PART_NOT_EDITABLE',
+        );
+      }
+
+      const held = await prisma.inventoryItem.findFirst({
+        where: { partId: existing.id, quantity: { gt: 0 } },
+        select: { quantity: true },
+      });
+      if (held) {
+        throw badRequest(
+          `Still tracking ${held.quantity} of this part. Set the quantity to 0 before deleting.`,
+          'PART_IN_USE',
+        );
+      }
+
+      // Cascades the (zero-quantity) inventory row; receipt line items keep
+      // their parsed text and have matchedPartId set to null.
+      await prisma.part.delete({ where: { id: existing.id } });
+      return reply.status(204).send(null);
     },
   );
 };

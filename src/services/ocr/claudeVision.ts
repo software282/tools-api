@@ -1,66 +1,19 @@
 import type { Vendor } from '@prisma/client';
 import { getClaude, RECEIPT_MODEL } from '../../lib/claude.js';
+import { buildReceiptPrompt, coerceParsedReceipt, extractJson } from './claudeShared.js';
 import type { ParsedReceipt } from './types.js';
-
-const VENDOR_HINTS: Partial<Record<Vendor, string>> = {
-  GOBILDA: 'goBILDA. SKUs look like 5203-2402-0027 (three hyphen-separated numeric groups).',
-  REV: 'REV Robotics. SKUs look like REV-31-1425.',
-  AXON: 'Axon (servos such as Axon MAX, MINI, Micro). Often sold via a distributor.',
-  FERRA: 'Ferra Components (FTC parts).',
-  MELONBOTICS: 'MelonBotics.',
-  OFFSET: 'Offset Robotics.',
-  MATA: 'Mata servos.',
-  UXCELL: 'uxcell (belts, hardware).',
-};
 
 const SUPPORTED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
 
-function buildPrompt(vendor: Vendor): string {
-  const hint = VENDOR_HINTS[vendor] ?? 'an FTC robotics parts vendor';
-  return [
-    `This is a purchase receipt or order confirmation from ${hint}`,
-    '',
-    'Extract every purchased line item. Respond with ONLY a JSON object (no prose, no code fences) of the form:',
-    '{',
-    '  "orderTotal": number | null,',
-    '  "purchasedAt": string | null,   // ISO 8601 date if visible, else null',
-    '  "items": [',
-    '    { "sku": string | null, "name": string, "quantity": number, "unitPrice": number | null, "lineTotal": number | null }',
-    '  ]',
-    '}',
-    '',
-    'Rules: exclude shipping, tax, discounts, and subtotal/total lines from "items". Use the vendor part number for "sku" when present. If quantity is not shown, use 1. Numbers must be plain (no "$" or commas).',
-  ].join('\n');
-}
-
-/** Extract the first JSON object from a possibly-fenced model response. */
-function extractJson(text: string): unknown {
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const candidate = fenced ? fenced[1] : text;
-  const start = candidate.indexOf('{');
-  const end = candidate.lastIndexOf('}');
-  if (start === -1 || end === -1 || end < start) {
-    throw new Error('Claude response did not contain JSON');
-  }
-  return JSON.parse(candidate.slice(start, end + 1));
-}
-
-interface RawClaudeReceipt {
-  orderTotal?: number | null;
-  purchasedAt?: string | null;
-  items?: Array<{
-    sku?: string | null;
-    name?: string | null;
-    quantity?: number | null;
-    unitPrice?: number | null;
-    lineTotal?: number | null;
-  }>;
-}
-
 /**
- * Read a receipt image with Claude vision and return structured line items.
- * `contentType` must be a Claude-supported image type; PDFs/HEIC are rejected
- * (the pipeline handles converting or skipping those).
+ * Read a receipt *image* with Claude vision.
+ *
+ * The expensive last resort, reached only when a photo of a physical receipt
+ * defeats both Tesseract and the vendor parsers. Digital receipts never get here:
+ * their text is exact, so they take the text path instead.
+ *
+ * `contentType` must be a Claude-supported image type; PDFs are handled earlier
+ * by extracting their text layer.
  */
 export async function parseWithClaude(
   buffer: Buffer,
@@ -87,30 +40,13 @@ export async function parseWithClaude(
               data: buffer.toString('base64'),
             },
           },
-          { type: 'text', text: buildPrompt(vendor) },
+          { type: 'text', text: buildReceiptPrompt(vendor, 'image') },
         ],
       },
     ],
   });
 
-  const textBlock = response.content.find((c) => c.type === 'text');
-  const raw = textBlock && textBlock.type === 'text' ? textBlock.text : '';
-  const parsed = extractJson(raw) as RawClaudeReceipt;
-
-  const items = (parsed.items ?? [])
-    .filter((i) => i && (i.name ?? '').trim().length > 0)
-    .map((i) => ({
-      sku: i.sku ?? undefined,
-      name: (i.name ?? '').trim(),
-      quantity: i.quantity && i.quantity > 0 ? Math.round(i.quantity) : 1,
-      unitPrice: i.unitPrice ?? undefined,
-      lineTotal: i.lineTotal ?? undefined,
-    }));
-
-  return {
-    vendor,
-    orderTotal: parsed.orderTotal ?? undefined,
-    purchasedAt: parsed.purchasedAt ?? undefined,
-    items,
-  };
+  const block = response.content.find((c) => c.type === 'text');
+  const raw = block && block.type === 'text' ? block.text : '';
+  return coerceParsedReceipt(extractJson(raw), vendor);
 }

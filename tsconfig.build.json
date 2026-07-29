@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  // Production output only. The root tsconfig also covers tests and tool configs
+  // so `npm run typecheck` checks them, but they must not land in dist/.
+  "include": ["src/**/*.ts", "prisma/**/*.ts"],
+  "exclude": ["node_modules", "dist", "tests", "scripts"]
+}

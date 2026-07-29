@@ -47,3 +47,8 @@ export const meResponse = z.object({
   user: publicUserSchema,
   team: publicTeamSchema.nullable(),
 });
+
+export const changePasswordBody = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(8).max(200),
+});

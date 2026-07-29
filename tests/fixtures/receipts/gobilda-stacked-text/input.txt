@@ -1,0 +1,26 @@
+goBILDA
+Order Confirmation
+Order #1046221
+Placed on Jan 23, 2026
+
+5203-2402-0027
+5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 312 RPM)
+Qty: 2
+$43.00
+$86.00
+
+3407-0016-0002
+Aluminum REX Shaft - 8mm
+Qty: 4
+$8.99
+$35.96
+
+2903-0016-0002
+Nylon Spacer 8mm Bore
+Qty: 10
+$0.50
+$5.00
+
+Subtotal: $126.96
+Shipping: $12.50
+Order Total: $139.46

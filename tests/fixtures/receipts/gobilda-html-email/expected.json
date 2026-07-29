@@ -1,0 +1,23 @@
+{
+  "vendor": "GOBILDA",
+  "synthetic": true,
+  "note": "Invented HTML email in table layout, which is how vendor confirmations are usually built. Replace with a real forwarded email body.",
+  "orderTotal": 121.44,
+  "purchasedAt": "2026-02-11",
+  "items": [
+    {
+      "sku": "5202-0002-0139",
+      "name": "5202 Series Yellow Jacket Planetary Gear Motor",
+      "quantity": 2,
+      "unitPrice": 41.0,
+      "lineTotal": 82.0
+    },
+    {
+      "sku": "3213-0001-0002",
+      "name": "Hub Mount Bracket",
+      "quantity": 6,
+      "unitPrice": 4.99,
+      "lineTotal": 29.94
+    }
+  ]
+}

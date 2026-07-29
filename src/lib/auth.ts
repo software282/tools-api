@@ -7,6 +7,8 @@ export interface JwtPayload {
   sub: string; // user id
   role: Role;
   teamId: string | null;
+  /** User.tokenVersion at issue time; a mismatch means the token was revoked. */
+  tv: number;
 }
 
 export async function hashPassword(plain: string): Promise<string> {

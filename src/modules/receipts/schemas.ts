@@ -13,7 +13,30 @@ export const vendorSchema = z.enum([
 ]);
 
 export const receiptStatusSchema = z.enum(['PROCESSING', 'PARSED', 'CONFIRMED', 'FAILED']);
-export const ocrMethodSchema = z.enum(['TESSERACT', 'CLAUDE', 'HYBRID']);
+
+export const extractionMethodSchema = z.enum([
+  'PASTED_TEXT',
+  'PASTED_HTML',
+  'PDF_TEXT',
+  'TESSERACT',
+  'CLAUDE_TEXT',
+  'CLAUDE_VISION',
+]);
+
+/**
+ * Paste an order confirmation. This is the primary way receipts arrive: nearly
+ * all FTC orders are placed online, so the text is already exact.
+ */
+export const textReceiptBody = z.object({
+  vendor: vendorSchema,
+  /** The pasted confirmation. Plain text or an HTML email body both work. */
+  text: z.string().min(20, 'Paste the full order confirmation').max(200_000),
+  /**
+   * Leave unset to detect HTML automatically, which is almost always right.
+   * Set explicitly only to force one reading of ambiguous content.
+   */
+  format: z.enum(['auto', 'text', 'html']).default('auto'),
+});
 
 const matchedPartSummary = z
   .object({
@@ -41,8 +64,9 @@ export const receiptSchema = z.object({
   id: z.string(),
   vendor: vendorSchema,
   status: receiptStatusSchema,
-  method: ocrMethodSchema.nullable(),
-  imageUrl: z.string().nullable(),
+  method: extractionMethodSchema.nullable(),
+  /** Storage URL of an uploaded file. Null for pasted text (the common case). */
+  fileUrl: z.string().nullable(),
   orderTotal: z.number().nullable(),
   purchasedAt: z.string().nullable(),
   createdAt: z.string(),
@@ -51,6 +75,19 @@ export const receiptSchema = z.object({
 
 export const receiptListItemSchema = receiptSchema.omit({ lineItems: true }).extend({
   lineItemCount: z.number().int(),
+});
+
+export const receiptListQuery = z.object({
+  page: z.coerce.number().int().positive().default(1),
+  pageSize: z.coerce.number().int().positive().max(100).default(25),
+});
+
+export const paginatedReceipts = z.object({
+  items: z.array(receiptListItemSchema),
+  page: z.number().int(),
+  pageSize: z.number().int(),
+  total: z.number().int(),
+  totalPages: z.number().int(),
 });
 
 export const updateLineBody = z.object({

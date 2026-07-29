@@ -24,12 +24,25 @@ const schema = z.object({
   SUPABASE_RECEIPTS_BUCKET: z.string().default('receipts'),
 
   ANTHROPIC_API_KEY: z.string().optional(),
-  ANTHROPIC_RECEIPT_MODEL: z.string().default('claude-opus-4-8'),
+  ANTHROPIC_RECEIPT_MODEL: z.string().default('claude-opus-5'),
 
   OCR_CONFIDENCE_THRESHOLD: z.coerce.number().min(0).max(100).default(70),
 
+  // Requests per minute per IP. The auth limit is deliberately much lower:
+  // /auth/login is the one endpoint where guessing is the attack.
+  RATE_LIMIT_MAX: z.coerce.number().int().positive().default(300),
+  RATE_LIMIT_AUTH_MAX: z.coerce.number().int().positive().default(10),
+  // Receipt intake is the costliest work in the service — PDF parsing, OCR, and
+  // potentially a Claude call per request. Generous for a team reconciling an
+  // order, far below what it takes to run up a bill.
+  RATE_LIMIT_RECEIPT_MAX: z.coerce.number().int().positive().default(30),
+
   SUPER_ADMIN_EMAIL: z.string().email().default('software@seattlesolvers.com'),
-  SUPER_ADMIN_PASSWORD: z.string().default('change-me'),
+  // Deliberately no default and no length rule here: the API never reads this,
+  // only `npm run seed` does, and a strength check at boot would stop the server
+  // from starting over a value it doesn't use. prisma/seed.ts enforces the
+  // minimum length at the point where the account is actually created.
+  SUPER_ADMIN_PASSWORD: z.string().optional(),
 });
 
 const parsed = schema.safeParse(process.env);

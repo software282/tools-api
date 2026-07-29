@@ -1,20 +1,24 @@
-import type { FastifyInstance } from 'fastify';
+import type { FastifyBaseLogger, FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import type { Prisma, Vendor } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../../lib/prisma.js';
-import { supabaseStorageEnabled } from '../../config/env.js';
-import { uploadReceiptImage } from '../../lib/supabase.js';
-import { badRequest, notFound } from '../../lib/errors.js';
+import { env, supabaseStorageEnabled } from '../../config/env.js';
+import { uploadReceiptFile } from '../../lib/supabase.js';
+import { AppError, badRequest, notFound } from '../../lib/errors.js';
 import { visibilityFilter } from '../parts/service.js';
-import { runReceiptOcr } from '../../services/ocr/pipeline.js';
+import { runReceiptExtraction } from '../../services/ocr/pipeline.js';
+import { looksLikeHtml } from '../../services/ocr/textExtract.js';
+import type { ExtractionResult, ReceiptInput } from '../../services/ocr/types.js';
 import { matchLineItems } from '../../services/partMatch.js';
 import {
   confirmBody,
   confirmResult,
   lineItemSchema,
-  receiptListItemSchema,
+  paginatedReceipts,
+  receiptListQuery,
   receiptSchema,
+  textReceiptBody,
   updateLineBody,
 } from './schemas.js';
 import { receiptLineInclude, serializeLine, serializeReceipt } from './serialize.js';
@@ -31,7 +35,105 @@ const VENDORS: Vendor[] = [
   'OTHER',
 ];
 
+const IMAGE_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']);
+const PDF_TYPE = 'application/pdf';
+
 const fullInclude = { lineItems: { include: receiptLineInclude } } satisfies Prisma.ReceiptInclude;
+
+/**
+ * Intake is the most expensive work the service does: PDF text extraction, OCR,
+ * and possibly a Claude call, all synchronous. The global limit is far too loose
+ * to protect it — an unmetered loop here burns API spend, not just CPU.
+ */
+const receiptRateLimit = {
+  rateLimit: { max: env.RATE_LIMIT_RECEIPT_MAX, timeWindow: '1 minute' },
+};
+
+/**
+ * Persist an extraction result against a receipt row and match its line items.
+ *
+ * Shared by the paste and upload routes: once text has been turned into line
+ * items the source no longer matters, so the storage and matching steps are
+ * identical. Marks the receipt FAILED and rethrows if anything goes wrong.
+ */
+async function storeExtraction(params: {
+  receiptId: string;
+  teamId: string;
+  vendor: Vendor;
+  extraction: ExtractionResult;
+}) {
+  const { receiptId, teamId, vendor, extraction } = params;
+
+  const matched = await matchLineItems(extraction.parsed.items, vendor, teamId);
+
+  await prisma.$transaction([
+    prisma.receipt.update({
+      where: { id: receiptId },
+      data: {
+        status: 'PARSED',
+        method: extraction.method,
+        rawText: extraction.rawText,
+        parsedJson: {
+          textConfidence: extraction.textConfidence ?? null,
+          usedClaude: extraction.usedClaude,
+          vendor,
+        } as Prisma.InputJsonValue,
+        orderTotal: extraction.parsed.orderTotal ?? null,
+        purchasedAt: extraction.parsed.purchasedAt
+          ? new Date(extraction.parsed.purchasedAt)
+          : null,
+      },
+    }),
+    ...matched.map((line) =>
+      prisma.receiptLineItem.create({
+        data: {
+          receiptId,
+          rawText: line.rawText ?? null,
+          parsedName: line.name,
+          parsedSku: line.sku ?? null,
+          quantity: line.quantity,
+          unitPrice: line.unitPrice ?? null,
+          lineTotal: line.lineTotal ?? null,
+          matchConfidence: line.matchConfidence,
+          matchedPartId: line.matchedPartId,
+        },
+      }),
+    ),
+  ]);
+}
+
+/**
+ * Extract, store, and mark the receipt FAILED if anything goes wrong.
+ *
+ * AppErrors from the pipeline are already worded for the user (for example a
+ * scanned PDF that needs to be sent as an image), so they pass through intact.
+ * Anything else is reported generically rather than leaking internals.
+ */
+async function ingest(params: {
+  log: FastifyBaseLogger;
+  receiptId: string;
+  teamId: string;
+  vendor: Vendor;
+  input: ReceiptInput;
+}) {
+  try {
+    const extraction = await runReceiptExtraction(params.input);
+    await storeExtraction({
+      receiptId: params.receiptId,
+      teamId: params.teamId,
+      vendor: params.vendor,
+      extraction,
+    });
+  } catch (err) {
+    params.log.error({ err }, 'receipt extraction failed');
+    await prisma.receipt.update({
+      where: { id: params.receiptId },
+      data: { status: 'FAILED' },
+    });
+    if (err instanceof AppError) throw err;
+    throw badRequest('Could not read this receipt.', 'EXTRACTION_FAILED');
+  }
+}
 
 const routes = async (app: FastifyInstance) => {
   const r = app.withTypeProvider<ZodTypeProvider>();
@@ -40,11 +142,57 @@ const routes = async (app: FastifyInstance) => {
     '/',
     {
       preHandler: [app.requireAuth, app.requireTeam],
+      config: receiptRateLimit,
       schema: {
         tags: ['receipts'],
-        summary: 'Upload a receipt image; runs hybrid OCR and matches line items to parts',
+        summary: 'Paste an order confirmation (the usual way to add a receipt)',
         description:
-          'multipart/form-data with fields `vendor` (one of the Vendor enum values) and `file` (the receipt image: jpg/png/webp). Returns the parsed receipt with matched parts for review, then call /confirm to apply to inventory.',
+          'Send the text of an order confirmation email or web receipt. Plain text and HTML email bodies both work — HTML is detected automatically. Nothing is deciphered here: the characters are already exact, so no OCR and normally no model call is involved. Returns the parsed receipt with matched parts for review; call /confirm to apply it to inventory.',
+        security: [{ bearerAuth: [] }],
+        body: textReceiptBody,
+        response: { 201: receiptSchema },
+      },
+    },
+    async (req, reply) => {
+      const teamId = req.auth!.teamId!;
+      const { vendor, text, format } = req.body;
+
+      const treatAsHtml = format === 'html' || (format === 'auto' && looksLikeHtml(text));
+      const input: ReceiptInput = treatAsHtml
+        ? { kind: 'html', html: text, vendor }
+        : { kind: 'text', text, vendor };
+
+      const receipt = await prisma.receipt.create({
+        data: {
+          teamId,
+          uploadedByUserId: req.auth!.sub,
+          vendor,
+          // Pasted text has no stored file.
+          fileUrl: null,
+          status: 'PROCESSING',
+        },
+      });
+
+      await ingest({ log: req.log, receiptId: receipt.id, teamId, vendor, input });
+
+      const full = await prisma.receipt.findUniqueOrThrow({
+        where: { id: receipt.id },
+        include: fullInclude,
+      });
+      return reply.status(201).send(serializeReceipt(full));
+    },
+  );
+
+  r.post(
+    '/upload',
+    {
+      preHandler: [app.requireAuth, app.requireTeam],
+      config: receiptRateLimit,
+      schema: {
+        tags: ['receipts'],
+        summary: 'Upload a receipt file — a digital PDF invoice, or a photo of a paper receipt',
+        description:
+          "multipart/form-data with fields `vendor` and `file`. A PDF is read from its text layer, so a downloaded invoice needs no OCR. An image (jpg/png/webp/gif) is OCR'd, falling back to Claude vision only when that is not good enough — this is the physical-receipt path. For an emailed confirmation prefer POST /receipts, which is exact and cheaper.",
         consumes: ['multipart/form-data'],
         security: [{ bearerAuth: [] }],
         response: { 201: receiptSchema },
@@ -71,75 +219,41 @@ const routes = async (app: FastifyInstance) => {
       }
 
       if (!vendor) throw badRequest('A valid `vendor` field is required', 'INVALID_VENDOR');
-      if (!fileBuffer) throw badRequest('A receipt image `file` is required', 'NO_FILE');
+      if (!fileBuffer) throw badRequest('A receipt `file` is required', 'NO_FILE');
 
-      // Persist the image if storage is configured (best-effort; OCR still runs otherwise).
-      let imageUrl: string | null = null;
+      const isPdf = contentType === PDF_TYPE;
+      if (!isPdf && !IMAGE_TYPES.has(contentType)) {
+        throw badRequest(
+          `Unsupported file type "${contentType}". Upload a PDF invoice or a jpg/png/webp image.`,
+          'UNSUPPORTED_FILE_TYPE',
+        );
+      }
+
+      // Keep the original for auditing, but never block reading on storage.
+      let fileUrl: string | null = null;
       if (supabaseStorageEnabled) {
         try {
-          const uploaded = await uploadReceiptImage({
+          const uploaded = await uploadReceiptFile({
             teamId,
             buffer: fileBuffer,
             contentType,
             originalName: filename,
           });
-          imageUrl = uploaded.url;
+          fileUrl = uploaded.url;
         } catch (err) {
-          req.log.warn({ err }, 'receipt image upload failed; continuing with OCR only');
+          req.log.warn({ err }, 'receipt file upload failed; continuing with extraction only');
         }
       }
 
       const receipt = await prisma.receipt.create({
-        data: {
-          teamId,
-          uploadedByUserId: req.auth!.sub,
-          vendor,
-          imageUrl,
-          status: 'PROCESSING',
-        },
+        data: { teamId, uploadedByUserId: req.auth!.sub, vendor, fileUrl, status: 'PROCESSING' },
       });
 
-      try {
-        const ocr = await runReceiptOcr({ buffer: fileBuffer, contentType, vendor });
-        const matched = await matchLineItems(ocr.parsed.items, vendor, teamId);
+      const input: ReceiptInput = isPdf
+        ? { kind: 'pdf', buffer: fileBuffer, vendor }
+        : { kind: 'image', buffer: fileBuffer, contentType, vendor };
 
-        await prisma.$transaction([
-          prisma.receipt.update({
-            where: { id: receipt.id },
-            data: {
-              status: 'PARSED',
-              method: ocr.method,
-              rawText: ocr.rawText,
-              parsedJson: {
-                textConfidence: ocr.textConfidence ?? null,
-                usedClaude: ocr.usedClaude,
-                vendor,
-              } as Prisma.InputJsonValue,
-              orderTotal: ocr.parsed.orderTotal ?? null,
-              purchasedAt: ocr.parsed.purchasedAt ? new Date(ocr.parsed.purchasedAt) : null,
-            },
-          }),
-          ...matched.map((line) =>
-            prisma.receiptLineItem.create({
-              data: {
-                receiptId: receipt.id,
-                rawText: line.rawText ?? null,
-                parsedName: line.name,
-                parsedSku: line.sku ?? null,
-                quantity: line.quantity,
-                unitPrice: line.unitPrice ?? null,
-                lineTotal: line.lineTotal ?? null,
-                matchConfidence: line.matchConfidence,
-                matchedPartId: line.matchedPartId,
-              },
-            }),
-          ),
-        ]);
-      } catch (err) {
-        req.log.error({ err }, 'receipt OCR failed');
-        await prisma.receipt.update({ where: { id: receipt.id }, data: { status: 'FAILED' } });
-        throw badRequest('Failed to read the receipt. Try a clearer image.', 'OCR_FAILED');
-      }
+      await ingest({ log: req.log, receiptId: receipt.id, teamId, vendor, input });
 
       const full = await prisma.receipt.findUniqueOrThrow({
         where: { id: receipt.id },
@@ -155,28 +269,44 @@ const routes = async (app: FastifyInstance) => {
       preHandler: [app.requireAuth, app.requireTeam],
       schema: {
         tags: ['receipts'],
-        summary: "List your team's uploaded receipts",
+        summary: "List your team's uploaded receipts, newest first",
         security: [{ bearerAuth: [] }],
-        response: { 200: z.array(receiptListItemSchema) },
+        querystring: receiptListQuery,
+        response: { 200: paginatedReceipts },
       },
     },
     async (req) => {
-      const rows = await prisma.receipt.findMany({
-        where: { teamId: req.auth!.teamId! },
-        include: { _count: { select: { lineItems: true } } },
-        orderBy: { createdAt: 'desc' },
-      });
-      return rows.map((row) => ({
-        id: row.id,
-        vendor: row.vendor,
-        status: row.status,
-        method: row.method,
-        imageUrl: row.imageUrl,
-        orderTotal: row.orderTotal === null ? null : Number(row.orderTotal),
-        purchasedAt: row.purchasedAt ? row.purchasedAt.toISOString() : null,
-        createdAt: row.createdAt.toISOString(),
-        lineItemCount: row._count.lineItems,
-      }));
+      const { page, pageSize } = req.query;
+      const where = { teamId: req.auth!.teamId! };
+
+      const [rows, total] = await Promise.all([
+        prisma.receipt.findMany({
+          where,
+          include: { _count: { select: { lineItems: true } } },
+          orderBy: { createdAt: 'desc' },
+          skip: (page - 1) * pageSize,
+          take: pageSize,
+        }),
+        prisma.receipt.count({ where }),
+      ]);
+
+      return {
+        items: rows.map((row) => ({
+          id: row.id,
+          vendor: row.vendor,
+          status: row.status,
+          method: row.method,
+          fileUrl: row.fileUrl,
+          orderTotal: row.orderTotal === null ? null : Number(row.orderTotal),
+          purchasedAt: row.purchasedAt ? row.purchasedAt.toISOString() : null,
+          createdAt: row.createdAt.toISOString(),
+          lineItemCount: row._count.lineItems,
+        })),
+        page,
+        pageSize,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / pageSize)),
+      };
     },
   );
 

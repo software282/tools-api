@@ -52,3 +52,15 @@ export const createPartBody = z.object({
   // If true, also queue a copy for the shared global library (admin review).
   submitToLibrary: z.boolean().default(false),
 });
+
+/**
+ * Edit an existing team-scoped part. Every field is optional; at least one must
+ * be present. `submitToLibrary` is deliberately excluded — submitting to the
+ * global library is a separate action, not an edit.
+ */
+export const updatePartBody = createPartBody
+  .omit({ submitToLibrary: true })
+  .partial()
+  .refine((body) => Object.keys(body).length > 0, {
+    message: 'Provide at least one field to update',
+  });

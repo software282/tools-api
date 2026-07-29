@@ -24,10 +24,10 @@ function getClient(): SupabaseClient {
 }
 
 /**
- * Upload a receipt image and return the storage path plus a public URL.
- * Files are namespaced by team so listing/cleanup stays scoped.
+ * Upload a receipt file (image or PDF) and return the storage path plus a public
+ * URL. Files are namespaced by team so listing/cleanup stays scoped.
  */
-export async function uploadReceiptImage(params: {
+export async function uploadReceiptFile(params: {
   teamId: string;
   buffer: Buffer;
   contentType: string;
@@ -43,7 +43,7 @@ export async function uploadReceiptImage(params: {
     .upload(path, params.buffer, { contentType: params.contentType, upsert: false });
 
   if (error) {
-    throw new Error(`Failed to upload receipt image: ${error.message}`);
+    throw new Error(`Failed to upload receipt file: ${error.message}`);
   }
 
   const { data } = supabase.storage.from(bucket).getPublicUrl(path);

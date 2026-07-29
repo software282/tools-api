@@ -22,6 +22,16 @@ const listQuery = z.object({
   manufacturer: z.string().optional(),
   // Hide zero-quantity rows (parts a team once tracked but no longer holds).
   includeZero: z.coerce.boolean().default(true),
+  page: z.coerce.number().int().positive().default(1),
+  pageSize: z.coerce.number().int().positive().max(200).default(50),
+});
+
+const paginatedInventory = z.object({
+  items: z.array(inventoryItemSchema),
+  page: z.number().int(),
+  pageSize: z.number().int(),
+  total: z.number().int(),
+  totalPages: z.number().int(),
 });
 
 const setQtyBody = z.object({
@@ -116,18 +126,32 @@ const routes = async (app: FastifyInstance) => {
         summary: "The inventory sheet: parts your team tracks and how many you have",
         security: [{ bearerAuth: [] }],
         querystring: listQuery,
-        response: { 200: z.object({ items: z.array(inventoryItemSchema), total: z.number().int() }) },
+        response: { 200: paginatedInventory },
       },
     },
     async (req) => {
       const teamId = req.auth!.teamId!;
+      const { page, pageSize } = req.query;
       const where = buildWhere(teamId, req.query);
-      const rows = await prisma.inventoryItem.findMany({
-        where,
-        include: { part: { include: partInclude } },
-        orderBy: [{ part: { manufacturer: { name: 'asc' } } }, { part: { name: 'asc' } }],
-      });
-      return { items: rows.map(serializeRow), total: rows.length };
+
+      const [rows, total] = await Promise.all([
+        prisma.inventoryItem.findMany({
+          where,
+          include: { part: { include: partInclude } },
+          orderBy: [{ part: { manufacturer: { name: 'asc' } } }, { part: { name: 'asc' } }],
+          skip: (page - 1) * pageSize,
+          take: pageSize,
+        }),
+        prisma.inventoryItem.count({ where }),
+      ]);
+
+      return {
+        items: rows.map(serializeRow),
+        page,
+        pageSize,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / pageSize)),
+      };
     },
   );
 
@@ -196,6 +220,33 @@ const routes = async (app: FastifyInstance) => {
         include: { part: { include: partInclude } },
       });
       return serializeRow(row);
+    },
+  );
+
+  r.delete(
+    '/:partId',
+    {
+      preHandler: [app.requireAuth, app.requireTeam],
+      schema: {
+        tags: ['inventory'],
+        summary: 'Stop tracking a part (removes the row from your inventory sheet)',
+        description:
+          'Different from setting the quantity to 0: that keeps the part on your sheet with no stock, this removes the row entirely. The part itself is untouched.',
+        security: [{ bearerAuth: [] }],
+        params: z.object({ partId: z.string() }),
+        response: { 204: z.null() },
+      },
+    },
+    async (req, reply) => {
+      const teamId = req.auth!.teamId!;
+      const existing = await prisma.inventoryItem.findUnique({
+        where: { teamId_partId: { teamId, partId: req.params.partId } },
+        select: { id: true },
+      });
+      if (!existing) throw notFound('Your team is not tracking that part', 'NO_INVENTORY');
+
+      await prisma.inventoryItem.delete({ where: { id: existing.id } });
+      return reply.status(204).send(null);
     },
   );
 

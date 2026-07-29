@@ -60,15 +60,35 @@ async function seedManufacturers() {
 
 async function seedSuperAdmin() {
   const email = (process.env.SUPER_ADMIN_EMAIL ?? 'software@seattlesolvers.com').toLowerCase();
-  const password = process.env.SUPER_ADMIN_PASSWORD ?? 'change-me';
-  const passwordHash = await bcrypt.hash(password, 10);
-  await prisma.user.upsert({
-    where: { email },
-    create: { email, passwordHash, displayName: 'Seattle Solvers Admin', role: 'SUPER_ADMIN' },
-    // Don't clobber an existing admin's password on re-seed; just ensure the role.
-    update: { role: 'SUPER_ADMIN' },
+  const existing = await prisma.user.findUnique({ where: { email } });
+
+  if (existing) {
+    // Re-seed: only ensure the role. Never touch an existing admin's password.
+    await prisma.user.update({ where: { email }, data: { role: 'SUPER_ADMIN' } });
+    console.log(`  super admin: ${email} (already existed, role ensured)`);
+    return;
+  }
+
+  // First seed: refuse to create the account that can approve parts for every
+  // team unless a real password was supplied. A default here would ship a known
+  // credential to production.
+  const password = process.env.SUPER_ADMIN_PASSWORD;
+  if (!password || password.length < 12) {
+    throw new Error(
+      'SUPER_ADMIN_PASSWORD must be set to at least 12 characters to create the ' +
+        `super admin account (${email}). Set it in .env and re-run the seed.`,
+    );
+  }
+
+  await prisma.user.create({
+    data: {
+      email,
+      passwordHash: await bcrypt.hash(password, 10),
+      displayName: 'Seattle Solvers Admin',
+      role: 'SUPER_ADMIN',
+    },
   });
-  console.log(`  super admin: ${email}`);
+  console.log(`  super admin: ${email} (created)`);
 }
 
 async function seedParts() {

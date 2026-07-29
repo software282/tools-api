@@ -1,0 +1,19 @@
+REV Robotics
+Order Confirmation
+Invoice 88213
+02/14/2026
+
+REV-31-1425
+Through Bore Encoder
+Quantity 3
+$32.00
+$96.00
+
+REV-41-1097
+15mm Extrusion 420mm
+Quantity 2
+$14.50
+$29.00
+
+Subtotal: $125.00
+Grand Total: $137.75
