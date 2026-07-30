@@ -68,16 +68,75 @@ for the first time.
 
 ## Phase 2 — Supabase project
 
-- [ ] **2.1** Create a Supabase project. **Save the database password immediately**
-      — it is shown once and is not recoverable, only resettable.
+Dashboard labels shift between Supabase releases. Navigate by the *concepts*
+below — transaction pooler, session pooler, service role, exposed schemas — not
+by exact button text.
 
-- [ ] **2.2** Choose a region close to your users; it becomes part of the
-      connection host.
+### Create the project
 
-- [ ] **2.3** Create a Storage bucket named exactly **`receipts`**
-      (Storage → New bucket).
+- [ ] **2.1** Sign in at <https://supabase.com/dashboard>. Signing in with GitHub
+      is simplest since you already have an account.
 
-- [ ] **2.4** ⚠️ **Make the bucket public.** The code calls `getPublicUrl()`
+- [ ] **2.2** Create an organisation if this is your first project. Name it for
+      the team (e.g. `Seattle Solvers`), not for yourself — an org can gain members
+      and change owners when you graduate.
+
+- [ ] **2.3** **New project**, then:
+      - **Name:** `tools-api` (matching the repo keeps things findable)
+      - **Database password:** generate a strong one and **save it to a password
+        manager immediately** — it is shown once and can only be reset, not
+        recovered.
+      - ⚠️ **Avoid `@ : / ? # [ ] %` in the password.** It goes into a URI, and
+        those characters break parsing. If your generator includes them you must
+        percent-encode the password before pasting it into `.env` (`@` → `%40`).
+        Choosing an alphanumeric password avoids the whole problem.
+      - **Region:** nearest to your users. For Seattle that is **West US
+        (Oregon)**. It becomes part of the connection host.
+      - **Plan:** Free is sufficient.
+
+- [ ] **2.4** Wait for provisioning (~2 minutes) before continuing — the
+      connection strings are not final until it finishes.
+
+### Close the Data API hole ⚠️
+
+- [ ] **2.5** **Stop the `public` schema being exposed through the Data API.**
+
+      This is the most important step in Phase 2, and it is easy to miss because
+      nothing appears broken if you skip it.
+
+      Supabase serves every table in the `public` schema over PostgREST, and the
+      `anon` key is *designed* to be embedded in a frontend. Prisma will create all
+      of this project's tables in `public` **without RLS enabled**, because it
+      manages its own schema. So once a frontend ships the anon key, anyone
+      holding it could read and write `User`, `Team`, `InventoryItem`, and
+      `Receipt` directly — bypassing every auth check, team-scoping rule, and role
+      guard in this API.
+
+      This service never uses the Data API. Verified: the Supabase client is used
+      only for Storage ([src/lib/supabase.ts](src/lib/supabase.ts)), and all
+      relational access goes through Prisma. So turn the Data API off:
+
+      **Project Settings → API → Exposed schemas → remove `public`.**
+
+      Belt and braces, after Phase 4 creates the tables: enable RLS on every table
+      and add no policies, which denies everyone. Prisma connects as the `postgres`
+      role, which bypasses RLS, so this API keeps working unchanged.
+
+      Re-check this after any `prisma migrate`, since new tables inherit the same
+      exposure.
+
+### Storage
+
+- [ ] **2.6** Create a Storage bucket named exactly **`receipts`**
+      (Storage → New bucket). The name must match `SUPABASE_RECEIPTS_BUCKET`.
+
+- [ ] **2.7** Optionally restrict the bucket to the file types the API accepts:
+      `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `application/pdf`, and
+      a 15 MB size limit to match the multipart limit in
+      [src/server.ts](src/server.ts). Defence in depth; the API validates these
+      too.
+
+- [ ] **2.8** ⚠️ **Make the bucket public.** The code calls `getPublicUrl()`
       ([src/lib/supabase.ts:49](src/lib/supabase.ts#L49)), so a private bucket
       produces `fileUrl` values that fail to load.
 
@@ -96,7 +155,9 @@ for the first time.
       Note this only affects *stored files*. Pasted-text receipts — the common
       case — never create a file at all.
 
-- [ ] **2.5** From **Project → Connect**, copy both connection strings. Do not
+### Credentials
+
+- [ ] **2.9** From **Project → Connect**, copy both connection strings. Do not
       hand-build them; the username format differs per mode.
       - Transaction pooler, port **6543** → `DATABASE_URL`
       - Session pooler, port **5432** → `DIRECT_URL`
@@ -106,12 +167,28 @@ for the first time.
       your project has the IPv4 add-on, and on most networks that appears as a
       connection timeout rather than a useful error.
 
-- [ ] **2.6** From **Project → API**, copy the project URL, the anon key, and the
-      **service-role key**. The service-role key bypasses row-level security —
-      server-side only, never in a frontend bundle.
+      Each string contains a `[YOUR-PASSWORD]` placeholder — substitute the real
+      password from 2.3, percent-encoding it if it contains URI-special
+      characters.
 
-**Success:** you have a project, a public `receipts` bucket, two connection
-strings, and three API values.
+- [ ] **2.10** Append `?pgbouncer=true&connection_limit=1` to `DATABASE_URL`
+      only. Without it, Prisma's prepared statements fail intermittently against
+      the transaction pooler, and the symptom appears much later as random query
+      errors. Leave `DIRECT_URL` unmodified.
+
+- [ ] **2.11** From **Project Settings → API**, copy three values:
+      - **Project URL** → `SUPABASE_URL`
+      - **anon / public key** → `SUPABASE_ANON_KEY`
+      - **service_role / secret key** → `SUPABASE_SERVICE_ROLE_KEY`
+
+      The service-role key bypasses row-level security entirely: server-side only,
+      never in a frontend bundle. If your project shows **Publishable** and
+      **Secret** keys instead of anon/service_role, those are the newer names for
+      the same two things.
+
+**Success:** a provisioned project, the Data API no longer exposing `public`, a
+public `receipts` bucket, two connection strings with the password substituted,
+and three API values. Nothing is written to `.env` yet — that is Phase 3.
 
 ---
 
