@@ -7,7 +7,7 @@ database, ready to hand to Claude design.
 
 | Phase | Status |
 |---|---|
-| 1 — GitHub repo and first commit | **Done** — pushed to `software282/tools-api`, except CI verification and the licence decision |
+| 1 — GitHub repo and first commit | **Done** — pushed to `software282/tools-api`, CI green, public with all rights reserved |
 | 2 — Supabase project | Not started |
 | 3 — Local configuration | Not started |
 | 4 — Schema and seed | Not started — **the database has still never been connected** |
@@ -28,29 +28,41 @@ for the first time.
 
 - [x] **1.1** Repo created at `software282/tools-api`.
 - [x] **1.2** Default branch renamed `master` → `main`.
-- [x] **1.3** Confirmed `.env` is ignored and never committed.
+- [x] **1.3** Confirmed `.env` is ignored and never committed. 
 - [x] **1.4** `openapi.json` tracked, so CI's drift check can work.
 - [x] **1.5** Two commits pushed; 76 files on `main`; working tree clean.
 
-- [ ] **1.6** **Check the first CI run:**
+- [x] **1.6** **CI is green** — run #3, all ten steps.
       <https://github.com/software282/tools-api/actions>
 
-      Five steps, none needing a database: typecheck, tests, the accuracy
-      harness, the OpenAPI drift check, and `prisma validate`. **Never executed
-      before**, so expect a fix on the first run. Most likely differences are
-      Ubuntu vs Windows behaviour around the generated PDF fixture or line
-      endings.
+      The first two runs failed on the last step only, `prisma validate`. The
+      datasource references `env("DIRECT_URL")` as well as `DATABASE_URL`, and
+      `validate` resolves every `env()` in that block — unlike `generate`, which
+      does not need the datasource to resolve at all, which is why the earlier
+      generate step passed. Fixed in `f1ff7a7` by setting both.
 
-- [ ] **1.7** **Decide on a licence.** Undecided. Without a `LICENSE` file a
-      public repo is "all rights reserved" — readable but legally unusable, so
-      other FTC teams could not contribute vendor parsers or fixes. MIT is the
-      community norm. Irrelevant while the repo stays private; easier to add now
-      than to retrofit.
+      Masked locally because `prisma.config.ts` reports "Prisma config detected,
+      skipping environment variable loading" and supplies the vars itself via
+      `dotenv/config`, so a populated `.env` always made it pass on a dev machine.
 
-      Use `Copyright (c) 2026 Seattle Solvers FTC Team` rather than a personal
-      name, so it survives you graduating.
+- [x] **1.7** **Licence decided: none — all rights reserved.** The repo stays
+      **public** (visible for portfolio and award submissions) with no `LICENSE`
+      file, which is the legal default: readable by anyone, reusable by nobody.
 
-**Success:** green CI.
+      Consequences, so nobody re-litigates this later:
+      - Other FTC teams **cannot** legally use, modify, or redistribute the code,
+        so the vendor parsers for Ferra/MelonBotics/Offset/Mata cannot be
+        crowdsourced. They can still open issues or send you receipts.
+      - GitHub's Terms of Service still permit other GitHub users to **view and
+        fork within GitHub** — "all rights reserved" does not switch that off on
+        a public repo. Make it private if that matters.
+      - There is no warranty disclaimer, which a permissive licence would have
+        included. Negligible risk for a team tool, but it is the one protection
+        given up by having no file at all.
+
+      Revisit only if the goal changes to sharing with other teams.
+
+**Success:** green CI. ✅ Run #3 passed all ten steps.
 
 ---
 
