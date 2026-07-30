@@ -1,59 +1,56 @@
 # Setup runbook
 
-Everything needed to take this repo from its current state to a working service
-with a Supabase database, ready to hand to Claude design.
+Everything needed to take this repo to a working service with a Supabase
+database, ready to hand to Claude design.
 
-**Current state:** all work is uncommitted, no GitHub remote, and the database has
-never been connected — no endpoint has ever run against real data. Typecheck, 99
-tests, the accuracy harness, the production build, and the 28-path OpenAPI export
-all pass.
+## Where things stand
 
-Phases are ordered by dependency. Phase 4 is the only one that blocks design.
+| Phase | Status |
+|---|---|
+| 1 — GitHub repo and first commit | **Done** — pushed to `software282/tools-api`, except CI verification and the licence decision |
+| 2 — Supabase project | Not started |
+| 3 — Local configuration | Not started |
+| 4 — Schema and seed | Not started — **the database has still never been connected** |
+| 5 — Prove the flows | Blocked on 4 |
+| 6 — Real accuracy corpus | Blocked on 5 |
+| 7 — Deployment | Can start any time |
+| 8 — Hand off to design | Ready now; better after 4 |
+
+Typecheck, 99 tests, the accuracy harness, the production build, and the 28-path
+OpenAPI export all pass on the pushed commit.
+
+Phases are ordered by dependency. Phase 4 is the one that makes any endpoint work
+for the first time.
 
 ---
 
-## Phase 1 — GitHub repo and first commit
+## Phase 1 — GitHub repo and first commit ✅
 
-Nothing is committed yet, so this comes first: the design pass reads
-`openapi.json` out of the repo, and CI cannot verify anything unpushed.
+- [x] **1.1** Repo created at `software282/tools-api`.
+- [x] **1.2** Default branch renamed `master` → `main`.
+- [x] **1.3** Confirmed `.env` is ignored and never committed.
+- [x] **1.4** `openapi.json` tracked, so CI's drift check can work.
+- [x] **1.5** Two commits pushed; 76 files on `main`; working tree clean.
 
-- [ ] **1.1** Create the repo on GitHub (private is fine). Do **not** initialise it
-      with a README, `.gitignore`, or licence — this repo already has them.
+- [ ] **1.6** **Check the first CI run:**
+      <https://github.com/software282/tools-api/actions>
 
-- [ ] **1.2** Decide the default branch name. You are on `master` locally; GitHub
-      defaults new repos to `main`. Pick one and be consistent, or CI (which
-      triggers on `main` and `master`) and future PRs will disagree. To rename:
-      ```bash
-      git branch -m master main
-      ```
+      Five steps, none needing a database: typecheck, tests, the accuracy
+      harness, the OpenAPI drift check, and `prisma validate`. **Never executed
+      before**, so expect a fix on the first run. Most likely differences are
+      Ubuntu vs Windows behaviour around the generated PDF fixture or line
+      endings.
 
-- [ ] **1.3** Confirm nothing secret is staged. `.env` is gitignored — verify:
-      ```bash
-      git status --short | grep -E "^\?\?.*\.env$" && echo "STOP: .env would be committed"
-      git check-ignore .env && echo ".env correctly ignored"
-      ```
+- [ ] **1.7** **Decide on a licence.** Undecided. Without a `LICENSE` file a
+      public repo is "all rights reserved" — readable but legally unusable, so
+      other FTC teams could not contribute vendor parsers or fixes. MIT is the
+      community norm. Irrelevant while the repo stays private; easier to add now
+      than to retrofit.
 
-- [ ] **1.4** Confirm `openapi.json` **is** tracked. CI fails without it, and the
-      design pass needs it:
-      ```bash
-      npm run openapi
-      git add openapi.json && git status --short openapi.json
-      ```
+      Use `Copyright (c) 2026 Seattle Solvers FTC Team` rather than a personal
+      name, so it survives you graduating.
 
-- [ ] **1.5** Commit and push.
-      ```bash
-      git add -A
-      git commit -m "Add teams, receipts intake, security hardening, tests, and CI"
-      git remote add origin git@github.com:<org>/<repo>.git
-      git push -u origin main
-      ```
-
-- [ ] **1.6** Check the Actions tab. CI runs typecheck, tests, the accuracy
-      harness, the OpenAPI drift check, and `prisma validate` — all without a
-      database. **This has never been executed**, so expect to fix something on
-      the first run.
-
-**Success:** green CI, and `openapi.json` visible in the GitHub file list.
+**Success:** green CI.
 
 ---
 
@@ -154,6 +151,13 @@ schema is not applied; that is Phase 4.
 
 **This is the step that has never been run.** The schema validates and the seed
 typechecks, but neither has executed. If something breaks, it is most likely here.
+
+> ⏳ **Last call for free schema changes.** Adding a column before the first
+> migration costs nothing; afterwards it costs a migration. The one worth
+> considering is a low-stock threshold (`minQuantity` on `InventoryItem`) —
+> knowing before a competition that you are down to one spare motor is the most
+> useful signal an FTC inventory tool can give. Roughly an hour. See the table in
+> Phase 8; decide now or accept the migration later.
 
 - [ ] **4.1** Apply the schema. This creates `prisma/migrations/` — commit it
       afterwards.
