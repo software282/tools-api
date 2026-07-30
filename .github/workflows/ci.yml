@@ -62,4 +62,8 @@ jobs:
       - name: Validate the Prisma schema
         run: npx prisma validate
         env:
+          # Both are required: the datasource block references DIRECT_URL as well,
+          # and `validate` resolves every env() in it (unlike `generate`, which
+          # does not need the datasource to resolve at all).
           DATABASE_URL: postgresql://user:pass@localhost:5432/postgres
+          DIRECT_URL: postgresql://user:pass@localhost:5432/postgres
