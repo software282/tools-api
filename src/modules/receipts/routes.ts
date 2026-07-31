@@ -4,7 +4,11 @@ import type { Prisma, Vendor } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../../lib/prisma.js';
 import { env, supabaseStorageEnabled } from '../../config/env.js';
-import { uploadReceiptFile } from '../../lib/supabase.js';
+import {
+  createSignedReceiptUrl,
+  SIGNED_URL_TTL_SECONDS,
+  uploadReceiptFile,
+} from '../../lib/supabase.js';
 import { AppError, badRequest, notFound } from '../../lib/errors.js';
 import { visibilityFilter } from '../parts/service.js';
 import { runReceiptExtraction } from '../../services/ocr/pipeline.js';
@@ -18,6 +22,7 @@ import {
   paginatedReceipts,
   receiptListQuery,
   receiptSchema,
+  signedFileResponse,
   textReceiptBody,
   updateLineBody,
 } from './schemas.js';
@@ -168,7 +173,7 @@ const routes = async (app: FastifyInstance) => {
           uploadedByUserId: req.auth!.sub,
           vendor,
           // Pasted text has no stored file.
-          fileUrl: null,
+          filePath: null,
           status: 'PROCESSING',
         },
       });
@@ -230,7 +235,7 @@ const routes = async (app: FastifyInstance) => {
       }
 
       // Keep the original for auditing, but never block reading on storage.
-      let fileUrl: string | null = null;
+      let filePath: string | null = null;
       if (supabaseStorageEnabled) {
         try {
           const uploaded = await uploadReceiptFile({
@@ -239,14 +244,14 @@ const routes = async (app: FastifyInstance) => {
             contentType,
             originalName: filename,
           });
-          fileUrl = uploaded.url;
+          filePath = uploaded.path;
         } catch (err) {
           req.log.warn({ err }, 'receipt file upload failed; continuing with extraction only');
         }
       }
 
       const receipt = await prisma.receipt.create({
-        data: { teamId, uploadedByUserId: req.auth!.sub, vendor, fileUrl, status: 'PROCESSING' },
+        data: { teamId, uploadedByUserId: req.auth!.sub, vendor, filePath, status: 'PROCESSING' },
       });
 
       const input: ReceiptInput = isPdf
@@ -296,7 +301,7 @@ const routes = async (app: FastifyInstance) => {
           vendor: row.vendor,
           status: row.status,
           method: row.method,
-          fileUrl: row.fileUrl,
+          hasFile: row.filePath !== null,
           orderTotal: row.orderTotal === null ? null : Number(row.orderTotal),
           purchasedAt: row.purchasedAt ? row.purchasedAt.toISOString() : null,
           createdAt: row.createdAt.toISOString(),
@@ -329,6 +334,44 @@ const routes = async (app: FastifyInstance) => {
       });
       if (!receipt) throw notFound('Receipt not found');
       return serializeReceipt(receipt);
+    },
+  );
+
+  r.get(
+    '/:id/file',
+    {
+      preHandler: [app.requireAuth, app.requireTeam],
+      schema: {
+        tags: ['receipts'],
+        summary: 'Get a short-lived link to a receipt\'s original file',
+        description:
+          'The receipts bucket is private, because order confirmations routinely carry a name and shipping address. There is therefore no durable URL to embed: call this when `hasFile` is true and use the returned link, which expires. Returns JSON rather than a redirect so the URL can go straight into an <img> or <a>, which cannot send an Authorization header.',
+        security: [{ bearerAuth: [] }],
+        params: z.object({ id: z.string() }),
+        response: { 200: signedFileResponse },
+      },
+    },
+    async (req) => {
+      // Scoped to the caller's team, so access follows current membership
+      // rather than whoever happens to hold an old link.
+      const receipt = await prisma.receipt.findFirst({
+        where: { id: req.params.id, teamId: req.auth!.teamId! },
+        select: { filePath: true },
+      });
+      if (!receipt) throw notFound('Receipt not found');
+      if (!receipt.filePath) {
+        throw notFound('This receipt has no stored file', 'NO_RECEIPT_FILE');
+      }
+
+      try {
+        return {
+          url: await createSignedReceiptUrl(receipt.filePath),
+          expiresIn: SIGNED_URL_TTL_SECONDS,
+        };
+      } catch (err) {
+        req.log.error({ err }, 'failed to sign receipt file URL');
+        throw badRequest('Could not produce a link for this file', 'SIGN_FAILED');
+      }
     },
   );
 

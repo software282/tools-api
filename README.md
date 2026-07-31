@@ -83,8 +83,10 @@ Useful scripts:
 ### Prerequisites you provide
 
 - A **Supabase project**: put its connection string in `DATABASE_URL` /
-  `DIRECT_URL`, the API URL/keys in `SUPABASE_*`, and create a Storage bucket
-  named to match `SUPABASE_RECEIPTS_BUCKET` (default `receipts`).
+  `DIRECT_URL`, the API URL/keys in `SUPABASE_*`, and create a **private** Storage
+  bucket named to match `SUPABASE_RECEIPTS_BUCKET` (default `receipts`). Private
+  matters: receipts carry names and shipping addresses, so links are signed per
+  request via `GET /receipts/:id/file` rather than stored.
 - A **`SUPER_ADMIN_PASSWORD`** of at least 12 characters. `npm run seed` fails
   rather than creating the account that can approve parts for every team with a
   weak or default password. Re-seeding never changes an existing admin's password.
@@ -138,6 +140,7 @@ create, or team join.
 | | `POST /receipts/upload` | multipart (`vendor` + `file`): PDF invoice, or photo of a paper receipt |
 | | `GET /receipts` | List (paginated, newest first) |
 | | `GET /receipts/:id` | Detail with parsed line items |
+| | `GET /receipts/:id/file` | Short-lived signed link to the original file (bucket is private) |
 | | `PATCH /receipts/:id/lines/:lineId` | Correct a parsed line/match |
 | | `POST /receipts/:id/confirm` | Apply matched lines to inventory (idempotent per line) |
 | Admin | `GET /admin/submissions` | Pending library submissions (`SUPER_ADMIN`) |

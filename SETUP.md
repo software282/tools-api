@@ -130,30 +130,39 @@ by exact button text.
 - [ ] **2.6** Create a Storage bucket named exactly **`receipts`**
       (Storage → New bucket). The name must match `SUPABASE_RECEIPTS_BUCKET`.
 
-- [ ] **2.7** Optionally restrict the bucket to the file types the API accepts:
-      `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `application/pdf`, and
-      a 15 MB size limit to match the multipart limit in
-      [src/server.ts](src/server.ts). Defence in depth; the API validates these
-      too.
+- [x] **2.7** **Leave "Restrict file size" and "Restrict MIME types" off.** The
+      API already enforces both — 15 MB in [src/server.ts](src/server.ts), and the
+      accepted content types in
+      [src/modules/receipts/routes.ts](src/modules/receipts/routes.ts) — and it
+      fails loudly when they are exceeded.
 
-- [ ] **2.8** ⚠️ **Make the bucket public.** The code calls `getPublicUrl()`
-      ([src/lib/supabase.ts:49](src/lib/supabase.ts#L49)), so a private bucket
-      produces `fileUrl` values that fail to load.
+      Bucket-level limits would add a *silent* failure instead: the upload is
+      best-effort, so a rejection is logged as a warning and the receipt is saved
+      with no file, with nothing surfaced to the user. Note also that the API
+      accepts the non-standard `image/jpg`, which some browsers send, so a MIME
+      whitelist omitting it would quietly drop those uploads.
 
-      **Understand the tradeoff before doing this:** a public bucket means anyone
-      with the URL can view an uploaded receipt, and receipts show what your team
-      bought and what it cost. URLs contain a random UUID so they are not
-      guessable, but they are not protected either.
+- [x] **2.8** **Keep the bucket private.** Done, and the code was changed to
+      match — it no longer mints public URLs.
 
-      Two options:
-      - **Public bucket** — works as written, no code change. Fine if you consider
-        receipt images low-sensitivity.
-      - **Private bucket + signed URLs** — requires changing `uploadReceiptFile` to
-        `createSignedUrl` and deciding an expiry, plus a way to re-sign expired
-        links. Ask and this can be implemented.
+      The reasoning, since it is easy to under-rate: an order confirmation is not
+      just a list of parts. goBILDA and REV confirmations routinely carry the
+      purchaser's **name, email, and shipping address**, which for a school team
+      may be a student's home. A public bucket makes that readable by anyone
+      holding the URL, and URLs leak — into database rows, API responses, browser
+      history, logs, and screenshots. An unguessable UUID is not access control.
 
-      Note this only affects *stored files*. Pasted-text receipts — the common
-      case — never create a file at all.
+      How it works now:
+      - `Receipt.filePath` stores the storage **path**, never a URL.
+      - Responses carry `hasFile: boolean` instead of `fileUrl`.
+      - `GET /receipts/:id/file` authenticates, checks the receipt belongs to the
+        caller's team, then returns a freshly signed URL valid for 5 minutes.
+
+      The team check is the real gain: file access now follows current membership.
+      With public URLs, someone removed from a team kept working links forever.
+
+      Still only affects *stored files* — pasted-text receipts, the common case,
+      never create one.
 
 ### Credentials
 
@@ -187,7 +196,7 @@ by exact button text.
       the same two things.
 
 **Success:** a provisioned project, the Data API no longer exposing `public`, a
-public `receipts` bucket, two connection strings with the password substituted,
+private `receipts` bucket, two connection strings with the password substituted,
 and three API values. Nothing is written to `.env` yet — that is Phase 3.
 
 ---

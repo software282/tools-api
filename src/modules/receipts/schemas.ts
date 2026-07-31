@@ -65,8 +65,12 @@ export const receiptSchema = z.object({
   vendor: vendorSchema,
   status: receiptStatusSchema,
   method: extractionMethodSchema.nullable(),
-  /** Storage URL of an uploaded file. Null for pasted text (the common case). */
-  fileUrl: z.string().nullable(),
+  /**
+   * Whether an original file was stored. False for pasted text (the common
+   * case). When true, fetch a short-lived link from GET /receipts/:id/file —
+   * the bucket is private, so there is no durable URL to embed.
+   */
+  hasFile: z.boolean(),
   orderTotal: z.number().nullable(),
   purchasedAt: z.string().nullable(),
   createdAt: z.string(),
@@ -100,6 +104,19 @@ export const updateLineBody = z.object({
 export const confirmBody = z.object({
   // If omitted, all matched, not-yet-applied lines are applied.
   lineItemIds: z.array(z.string()).optional(),
+});
+
+/**
+ * A freshly signed link to a receipt's original file.
+ *
+ * Returned as JSON rather than a redirect so a browser can put the URL straight
+ * into an <img> or <a> — an image tag cannot send an Authorization header, so a
+ * redirect behind bearer auth would be unusable from the frontend.
+ */
+export const signedFileResponse = z.object({
+  url: z.string(),
+  /** Seconds until the link stops working. Request a new one after that. */
+  expiresIn: z.number().int(),
 });
 
 export const confirmResult = z.object({

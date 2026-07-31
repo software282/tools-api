@@ -2370,9 +2370,8 @@
                       ],
                       "nullable": true
                     },
-                    "fileUrl": {
-                      "type": "string",
-                      "nullable": true
+                    "hasFile": {
+                      "type": "boolean"
                     },
                     "orderTotal": {
                       "type": "number",
@@ -2469,7 +2468,7 @@
                     "vendor",
                     "status",
                     "method",
-                    "fileUrl",
+                    "hasFile",
                     "orderTotal",
                     "purchasedAt",
                     "createdAt",
@@ -2568,9 +2567,8 @@
                             ],
                             "nullable": true
                           },
-                          "fileUrl": {
-                            "type": "string",
-                            "nullable": true
+                          "hasFile": {
+                            "type": "boolean"
                           },
                           "orderTotal": {
                             "type": "number",
@@ -2592,7 +2590,7 @@
                           "vendor",
                           "status",
                           "method",
-                          "fileUrl",
+                          "hasFile",
                           "orderTotal",
                           "purchasedAt",
                           "createdAt",
@@ -2687,9 +2685,8 @@
                       ],
                       "nullable": true
                     },
-                    "fileUrl": {
-                      "type": "string",
-                      "nullable": true
+                    "hasFile": {
+                      "type": "boolean"
                     },
                     "orderTotal": {
                       "type": "number",
@@ -2786,7 +2783,7 @@
                     "vendor",
                     "status",
                     "method",
-                    "fileUrl",
+                    "hasFile",
                     "orderTotal",
                     "purchasedAt",
                     "createdAt",
@@ -2867,9 +2864,8 @@
                       ],
                       "nullable": true
                     },
-                    "fileUrl": {
-                      "type": "string",
-                      "nullable": true
+                    "hasFile": {
+                      "type": "boolean"
                     },
                     "orderTotal": {
                       "type": "number",
@@ -2966,11 +2962,60 @@
                     "vendor",
                     "status",
                     "method",
-                    "fileUrl",
+                    "hasFile",
                     "orderTotal",
                     "purchasedAt",
                     "createdAt",
                     "lineItems"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/receipts/{id}/file": {
+      "get": {
+        "summary": "Get a short-lived link to a receipt's original file",
+        "tags": [
+          "receipts"
+        ],
+        "description": "The receipts bucket is private, because order confirmations routinely carry a name and shipping address. There is therefore no durable URL to embed: call this when `hasFile` is true and use the returned link, which expires. Returns JSON rather than a redirect so the URL can go straight into an <img> or <a>, which cannot send an Authorization header.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "expiresIn": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "expiresIn"
                   ],
                   "additionalProperties": false
                 }
@@ -3216,9 +3261,8 @@
                           ],
                           "nullable": true
                         },
-                        "fileUrl": {
-                          "type": "string",
-                          "nullable": true
+                        "hasFile": {
+                          "type": "boolean"
                         },
                         "orderTotal": {
                           "type": "number",
@@ -3315,7 +3359,7 @@
                         "vendor",
                         "status",
                         "method",
-                        "fileUrl",
+                        "hasFile",
                         "orderTotal",
                         "purchasedAt",
                         "createdAt",

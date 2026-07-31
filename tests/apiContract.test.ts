@@ -44,6 +44,18 @@ describe('API contract', () => {
     expect(spec.paths['/api/v1/receipts/upload'].post).toBeDefined();
   });
 
+  // The receipts bucket is private, because order confirmations carry a name and
+  // shipping address. The contract must therefore never hand back a URL a caller
+  // could keep: `hasFile` plus a signed-link endpoint replaces it.
+  it('exposes no durable file URL, only a signed-link endpoint', async () => {
+    const res = await app.inject({ method: 'GET', url: '/openapi.json' });
+    const spec = res.json();
+
+    expect(JSON.stringify(spec)).not.toContain('fileUrl');
+    expect(JSON.stringify(spec)).toContain('hasFile');
+    expect(spec.paths['/api/v1/receipts/{id}/file'].get).toBeDefined();
+  });
+
   describe('error envelope', () => {
     it('uses { error: { code, message } } for unknown routes', async () => {
       const res = await app.inject({ method: 'GET', url: '/api/v1/does-not-exist' });
@@ -77,6 +89,7 @@ describe('API contract', () => {
     const protectedRoutes: Array<[string, string, object | undefined]> = [
       ['GET', '/api/v1/inventory', undefined],
       ['GET', '/api/v1/receipts', undefined],
+      ['GET', '/api/v1/receipts/some-id/file', undefined],
       ['GET', '/api/v1/teams/members', undefined],
       ['GET', '/api/v1/teams/current', undefined],
       ['GET', '/api/v1/auth/me', undefined],

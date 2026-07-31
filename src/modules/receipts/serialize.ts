@@ -40,7 +40,9 @@ export function serializeReceipt(receipt: ReceiptWithLines) {
     vendor: receipt.vendor,
     status: receipt.status,
     method: receipt.method,
-    fileUrl: receipt.fileUrl,
+    // Never the path itself: it is an internal storage location, and a signed
+    // link is minted per request via GET /receipts/:id/file.
+    hasFile: receipt.filePath !== null,
     orderTotal: dec(receipt.orderTotal),
     purchasedAt: receipt.purchasedAt ? receipt.purchasedAt.toISOString() : null,
     createdAt: receipt.createdAt.toISOString(),

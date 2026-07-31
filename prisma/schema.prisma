@@ -186,9 +186,10 @@ model InventoryItem {
 model Receipt {
   id          String            @id @default(cuid())
   vendor      Vendor
-  // Supabase Storage URL of the uploaded file, when there was one. Null for
-  // pasted text, which is the most common case.
-  fileUrl     String?
+  // Storage path of the uploaded file, when there was one — NOT a URL. The
+  // receipts bucket is private, so a URL is signed on demand and expires; only
+  // the path is durable. Null for pasted text, which is the most common case.
+  filePath    String?
   status      ReceiptStatus     @default(PROCESSING)
   method      ExtractionMethod?
   rawText     String? // the extracted text, whatever the source
