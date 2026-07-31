@@ -38,7 +38,7 @@ function checkEnv(): boolean {
     return false;
   }
 
-  if (/\[PASSWORD\]|\[PROJECT-REF\]|PASSWORD@|PROJECT_REF/.test(url)) {
+  if (looksLikePlaceholder(url) || /PASSWORD@/.test(url)) {
     record('fail', 'DATABASE_URL still contains template placeholders', 'Substitute the real values.');
     return false;
   }
@@ -136,6 +136,19 @@ async function checkDatabase() {
   await prisma.$disconnect().catch(() => {});
 }
 
+/**
+ * Catch values that were never filled in.
+ *
+ * Deliberately broad: template files use all of these words, and a half-edited
+ * `.env` is far more common than a subtly wrong one. Reporting a placeholder is
+ * much clearer than the network error it would otherwise become.
+ */
+function looksLikePlaceholder(value: string): boolean {
+  return /example\.|project[-_]?ref|your[-_]|replace|change[-_]?me|placeholder|xxx|<.*>|\[.*\]/i.test(
+    value,
+  );
+}
+
 async function checkStorage() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -148,6 +161,34 @@ async function checkStorage() {
       'Receipts still parse, but uploaded files will not be kept. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.',
     );
     return;
+  }
+
+  if (looksLikePlaceholder(url)) {
+    record(
+      'fail',
+      'SUPABASE_URL is still a placeholder',
+      'Copy the Project URL from Supabase → Settings → API.',
+    );
+    return;
+  }
+
+  // Both the legacy JWT keys (eyJ…) and the newer sb_secret_… format are valid.
+  if (!/^(eyJ|sb_secret_)/.test(key) || key.length < 20) {
+    record(
+      'fail',
+      'SUPABASE_SERVICE_ROLE_KEY does not look like a real key',
+      'Copy the service_role (secret) key from Supabase → Settings → API. It is not the anon key.',
+    );
+    return;
+  }
+
+  const anon = process.env.SUPABASE_ANON_KEY ?? '';
+  if (anon && !/^(eyJ|sb_publishable_)/.test(anon)) {
+    record(
+      'warn',
+      'SUPABASE_ANON_KEY does not look like a real key',
+      'Unused by this API today, but worth fixing before a frontend needs it.',
+    );
   }
 
   try {
