@@ -8,16 +8,16 @@ database, ready to hand to Claude design.
 | Phase | Status |
 |---|---|
 | 1 — GitHub repo and first commit | **Done** — `software282/tools-api`, CI green, public with all rights reserved |
-| 2 — Supabase project | **Done** except the two API keys in 2.11 |
-| 3 — Local configuration | **Done** except `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY`. `db:check` reports **database connection succeeded** |
-| 4 — Schema and seed | ← **you are here.** Nothing has been migrated or seeded yet |
-| 5 — Prove the flows | Blocked on 4 |
+| 2 — Supabase project | **Done** |
+| 3 — Local configuration | **Done** — `db:check` reports 7/7 green |
+| 4 — Schema and seed | **Done** — migration applied, 47 parts seeded, password rotated, API serving live data |
+| 5 — Prove the flows | ← **you are here** |
 | 6 — Real accuracy corpus | Blocked on 5 |
 | 7 — Deployment | Can start any time |
 | 8 — Hand off to design | Possible now; much better after 4 |
 
-**Immediate next action:** paste the two keys from Supabase → Settings → API into
-`.env`, then run `npm run db:check`.
+**Immediate next action:** Phase 5 — exercise the flows against the live database,
+and capture a real order confirmation for the accuracy corpus.
 
 Typecheck, 106 tests, the accuracy harness, the production build, and the 29-path
 OpenAPI export all pass on the pushed commit.
@@ -69,7 +69,7 @@ for the first time.
 
 ---
 
-## Phase 2 — Supabase project ✅ (except the two API keys)
+## Phase 2 — Supabase project ✅
 
 Dashboard labels shift between Supabase releases. Navigate by the *concepts*
 below — transaction pooler, session pooler, service role, exposed schemas — not
@@ -188,7 +188,7 @@ by exact button text.
       the transaction pooler, and the symptom appears much later as random query
       errors. Leave `DIRECT_URL` unmodified.
 
-- [ ] **2.11** From **Project Settings → API**, copy three values:
+- [x] **2.11** From **Project Settings → API**, copy three values:
       - **Project URL** → `SUPABASE_URL`
       - **anon / public key** → `SUPABASE_ANON_KEY`
       - **service_role / secret key** → `SUPABASE_SERVICE_ROLE_KEY`
@@ -204,7 +204,7 @@ and three API values. Nothing is written to `.env` yet — that is Phase 3.
 
 ---
 
-## Phase 3 — Local configuration ✅ (except the two API keys)
+## Phase 3 — Local configuration ✅
 
 - [x] **3.1** Create `.env`:
       ```bash
@@ -222,7 +222,7 @@ and three API values. Nothing is written to `.env` yet — that is Phase 3.
       prepared statements fail intermittently against the transaction pooler, in a
       way that looks like random query errors much later.
 
-- [ ] **3.4** Fill in `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
+- [x] **3.4** Fill in `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
       `SUPABASE_SERVICE_ROLE_KEY`. Leave `SUPABASE_RECEIPTS_BUCKET=receipts`.
 
 - [x] **3.5** Set `SUPER_ADMIN_PASSWORD` to **12+ characters**. It is currently
@@ -248,7 +248,7 @@ schema is not applied; that is Phase 4.
 
 ---
 
-## Phase 4 — Create and seed the schema
+## Phase 4 — Create and seed the schema ✅
 
 **This is the step that has never been run.** The schema validates and the seed
 typechecks, but neither has executed. If something breaks, it is most likely here.
@@ -257,30 +257,30 @@ typechecks, but neither has executed. If something breaks, it is most likely her
 > initial schema. Each inventory row has a threshold and an `isLow` flag, and
 > `GET /inventory?lowStock=true` returns the reorder list.
 
-- [ ] **4.1** Apply the schema. This creates `prisma/migrations/` — commit it
+- [x] **4.1** Apply the schema. This creates `prisma/migrations/` — commit it
       afterwards.
       ```bash
       npx prisma migrate dev --name init
       ```
 
-- [ ] **4.2** Seed reference data, the super admin, and 48 standard parts:
+- [x] **4.2** Seed reference data, the super admin, and 48 standard parts:
       ```bash
       npm run seed
       ```
 
-- [ ] **4.3** Verify:
+- [x] **4.3** Verify:
       ```bash
       npm run db:check
       ```
       Expect: connection ok, schema applied, seed data present, SUPER_ADMIN exists,
       bucket exists.
 
-- [ ] **4.4** Commit the migration:
+- [x] **4.4** Commit the migration:
       ```bash
       git add prisma/migrations && git commit -m "Add initial database migration" && git push
       ```
 
-- [ ] **4.5** Start the server and confirm it serves:
+- [x] **4.5** Start the server and confirm it serves:
       ```bash
       npm run dev
       ```
@@ -288,7 +288,9 @@ typechecks, but neither has executed. If something breaks, it is most likely her
       - `http://localhost:3000/docs` → Swagger UI (development only)
       - `http://localhost:3000/api/v1/parts` → the seeded library, no auth needed
 
-- [ ] **4.6** 🔑 **Rotate the database password now.**
+- [x] **4.6** 🔑 **Database password rotated.** Done immediately after seeding,
+      while the schema existed but no team data did. Verified: the old value is
+      gone from both URLs, they match, and all seven checks still pass.
 
       It was pasted into a chat transcript during setup, so it exists somewhere it
       was not meant to. This is the right moment to replace it: the database is
