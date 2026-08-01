@@ -20,6 +20,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '5203 Series Yellow Jacket Planetary Gear Motor (19.2:1, 8mm REX, 312 RPM, 3.3-5V Encoder)',
     sku: '5203-2402-0019',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/1488/images/14802/5203-2402-0019__61087.1746574716.386.513.jpg?c=1',
     category: 'motors',
     productUrl:
       'https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/',
@@ -30,6 +31,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '2000 Series Dual Mode Servo (25-2, Torque)',
     sku: '2000-0025-0002',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/1190/images/5970/2000-0025-0002__75515__83589.1701992706.386.513.jpg?c=1',
     category: 'servos',
     productUrl: 'https://www.gobilda.com/2000-series-dual-mode-servo-25-2-torque/',
     description:
@@ -39,6 +41,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '2000 Series Dual Mode Servo (25-3, Speed)',
     sku: '2000-0025-0003',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/1346/images/6599/2000-0025-0003__96108__04560.1701992903.386.513.jpg?c=1',
     category: 'servos',
     productUrl: 'https://www.gobilda.com/2000-series-dual-mode-servo-25-3-speed/',
     description: 'The faster (~115 RPM at 6V) version of the 2000 Series dual-mode servo.',
@@ -47,6 +50,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '96mm Mecanum Wheel Set (70A Durometer Bearing Supported Rollers)',
     sku: '3213-3606-0002',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/1445/images/7197/3213-3606-0002__85766__98186.1701993092.386.513.jpg?c=1',
     category: 'wheels',
     productUrl:
       'https://www.gobilda.com/96mm-mecanum-wheel-set-70a-durometer-bearing-supported-rollers/',
@@ -57,6 +61,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '1309 Series Sonic Hub (8mm REX Bore)',
     sku: '1309-0016-4008',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/1222/images/6086/1309-0016-4008__54144__86371.1701992744.386.513.jpg?c=1',
     category: 'shaft-attachments',
     productUrl: 'https://www.gobilda.com/1309-series-sonic-hub-8mm-rex-bore/',
     description:
@@ -66,6 +71,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '1120 Series U-Channel (17 Hole, 432mm Length)',
     sku: '1120-0017-0432',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/260/images/2029/1120-0017-0432__23740__84720.1701991468.386.513.jpg?c=1',
     category: 'hardware',
     productUrl: 'https://www.gobilda.com/1120-series-u-channel-17-hole-432mm-length/',
     description:
@@ -75,6 +81,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'gobilda',
     name: '8mm REX Shaft Starter Pack',
     sku: '3201-0008-0001',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-x56mtydx1w/products/2267/images/13396/3201-0008-0001_8mm_REX_Shaft_Starter_Pack__72337__95226.1726859050.386.513.jpg?c=1',
     category: 'shafts',
     productUrl: 'https://www.gobilda.com/8mm-rex-shaft-starter-pack/',
     description:
@@ -86,6 +93,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: 'Control Hub',
     sku: 'REV-31-1595',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/391/images/2736/IMG_20170502_154043_not_lm__25913.1650563042.500.500.png?c=2',
     category: 'electronics',
     productUrl: 'https://www.revrobotics.com/rev-31-1595/',
     description:
@@ -95,6 +103,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: 'Expansion Hub',
     sku: 'REV-31-1153',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/216/images/2784/Expansion_Hub_One-noflag__63205.1650572103.500.500.png?c=2',
     category: 'electronics',
     productUrl: 'https://www.revrobotics.com/rev-31-1153/',
     description:
@@ -104,6 +113,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: 'Driver Hub',
     sku: 'REV-31-1596',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/598/images/2741/REV-31-1596-Driver_Hub-Iso_View-FINAL__03867.1650564025.500.500.png?c=2',
     category: 'electronics',
     productUrl: 'https://www.revrobotics.com/rev-31-1596/',
     description:
@@ -113,6 +123,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: 'HD Hex Motor (40:1 Spur Gearbox)',
     sku: 'REV-41-1301',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/594/images/2931/Lone_HDHex-New_Sticker-noflag__98232.1659470612.500.500.png?c=2',
     category: 'motors',
     productUrl: 'https://www.revrobotics.com/rev-41-1301/',
     description:
@@ -122,6 +133,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: 'Core Hex Motor',
     sku: 'REV-41-1300',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/195/images/2675/REV-41-1300_Core_Hex5_not_lm__05075.1661790332.500.500.png?c=2',
     category: 'motors',
     productUrl: 'https://www.revrobotics.com/rev-41-1300/',
     description:
@@ -131,6 +143,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: 'Smart Robot Servo',
     sku: 'REV-41-1097',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/115/images/2761/Smart_Robot_Servo_Photo_From_Bundle_Shot-noflag__84262.1650574026.500.500.png?c=2',
     category: 'servos',
     productUrl: 'https://www.revrobotics.com/rev-41-1097/',
     description:
@@ -149,6 +162,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: '12V Slim Battery',
     sku: 'REV-31-1302',
+    imageUrl: 'https://cdn11.bigcommerce.com/s-t3eo8vwp22/products/193/images/2367/REV-31-1302-12VSlimBattery-New-FINAL__87390.1636579008.500.500.png?c=2',
     category: 'electronics',
     productUrl: 'https://www.revrobotics.com/rev-31-1302/',
     description:
@@ -159,6 +173,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'axon',
     name: 'Axon MAX MK2',
+    imageUrl: 'https://cdn.shopify.com/s/files/1/0657/9182/0008/files/Perspective.png?v=1755499769',
     sku: null,
     category: 'servos',
     productUrl: 'https://axon-robotics.com/products/max',
@@ -168,6 +183,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'axon',
     name: 'Axon MINI MK2',
+    imageUrl: 'https://cdn.shopify.com/s/files/1/0657/9182/0008/files/Perspective_1b9841ad-db95-4986-9501-7c6478750401.png?v=1755500172',
     sku: null,
     category: 'servos',
     productUrl: 'https://axon-robotics.com/products/mini',
@@ -177,6 +193,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'axon',
     name: 'Axon MICRO+',
+    imageUrl: 'https://cdn.shopify.com/s/files/1/0657/9182/0008/files/axonmicroresized.png?v=1699546035',
     sku: null,
     category: 'servos',
     productUrl: 'https://axon-robotics.com/products/micro',
@@ -186,6 +203,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'axon',
     name: 'Axon Servo Programmer',
+    imageUrl: 'https://cdn.shopify.com/s/files/1/0657/9182/0008/products/Programmer.png?v=1662778773',
     sku: null,
     category: 'electronics',
     productUrl: 'https://axon-robotics.com/products/axon-servo-programmer',
@@ -197,6 +215,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'ferra',
     name: '16AWG 20A XT30U Extension Cable',
+    imageUrl: 'http://ferracomponents.com/cdn/shop/files/shortxt30cable_0d1f37cf-7add-40fc-9b0c-9099aef5cafc.png?v=1753924539',
     sku: null,
     category: 'electronics',
     productUrl: 'https://ferracomponents.com/products/16awg-xt30u-power-wire',
@@ -205,6 +224,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'ferra',
     name: 'Parallel 20AWG Locking Servo Cable',
+    imageUrl: 'http://ferracomponents.com/cdn/shop/files/servo1.png?v=1754027100',
     sku: null,
     category: 'electronics',
     productUrl: 'https://ferracomponents.com/products/20awg-locking-servo-wire',
@@ -213,6 +233,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'ferra',
     name: 'Sensor/Odometry Cable (JST-PH 4-pin Male to 4-pin Male)',
+    imageUrl: 'http://ferracomponents.com/cdn/shop/files/sensor_l1_a928989d-b6af-4a80-88f4-00fe7b727555.png?v=1753922898',
     sku: null,
     category: 'electronics',
     productUrl:
@@ -222,6 +243,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'ferra',
     name: 'XT30U Connectors (10 Pack)',
+    imageUrl: 'http://ferracomponents.com/cdn/shop/files/xt30pair.png?v=1753925251',
     sku: null,
     category: 'electronics',
     productUrl: 'https://ferracomponents.com/products/xt30-connectors-10-pack',
@@ -230,6 +252,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'ferra',
     name: 'Silicone Driver Hub Case',
+    imageUrl: 'http://ferracomponents.com/cdn/shop/files/IMG_20251205_150508_HDR.jpg?v=1767078775',
     sku: null,
     category: 'misc',
     productUrl: 'https://ferracomponents.com/products/silicone-driver-hub-case',
@@ -238,6 +261,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'ferra',
     name: '48mm Vector Wheel Rollers V2',
+    imageUrl: 'http://ferracomponents.com/cdn/shop/files/IMG_20260122_155959_HDR.jpg?v=1769119830',
     sku: null,
     category: 'wheels',
     productUrl: 'https://ferracomponents.com/products/48mm-vector-wheel-rollers-v2',
@@ -248,6 +272,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'melonbotics',
     name: 'Super Servo Plus',
+    imageUrl: 'https://www.melonbotics.com/cdn/shop/files/IMG-9951.jpg?v=1761482080',
     sku: null,
     category: 'servos',
     productUrl: 'https://www.melonbotics.com/products/super-servo-plus',
@@ -256,6 +281,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'melonbotics',
     name: 'Magnum',
+    imageUrl: 'https://www.melonbotics.com/cdn/shop/t/8/assets/melonbotics-social-share.png?v=103490722824745890631784027431',
     sku: null,
     category: 'motors',
     productUrl: 'https://www.melonbotics.com/products/magnum',
@@ -265,6 +291,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'melonbotics',
     name: 'Encoder',
+    imageUrl: 'https://www.melonbotics.com/cdn/shop/files/IMG-8624.jpg?v=1722879907',
     sku: null,
     category: 'electronics',
     productUrl: 'https://www.melonbotics.com/products/encoder',
@@ -273,6 +300,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'melonbotics',
     name: 'Nano Encoder',
+    imageUrl: 'https://www.melonbotics.com/cdn/shop/files/DSC08830.jpg?v=1778307224',
     sku: null,
     category: 'electronics',
     productUrl: 'https://www.melonbotics.com/products/nano-encoder',
@@ -281,6 +309,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'melonbotics',
     name: 'Thin Section Bearings',
+    imageUrl: 'https://www.melonbotics.com/cdn/shop/files/IMG-0642.jpg?v=1732100982',
     sku: null,
     category: 'hardware',
     productUrl: 'https://www.melonbotics.com/products/thin-section-bearings',
@@ -289,6 +318,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'melonbotics',
     name: 'PWM Extension Cables',
+    imageUrl: 'https://www.melonbotics.com/cdn/shop/files/4594E189-627D-422F-8563-00B3B8E41ACC.jpg?v=1704254913',
     sku: null,
     category: 'electronics',
     productUrl: 'https://www.melonbotics.com/products/pwm-extension-cables',
@@ -299,6 +329,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'offsetrobotics',
     name: 'Threaded Square Beam Bundle (64 pack)',
+    imageUrl: 'https://www.offsetrobotics.com/wp-content/uploads/2025/10/Square-Beam-Thumbnail-scaled.png',
     sku: null,
     category: 'hardware',
     productUrl: 'https://www.offsetrobotics.com/product/threaded-square-beam-bundle/',
@@ -307,6 +338,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'offsetrobotics',
     name: '4 Hole Threaded Square Beam',
+    imageUrl: 'https://www.offsetrobotics.com/wp-content/uploads/2025/10/4-Hole-Threaded-Square-Beam-scaled.png',
     sku: null,
     category: 'hardware',
     productUrl: 'https://www.offsetrobotics.com/product/4-hole-threaded-square-beam/',
@@ -315,6 +347,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'offsetrobotics',
     name: 'Angled Mounting Block Bundle (56 pack)',
+    imageUrl: 'https://www.offsetrobotics.com/wp-content/uploads/2025/10/Mounting-Gusset-Bundle-scaled.png',
     sku: null,
     category: 'hardware',
     productUrl: 'https://www.offsetrobotics.com/product/angled-mounting-block-bundle/',
@@ -323,6 +356,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'offsetrobotics',
     name: '45 Degree Mounting Block',
+    imageUrl: 'https://www.offsetrobotics.com/wp-content/uploads/2025/11/45-scaled.png',
     sku: null,
     category: 'hardware',
     productUrl: 'https://www.offsetrobotics.com/product/45-degree-mounting-block/',
@@ -331,6 +365,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'offsetrobotics',
     name: 'Ultimate Box Tube Kit (Combo Deal)',
+    imageUrl: 'https://www.offsetrobotics.com/wp-content/uploads/2025/07/Your-paragraph-text41.png',
     sku: null,
     category: 'motion',
     productUrl: 'https://www.offsetrobotics.com/product/combo-deal-ultimate-box-tube-kit/',
@@ -340,6 +375,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'offsetrobotics',
     name: 'Offset Robotics Mounting Block',
+    imageUrl: 'https://www.offsetrobotics.com/wp-content/uploads/2025/10/Offset-Robotics-Threaded-Mounting-Block-scaled.png',
     sku: null,
     category: 'hardware',
     productUrl: 'https://www.offsetrobotics.com/product/offset-robotics-mounting-block/',
@@ -350,6 +386,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'mata',
     name: 'MATA Torque Servo',
+    imageUrl: 'http://www.matarobotics.net/cdn/shop/files/1b071bc639cb572e029de5f3592a369b.png?v=1772316643',
     sku: null,
     category: 'servos',
     productUrl: 'https://www.matarobotics.net/products/mata-torque-servo',
@@ -358,6 +395,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'mata',
     name: 'MATA Speed Servo',
+    imageUrl: 'http://www.matarobotics.net/cdn/shop/files/364f331b1e9946ec8a58fd4a0bc9d2a4_2.png?v=1781791655',
     sku: null,
     category: 'servos',
     productUrl:
@@ -367,6 +405,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'mata',
     name: 'MATA Torque V2',
+    imageUrl: 'http://www.matarobotics.net/cdn/shop/files/c188e7561ea8d2f0b65d9c8e065a207f.png?v=1782405662',
     sku: null,
     category: 'servos',
     productUrl: 'https://www.matarobotics.net/products/mata-torque-v2-beta-pre-order-phase',
@@ -375,6 +414,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'mata',
     name: 'Servo Programmer',
+    imageUrl: 'http://www.matarobotics.net/cdn/shop/files/ChatGPTImageJun19_2026_11_09_22AM.png?v=1781885472',
     sku: null,
     category: 'electronics',
     productUrl: 'https://www.matarobotics.net/products/servo-programmer',
@@ -383,6 +423,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'mata',
     name: 'MATA Pro Servo Extension Cable (Shielded, Braided, FTC Legal)',
+    imageUrl: 'http://www.matarobotics.net/cdn/shop/files/cb16519ee03af4a3710175983f9f5b85_0f7f460c-a8ef-4931-8147-6181faa2c33d.png?v=1772317876',
     sku: null,
     category: 'electronics',
     productUrl:
@@ -392,6 +433,7 @@ export const standardParts: SeedPart[] = [
   {
     manufacturerSlug: 'mata',
     name: '16T GT2 Pulleys',
+    imageUrl: 'http://www.matarobotics.net/cdn/shop/files/Untitleddesign_1_a4b7258d-a370-475a-aecb-2e7d06ff21b3.png?v=1781882663',
     sku: null,
     category: 'shaft-attachments',
     productUrl: 'https://www.matarobotics.net/products/gt2-pulleys-beta-pre-order-phase-copy',

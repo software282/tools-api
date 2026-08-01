@@ -20,7 +20,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "images": "tsx scripts/fetch-part-images.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
