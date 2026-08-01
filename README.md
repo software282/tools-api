@@ -77,6 +77,7 @@ Useful scripts:
 | `npm run openapi` | Write `openapi.json` (no database required) |
 | `npm run accuracy` | Score receipt parsing against the labelled corpus |
 | `npm run db:check` | Diagnose Supabase connection, schema, seed, and storage |
+| `npm run images` | Fill in missing part images from each vendor's product page |
 | `npm run build` / `npm start` | Compile to `dist/` and run |
 | `npm run prisma:studio` | Browse the database |
 
@@ -173,6 +174,16 @@ immediately rather than at token expiry. Two error codes need explicit handling:
 
 - `TOKEN_REVOKED` — the password changed; log in again.
 - `ACCOUNT_GONE` — the account was deleted.
+
+**Part images.** Every part has an `imageUrl`, so a catalogue never has to render a
+gap. 42 of 47 point at the vendor's own product image; the other 5 carry a
+self-contained placeholder SVG, because their vendor page exposes no usable image
+(four uxcell belts listed on Amazon, and one REV part whose page now 404s).
+
+A placeholder is a `data:` URI, so `imageUrl.startsWith('data:')` identifies one
+if you want to style it differently — a subtle "image coming soon" treatment, say.
+Do not assume every image is a remote URL. Real images will replace these as they
+are sourced, with no API change.
 
 **Home screen.** `GET /dashboard` returns counts only, in one call: parts tracked,
 total units held, low-stock count, receipts awaiting review, receipts that failed,

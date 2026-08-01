@@ -14,6 +14,20 @@ export interface SeedPart {
   description?: string;
 }
 
+/**
+ * Stand-in for parts whose vendor page exposes no usable product image.
+ *
+ * A self-contained SVG data URI rather than a hosted file: it needs no bucket,
+ * no CDN, and no deployed base URL, so it renders identically in local dev and
+ * in production. A frontend can spot one with `imageUrl.startsWith("data:")` if
+ * it wants to style these differently.
+ *
+ * Replace by dropping a real URL into the part below, or by re-running
+ * `npm run images`, which treats a placeholder as still-missing.
+ */
+export const PLACEHOLDER_IMAGE =
+  'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlByb2R1Y3QgaW1hZ2UgY29taW5nIHNvb24iPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjFmM2Y1Ii8+PHJlY3QgeD0iMC41IiB5PSIwLjUiIHdpZHRoPSIzOTkiIGhlaWdodD0iMjk5IiBmaWxsPSJub25lIiBzdHJva2U9IiNjZWQ0ZGEiIHN0cm9rZS1kYXNoYXJyYXk9IjggNiIvPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2FkYjViZCIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIxNTAiIHk9IjEwNiIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI3OCIgcng9IjYiLz48cGF0aCBkPSJNMTUwIDE2NGwyNi0yNCAyMCAxOCAyNi0zMCAyOCAzMiIvPjwvZz48Y2lyY2xlIGN4PSIxNzgiIGN5PSIxMzAiIHI9IjciIGZpbGw9IiNhZGI1YmQiLz48dGV4dCB4PSIyMDAiIHk9IjIxNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwtYXBwbGUtc3lzdGVtLFNlZ29lIFVJLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM4NjhlOTYiPkltYWdlIGNvbWluZyBzb29uPC90ZXh0Pjwvc3ZnPg==';
+
 export const standardParts: SeedPart[] = [
   // ── goBILDA ──────────────────────────────────────────────────────────
   {
@@ -153,6 +167,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'rev',
     name: '15mm Extrusion - 1m - 90 Degree Ends',
     sku: 'REV-41-1017',
+    imageUrl: PLACEHOLDER_IMAGE,
     category: 'hardware',
     productUrl: 'https://www.revrobotics.com/rev-41-1017/',
     description:
@@ -445,6 +460,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'uxcell',
     name: 'uxcell 10pcs 2GT Timing Belt Closed Loop 96-2GT-6 (6mm Width x 96mm Length)',
     sku: 'B0CTKGLQ9N',
+    imageUrl: PLACEHOLDER_IMAGE,
     category: 'belts',
     productUrl: 'https://www.amazon.com/uxcell-Timing-Closed-Rubber-Belts/dp/B0CTKGLQ9N',
     description: 'Ten-pack of 96mm closed-loop 2mm-pitch (GT2) 6mm-wide rubber timing belts.',
@@ -453,6 +469,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'uxcell',
     name: 'uxcell 10pcs 2GT Timing Belt Closed Loop 150-2GT-6 (6mm Width x 150mm Length)',
     sku: 'B0CM6M1MYM',
+    imageUrl: PLACEHOLDER_IMAGE,
     category: 'belts',
     productUrl: 'https://www.amazon.com/uxcell-Timing-Closed-150-2GT-6-Printer/dp/B0CM6M1MYM',
     description: 'Ten-pack of 150mm closed-loop GT2 6mm-wide rubber timing belts.',
@@ -461,6 +478,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'uxcell',
     name: 'uxcell 15pcs 2GT Timing Belt Closed Loop 200-2GT-6 (6mm Width x 200mm Length)',
     sku: 'B0CZLSYD1W',
+    imageUrl: PLACEHOLDER_IMAGE,
     category: 'belts',
     productUrl: 'https://www.amazon.com/uxcell-Timing-Closed-Rubber-Belts/dp/B0CZLSYD1W',
     description: 'Fifteen-pack of 200mm closed-loop GT2 6mm-wide rubber timing belts.',
@@ -469,6 +487,7 @@ export const standardParts: SeedPart[] = [
     manufacturerSlug: 'uxcell',
     name: 'uxcell 6pcs 2GT Closed Loop Timing Belt Assorted (110/158/200/300/400/610mm, 6mm Width)',
     sku: 'B0CMT5YTFQ',
+    imageUrl: PLACEHOLDER_IMAGE,
     category: 'belts',
     productUrl: 'https://www.amazon.com/uxcell-Closed-Timing-Assorted-Printer/dp/B0CMT5YTFQ',
     description: 'Assorted six-pack of closed-loop GT2 6mm-wide timing belts spanning 110mm to 610mm.',

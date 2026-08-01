@@ -403,8 +403,8 @@ accuracy reflects real receipts.
 
 | Gap | Why it matters | Cost |
 |---|---|---|
-| **No product images** — 48 seeded parts, 0 `imageUrl` | A parts catalog is mostly images; otherwise the browse screen gets designed twice | Needs real vendor image URLs |
-| **No dashboard endpoint** | A home screen is near-certain, and otherwise needs 4–5 calls aggregated client-side | ~1 hour |
+| ~~No product images~~ | **Done.** 42/47 carry the vendor's own product image; the remaining 5 use a self-contained placeholder SVG, so the catalogue never renders a gap | — |
+| ~~No dashboard endpoint~~ | **Done.** `GET /dashboard` returns every count a home screen needs in one call | — |
 | ~~No low-stock threshold~~ | **Done.** `minQuantity` + `isLow` on every row, `GET /inventory?lowStock=true` for the reorder list, and a `LowStock` column in the CSV export | — |
 
 The third is the only one with a deadline: adding a column before the first

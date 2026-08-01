@@ -40,14 +40,20 @@ function extractOgImage(html: string): string | null {
 }
 
 async function main() {
+  // A placeholder counts as still-missing: re-running should try to upgrade it
+  // to a real product image, not skip it as already done.
+  const stillNeedsOne = {
+    OR: [{ imageUrl: null }, { imageUrl: { startsWith: 'data:' } }],
+  };
+
   const parts = await prisma.part.findMany({
-    where: { productUrl: { not: null }, ...(force ? {} : { imageUrl: null }) },
+    where: { productUrl: { not: null }, ...(force ? {} : stillNeedsOne) },
     select: { id: true, name: true, productUrl: true, manufacturer: { select: { slug: true } } },
     orderBy: { name: 'asc' },
   });
 
   if (parts.length === 0) {
-    console.log('Every part already has an image. Use --force to re-fetch.');
+    console.log('Every part already has a real image. Use --force to re-fetch.');
     return;
   }
 
@@ -87,8 +93,14 @@ async function main() {
   }
 
   const total = await prisma.part.count();
-  const withImage = await prisma.part.count({ where: { imageUrl: { not: null } } });
-  console.log(`\n${found} fetched this run. ${withImage}/${total} parts now have an image.`);
+  const real = await prisma.part.count({
+    where: { imageUrl: { not: null }, NOT: { imageUrl: { startsWith: 'data:' } } },
+  });
+  const placeholders = await prisma.part.count({ where: { imageUrl: { startsWith: 'data:' } } });
+  console.log(
+    `\n${found} fetched this run. ${real}/${total} parts have a real image` +
+      (placeholders ? `, ${placeholders} on the placeholder.` : '.'),
+  );
 }
 
 main()
