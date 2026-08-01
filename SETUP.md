@@ -288,6 +288,21 @@ typechecks, but neither has executed. If something breaks, it is most likely her
       - `http://localhost:3000/docs` → Swagger UI (development only)
       - `http://localhost:3000/api/v1/parts` → the seeded library, no auth needed
 
+- [ ] **4.6** 🔑 **Rotate the database password now.**
+
+      It was pasted into a chat transcript during setup, so it exists somewhere it
+      was not meant to. This is the right moment to replace it: the database is
+      still empty, and `.env` is the only place the password lives. After Phase 5
+      it guards real team data, and after Phase 7 it also lives in a hosting
+      provider's secrets — both make this more work and more consequential.
+
+      Worth understanding why it matters: the pooler host is reachable from the
+      internet, so this password alone grants direct database access, bypassing
+      every auth check, team-scoping rule, and rate limit in the API.
+
+      **Project Settings → Database → Reset database password**, then update it in
+      both `DATABASE_URL` and `DIRECT_URL` and re-run `npm run db:check`.
+
 **Success:** `/api/v1/parts` returns real parts. **This is the first moment any
 endpoint has worked**, and the point at which design has a live API to build
 against.
