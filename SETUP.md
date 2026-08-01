@@ -7,16 +7,19 @@ database, ready to hand to Claude design.
 
 | Phase | Status |
 |---|---|
-| 1 — GitHub repo and first commit | **Done** — pushed to `software282/tools-api`, CI green, public with all rights reserved |
-| 2 — Supabase project | Not started |
-| 3 — Local configuration | Not started |
-| 4 — Schema and seed | Not started — **the database has still never been connected** |
+| 1 — GitHub repo and first commit | **Done** — `software282/tools-api`, CI green, public with all rights reserved |
+| 2 — Supabase project | **Done** except the two API keys in 2.11 |
+| 3 — Local configuration | **Done** except `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY`. `db:check` reports **database connection succeeded** |
+| 4 — Schema and seed | ← **you are here.** Nothing has been migrated or seeded yet |
 | 5 — Prove the flows | Blocked on 4 |
 | 6 — Real accuracy corpus | Blocked on 5 |
 | 7 — Deployment | Can start any time |
-| 8 — Hand off to design | Ready now; better after 4 |
+| 8 — Hand off to design | Possible now; much better after 4 |
 
-Typecheck, 99 tests, the accuracy harness, the production build, and the 28-path
+**Immediate next action:** paste the two keys from Supabase → Settings → API into
+`.env`, then run `npm run db:check`.
+
+Typecheck, 106 tests, the accuracy harness, the production build, and the 29-path
 OpenAPI export all pass on the pushed commit.
 
 Phases are ordered by dependency. Phase 4 is the one that makes any endpoint work
@@ -66,7 +69,7 @@ for the first time.
 
 ---
 
-## Phase 2 — Supabase project
+## Phase 2 — Supabase project ✅ (except the two API keys)
 
 Dashboard labels shift between Supabase releases. Navigate by the *concepts*
 below — transaction pooler, session pooler, service role, exposed schemas — not
@@ -74,14 +77,14 @@ by exact button text.
 
 ### Create the project
 
-- [ ] **2.1** Sign in at <https://supabase.com/dashboard>. Signing in with GitHub
+- [x] **2.1** Sign in at <https://supabase.com/dashboard>. Signing in with GitHub
       is simplest since you already have an account.
 
-- [ ] **2.2** Create an organisation if this is your first project. Name it for
+- [x] **2.2** Create an organisation if this is your first project. Name it for
       the team (e.g. `Seattle Solvers`), not for yourself — an org can gain members
       and change owners when you graduate.
 
-- [ ] **2.3** **New project**, then:
+- [x] **2.3** **New project**, then:
       - **Name:** `tools-api` (matching the repo keeps things findable)
       - **Database password:** generate a strong one and **save it to a password
         manager immediately** — it is shown once and can only be reset, not
@@ -94,12 +97,12 @@ by exact button text.
         (Oregon)**. It becomes part of the connection host.
       - **Plan:** Free is sufficient.
 
-- [ ] **2.4** Wait for provisioning (~2 minutes) before continuing — the
+- [x] **2.4** Wait for provisioning (~2 minutes) before continuing — the
       connection strings are not final until it finishes.
 
 ### Close the Data API hole ⚠️
 
-- [ ] **2.5** **Stop the `public` schema being exposed through the Data API.**
+- [x] **2.5** **Stop the `public` schema being exposed through the Data API.**
 
       This is the most important step in Phase 2, and it is easy to miss because
       nothing appears broken if you skip it.
@@ -127,7 +130,7 @@ by exact button text.
 
 ### Storage
 
-- [ ] **2.6** Create a Storage bucket named exactly **`receipts`**
+- [x] **2.6** Create a Storage bucket named exactly **`receipts`**
       (Storage → New bucket). The name must match `SUPABASE_RECEIPTS_BUCKET`.
 
 - [x] **2.7** **Leave "Restrict file size" and "Restrict MIME types" off.** The
@@ -166,7 +169,7 @@ by exact button text.
 
 ### Credentials
 
-- [ ] **2.9** From **Project → Connect**, copy both connection strings. Do not
+- [x] **2.9** From **Project → Connect**, copy both connection strings. Do not
       hand-build them; the username format differs per mode.
       - Transaction pooler, port **6543** → `DATABASE_URL`
       - Session pooler, port **5432** → `DIRECT_URL`
@@ -180,7 +183,7 @@ by exact button text.
       password from 2.3, percent-encoding it if it contains URI-special
       characters.
 
-- [ ] **2.10** Append `?pgbouncer=true&connection_limit=1` to `DATABASE_URL`
+- [x] **2.10** Append `?pgbouncer=true&connection_limit=1` to `DATABASE_URL`
       only. Without it, Prisma's prepared statements fail intermittently against
       the transaction pooler, and the symptom appears much later as random query
       errors. Leave `DIRECT_URL` unmodified.
@@ -201,20 +204,20 @@ and three API values. Nothing is written to `.env` yet — that is Phase 3.
 
 ---
 
-## Phase 3 — Local configuration
+## Phase 3 — Local configuration ✅ (except the two API keys)
 
-- [ ] **3.1** Create `.env`:
+- [x] **3.1** Create `.env`:
       ```bash
       cp .env.example .env
       ```
 
-- [ ] **3.2** Generate a real `JWT_SECRET` (anything under 16 chars is rejected at
+- [x] **3.2** Generate a real `JWT_SECRET` (anything under 16 chars is rejected at
       boot):
       ```bash
       node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
       ```
 
-- [ ] **3.3** Fill in `DATABASE_URL` and `DIRECT_URL` from 2.5. Keep
+- [x] **3.3** Fill in `DATABASE_URL` and `DIRECT_URL` from 2.5. Keep
       `?pgbouncer=true&connection_limit=1` on `DATABASE_URL` — without it Prisma's
       prepared statements fail intermittently against the transaction pooler, in a
       way that looks like random query errors much later.
@@ -222,7 +225,7 @@ and three API values. Nothing is written to `.env` yet — that is Phase 3.
 - [ ] **3.4** Fill in `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
       `SUPABASE_SERVICE_ROLE_KEY`. Leave `SUPABASE_RECEIPTS_BUCKET=receipts`.
 
-- [ ] **3.5** Set `SUPER_ADMIN_PASSWORD` to **12+ characters**. It is currently
+- [x] **3.5** Set `SUPER_ADMIN_PASSWORD` to **12+ characters**. It is currently
       `change-me` and the seed will refuse it. This account approves parts for
       every team — use a real password from a manager.
 
@@ -230,10 +233,10 @@ and three API values. Nothing is written to `.env` yet — that is Phase 3.
       receipt layouts no vendor parser recognises; pasted confirmations, PDFs, and
       clear photos all work without it.
 
-- [ ] **3.7** Set `CORS_ORIGINS` to your frontend origin(s), comma-separated.
+- [x] **3.7** Set `CORS_ORIGINS` to your frontend origin(s), comma-separated.
       `http://localhost:5173` is fine for now.
 
-- [ ] **3.8** Run the preflight:
+- [x] **3.8** Run the preflight:
       ```bash
       npm run db:check
       ```
