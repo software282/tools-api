@@ -19,6 +19,7 @@ import authPlugin from './plugins/auth.js';
 
 import authRoutes from './modules/auth/routes.js';
 import catalogRoutes from './modules/catalog/routes.js';
+import dashboardRoutes from './modules/dashboard/routes.js';
 import partsRoutes from './modules/parts/routes.js';
 import inventoryRoutes from './modules/inventory/routes.js';
 import receiptRoutes from './modules/receipts/routes.js';
@@ -163,6 +164,7 @@ export async function buildServer() {
     async (api) => {
       await api.register(authRoutes, { prefix: '/auth' });
       await api.register(catalogRoutes);
+      await api.register(dashboardRoutes, { prefix: '/dashboard' });
       await api.register(partsRoutes, { prefix: '/parts' });
       await api.register(inventoryRoutes, { prefix: '/inventory' });
       await api.register(receiptRoutes, { prefix: '/receipts' });

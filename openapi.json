@@ -760,6 +760,102 @@
         }
       }
     },
+    "/api/v1/dashboard": {
+      "get": {
+        "summary": "Counts for a home screen, in a single call",
+        "tags": [
+          "dashboard"
+        ],
+        "description": "Everything a landing page needs without fanning out to several endpoints. `team` is null for a caller with no team; `admin` is null unless the caller is SUPER_ADMIN. Fetch the corresponding lists from /inventory, /receipts, and /admin/submissions.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "trackedParts": {
+                          "type": "integer"
+                        },
+                        "totalUnits": {
+                          "type": "integer"
+                        },
+                        "lowStockCount": {
+                          "type": "integer"
+                        },
+                        "receiptsNeedingReview": {
+                          "type": "integer"
+                        },
+                        "receiptsFailed": {
+                          "type": "integer"
+                        },
+                        "receiptsTotal": {
+                          "type": "integer"
+                        },
+                        "customParts": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "trackedParts",
+                        "totalUnits",
+                        "lowStockCount",
+                        "receiptsNeedingReview",
+                        "receiptsFailed",
+                        "receiptsTotal",
+                        "customParts"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    },
+                    "library": {
+                      "type": "object",
+                      "properties": {
+                        "availableParts": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "availableParts"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "admin": {
+                      "type": "object",
+                      "properties": {
+                        "pendingSubmissions": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "pendingSubmissions"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "team",
+                    "library",
+                    "admin"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/parts": {
       "get": {
         "summary": "Search the parts library (global + your team's custom parts)",

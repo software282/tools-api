@@ -42,6 +42,8 @@ describe('API contract', () => {
     // Both receipt entry points: pasting is the common case, upload the fallback.
     expect(spec.paths['/api/v1/receipts'].post).toBeDefined();
     expect(spec.paths['/api/v1/receipts/upload'].post).toBeDefined();
+    // One call for a home screen, so a dashboard need not fan out.
+    expect(spec.paths['/api/v1/dashboard'].get).toBeDefined();
   });
 
   // The receipts bucket is private, because order confirmations carry a name and
@@ -93,6 +95,7 @@ describe('API contract', () => {
       ['GET', '/api/v1/teams/members', undefined],
       ['GET', '/api/v1/teams/current', undefined],
       ['GET', '/api/v1/auth/me', undefined],
+      ['GET', '/api/v1/dashboard', undefined],
       ['GET', '/api/v1/admin/submissions', undefined],
       ['DELETE', '/api/v1/parts/some-id', undefined],
       ['DELETE', '/api/v1/inventory/some-id', undefined],

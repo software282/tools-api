@@ -125,6 +125,7 @@ create, or team join.
 | | `DELETE /teams/members/:userId` | Remove from team (account is kept, access revoked immediately) |
 | | `POST /teams/join` | Join with an **existing** account (must be teamless) |
 | | `POST /teams/invite-code/rotate` | Issue a new code, invalidating the old one (`TEAM_ADMIN`) |
+| Dashboard | `GET /dashboard` | Every count a home screen needs, in one call |
 | Catalog | `GET /categories`, `GET /manufacturers` | Reference data for filters |
 | Parts | `GET /parts` | Search (`q`, `category`, `manufacturer`, `scope`, `ownedOnly`, paging) |
 | | `GET /parts/:id` | Single part |
@@ -172,6 +173,13 @@ immediately rather than at token expiry. Two error codes need explicit handling:
 
 - `TOKEN_REVOKED` — the password changed; log in again.
 - `ACCOUNT_GONE` — the account was deleted.
+
+**Home screen.** `GET /dashboard` returns counts only, in one call: parts tracked,
+total units held, low-stock count, receipts awaiting review, receipts that failed,
+custom parts, and — for a `SUPER_ADMIN` — submissions pending approval. `team` is
+null for a caller with no team, `admin` null unless they are a `SUPER_ADMIN`.
+Fetch the matching *lists* from `/inventory`, `/receipts`, and
+`/admin/submissions`, which already page and filter.
 
 **Low stock.** Each inventory row carries `minQuantity` (the level the team wants
 to keep) and `isLow`. A `minQuantity` of 0 means *not tracked*, so the feature is
