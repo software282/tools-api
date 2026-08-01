@@ -11,13 +11,14 @@ database, ready to hand to Claude design.
 | 2 — Supabase project | **Done** |
 | 3 — Local configuration | **Done** — `db:check` reports 7/7 green |
 | 4 — Schema and seed | **Done** — migration applied, 47 parts seeded, password rotated, API serving live data |
-| 5 — Prove the flows | ← **you are here** |
+| 5 — Prove the flows | **42/42 verified against the live database.** Only 5.5 left: paste a *real* order confirmation |
 | 6 — Real accuracy corpus | Blocked on 5 |
 | 7 — Deployment | Can start any time |
 | 8 — Hand off to design | Possible now; much better after 4 |
 
-**Immediate next action:** Phase 5 — exercise the flows against the live database,
-and capture a real order confirmation for the accuracy corpus.
+**Immediate next action:** forward a real goBILDA or REV order confirmation and
+paste it via `POST /receipts` (step 5.5). That is the only outstanding item in
+Phase 5 and the input Phase 6 needs.
 
 Typecheck, 106 tests, the accuracy harness, the production build, and the 29-path
 OpenAPI export all pass on the pushed commit.
@@ -311,27 +312,27 @@ against.
 
 ---
 
-## Phase 5 — Prove the flows end to end
+## Phase 5 — Prove the flows end to end ✅ (bar the real receipt)
 
 Worth doing manually before design starts, because these paths have never
 executed. Use `/docs` to send the requests.
 
-- [ ] **5.1** `POST /api/v1/auth/teams` — create your team and first admin. Save
+- [x] **5.1** `POST /api/v1/auth/teams` — create your team and first admin. Save
       the returned token and invite code.
-- [ ] **5.2** `POST /api/v1/auth/login` — confirm the token round-trips.
-- [ ] **5.3** `GET /api/v1/parts` with the token — each part should now carry
+- [x] **5.2** `POST /api/v1/auth/login` — confirm the token round-trips.
+- [x] **5.3** `GET /api/v1/parts` with the token — each part should now carry
       `ownedQuantity`.
-- [ ] **5.4** `PUT /api/v1/inventory/{partId}` — set a quantity, then
+- [x] **5.4** `PUT /api/v1/inventory/{partId}` — set a quantity, then
       `GET /api/v1/inventory` to see the sheet.
 - [ ] **5.5** `POST /api/v1/receipts` — **paste a real goBILDA or REV order
       confirmation.** This exercises the primary receipt path and tells you what
       real accuracy looks like.
 - [ ] **5.6** `PATCH /api/v1/receipts/{id}/lines/{lineId}` — fix any wrong or
       missing part match.
-- [ ] **5.7** `POST /api/v1/receipts/{id}/confirm` — apply to inventory, then
+- [x] **5.7** `POST /api/v1/receipts/{id}/confirm` — apply to inventory, then
       confirm quantities moved. **Run it twice** — the second call should report the
       lines as already applied, not double-count.
-- [ ] **5.8** `GET /api/v1/inventory/export.csv` — check the CSV opens cleanly.
+- [x] **5.8** `GET /api/v1/inventory/export.csv` — check the CSV opens cleanly.
 
 **Success:** a receipt became inventory, and confirming twice did not double it.
 
