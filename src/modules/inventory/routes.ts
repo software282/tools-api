@@ -7,9 +7,24 @@ import { badRequest, notFound } from '../../lib/errors.js';
 import { partSchema } from '../parts/schemas.js';
 import { visibilityFilter } from '../parts/service.js';
 
+/**
+ * Whether a part counts as running low.
+ *
+ * A threshold of 0 means "not tracked", so this is opt-in per part rather than
+ * flagging every empty row. Exported because it is the whole rule, and the one
+ * piece of low-stock logic worth testing directly.
+ */
+export function isLowStock(quantity: number, minQuantity: number): boolean {
+  return minQuantity > 0 && quantity < minQuantity;
+}
+
 const inventoryItemSchema = z.object({
   partId: z.string(),
   quantity: z.number().int(),
+  /** Stock level the team wants to keep. 0 means not tracked. */
+  minQuantity: z.number().int(),
+  /** True when `quantity` has fallen below a `minQuantity` that was set. */
+  isLow: z.boolean(),
   location: z.string().nullable(),
   notes: z.string().nullable(),
   updatedAt: z.string(),
@@ -22,6 +37,8 @@ const listQuery = z.object({
   manufacturer: z.string().optional(),
   // Hide zero-quantity rows (parts a team once tracked but no longer holds).
   includeZero: z.coerce.boolean().default(true),
+  /** Only parts that have fallen below a threshold — the reorder list. */
+  lowStock: z.coerce.boolean().optional(),
   page: z.coerce.number().int().positive().default(1),
   pageSize: z.coerce.number().int().positive().max(200).default(50),
 });
@@ -36,12 +53,15 @@ const paginatedInventory = z.object({
 
 const setQtyBody = z.object({
   quantity: z.number().int().min(0),
+  /** Set to 0 to stop tracking a low-stock threshold for this part. */
+  minQuantity: z.number().int().min(0).max(100000).optional(),
   location: z.string().max(120).optional(),
   notes: z.string().max(1000).optional(),
 });
 
 const adjustBody = z.object({
   delta: z.number().int(),
+  minQuantity: z.number().int().min(0).max(100000).optional(),
   location: z.string().max(120).optional(),
   notes: z.string().max(1000).optional(),
 });
@@ -49,6 +69,14 @@ const adjustBody = z.object({
 function buildWhere(teamId: string, q: z.infer<typeof listQuery>): Prisma.InventoryItemWhereInput {
   const and: Prisma.InventoryItemWhereInput[] = [{ teamId }];
   if (!q.includeZero) and.push({ quantity: { gt: 0 } });
+  if (q.lowStock) {
+    // Compare two columns on the same row via a Prisma field reference, so the
+    // filter stays in SQL and pagination counts remain correct.
+    and.push({
+      minQuantity: { gt: 0 },
+      quantity: { lt: prisma.inventoryItem.fields.minQuantity },
+    });
+  }
   if (q.q) {
     and.push({
       part: {
@@ -73,6 +101,7 @@ const partInclude = {
 function serializeRow(row: {
   partId: string;
   quantity: number;
+  minQuantity: number;
   location: string | null;
   notes: string | null;
   updatedAt: Date;
@@ -82,6 +111,8 @@ function serializeRow(row: {
   return {
     partId: row.partId,
     quantity: row.quantity,
+    minQuantity: row.minQuantity,
+    isLow: isLowStock(row.quantity, row.minQuantity),
     location: row.location,
     notes: row.notes,
     updatedAt: row.updatedAt.toISOString(),
@@ -171,12 +202,14 @@ const routes = async (app: FastifyInstance) => {
     async (req) => {
       const teamId = req.auth!.teamId!;
       await assertPartVisible(req.params.partId, teamId);
-      const { quantity, location, notes } = req.body;
+      const { quantity, minQuantity, location, notes } = req.body;
 
       const row = await prisma.inventoryItem.upsert({
         where: { teamId_partId: { teamId, partId: req.params.partId } },
-        create: { teamId, partId: req.params.partId, quantity, location, notes },
-        update: { quantity, location, notes },
+        create: { teamId, partId: req.params.partId, quantity, minQuantity, location, notes },
+        // Omitted minQuantity leaves an existing threshold alone, so setting a
+        // quantity never silently clears one.
+        update: { quantity, location, notes, ...(minQuantity !== undefined ? { minQuantity } : {}) },
         include: { part: { include: partInclude } },
       });
       return serializeRow(row);
@@ -199,7 +232,7 @@ const routes = async (app: FastifyInstance) => {
     async (req) => {
       const teamId = req.auth!.teamId!;
       await assertPartVisible(req.params.partId, teamId);
-      const { delta, location, notes } = req.body;
+      const { delta, minQuantity, location, notes } = req.body;
 
       const existing = await prisma.inventoryItem.findUnique({
         where: { teamId_partId: { teamId, partId: req.params.partId } },
@@ -211,9 +244,10 @@ const routes = async (app: FastifyInstance) => {
 
       const row = await prisma.inventoryItem.upsert({
         where: { teamId_partId: { teamId, partId: req.params.partId } },
-        create: { teamId, partId: req.params.partId, quantity: nextQty, location, notes },
+        create: { teamId, partId: req.params.partId, quantity: nextQty, minQuantity, location, notes },
         update: {
           quantity: nextQty,
+          ...(minQuantity !== undefined ? { minQuantity } : {}),
           ...(location !== undefined ? { location } : {}),
           ...(notes !== undefined ? { notes } : {}),
         },
@@ -275,6 +309,8 @@ const routes = async (app: FastifyInstance) => {
         'Part',
         'SKU',
         'Quantity',
+        'MinQuantity',
+        'LowStock',
         'Location',
         'Notes',
         'ProductURL',
@@ -287,6 +323,8 @@ const routes = async (app: FastifyInstance) => {
           p.name,
           p.sku ?? '',
           String(row.quantity),
+          row.minQuantity === 0 ? '' : String(row.minQuantity),
+          isLowStock(row.quantity, row.minQuantity) ? 'YES' : '',
           row.location ?? '',
           row.notes ?? '',
           p.productUrl ?? '',

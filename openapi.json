@@ -1595,6 +1595,14 @@
           },
           {
             "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "lowStock",
+            "required": false
+          },
+          {
+            "schema": {
               "type": "integer",
               "exclusiveMinimum": true,
               "minimum": 0,
@@ -1640,6 +1648,12 @@
                           },
                           "quantity": {
                             "type": "integer"
+                          },
+                          "minQuantity": {
+                            "type": "integer"
+                          },
+                          "isLow": {
+                            "type": "boolean"
                           },
                           "location": {
                             "type": "string",
@@ -1769,6 +1783,8 @@
                         "required": [
                           "partId",
                           "quantity",
+                          "minQuantity",
+                          "isLow",
                           "location",
                           "notes",
                           "updatedAt",
@@ -1822,6 +1838,11 @@
                     "type": "integer",
                     "minimum": 0
                   },
+                  "minQuantity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
                   "location": {
                     "type": "string",
                     "maxLength": 120
@@ -1867,6 +1888,12 @@
                     },
                     "quantity": {
                       "type": "integer"
+                    },
+                    "minQuantity": {
+                      "type": "integer"
+                    },
+                    "isLow": {
+                      "type": "boolean"
                     },
                     "location": {
                       "type": "string",
@@ -1996,6 +2023,8 @@
                   "required": [
                     "partId",
                     "quantity",
+                    "minQuantity",
+                    "isLow",
                     "location",
                     "notes",
                     "updatedAt",
@@ -2062,6 +2091,11 @@
                   "delta": {
                     "type": "integer"
                   },
+                  "minQuantity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
                   "location": {
                     "type": "string",
                     "maxLength": 120
@@ -2107,6 +2141,12 @@
                     },
                     "quantity": {
                       "type": "integer"
+                    },
+                    "minQuantity": {
+                      "type": "integer"
+                    },
+                    "isLow": {
+                      "type": "boolean"
                     },
                     "location": {
                       "type": "string",
@@ -2236,6 +2276,8 @@
                   "required": [
                     "partId",
                     "quantity",
+                    "minQuantity",
+                    "isLow",
                     "location",
                     "notes",
                     "updatedAt",

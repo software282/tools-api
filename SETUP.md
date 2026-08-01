@@ -250,12 +250,9 @@ schema is not applied; that is Phase 4.
 **This is the step that has never been run.** The schema validates and the seed
 typechecks, but neither has executed. If something breaks, it is most likely here.
 
-> ⏳ **Last call for free schema changes.** Adding a column before the first
-> migration costs nothing; afterwards it costs a migration. The one worth
-> considering is a low-stock threshold (`minQuantity` on `InventoryItem`) —
-> knowing before a competition that you are down to one spare motor is the most
-> useful signal an FTC inventory tool can give. Roughly an hour. See the table in
-> Phase 8; decide now or accept the migration later.
+> ✅ **`minQuantity` is done** — added before this migration, so it ships in the
+> initial schema. Each inventory row has a threshold and an `isLow` flag, and
+> `GET /inventory?lowStock=true` returns the reorder list.
 
 - [ ] **4.1** Apply the schema. This creates `prisma/migrations/` — commit it
       afterwards.
@@ -402,7 +399,7 @@ accuracy reflects real receipts.
 |---|---|---|
 | **No product images** — 48 seeded parts, 0 `imageUrl` | A parts catalog is mostly images; otherwise the browse screen gets designed twice | Needs real vendor image URLs |
 | **No dashboard endpoint** | A home screen is near-certain, and otherwise needs 4–5 calls aggregated client-side | ~1 hour |
-| **No low-stock threshold** — no `minQuantity` | The most useful signal in an FTC inventory tool: knowing before a competition you are down to one spare | ~1 hour, **free before Phase 4, needs a migration after** |
+| ~~No low-stock threshold~~ | **Done.** `minQuantity` + `isLow` on every row, `GET /inventory?lowStock=true` for the reorder list, and a `LowStock` column in the CSV export | — |
 
 The third is the only one with a deadline: adding a column before the first
 migration is free, afterwards it is a migration.

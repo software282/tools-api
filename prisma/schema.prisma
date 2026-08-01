@@ -164,10 +164,16 @@ model Part {
 // ─────────────────────────── Inventory ───────────────────────────
 
 model InventoryItem {
-  id        String   @id @default(cuid())
-  quantity  Int      @default(0)
-  location  String?
-  notes     String?
+  id       String  @id @default(cuid())
+  quantity Int     @default(0)
+  location String?
+  notes    String?
+
+  // The stock level this team wants to keep. 0 means "don't track", so the
+  // feature is opt-in per part and inert until someone sets a threshold —
+  // realistically only a handful of critical parts ever will.
+  minQuantity Int @default(0)
+
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 

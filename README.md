@@ -131,7 +131,7 @@ create, or team join.
 | | `POST /parts` | Add a team part; `submitToLibrary` queues global review |
 | | `PATCH /parts/:id` | Edit own team's custom part |
 | | `DELETE /parts/:id` | Delete own team's custom part (refused while stock > 0) |
-| Inventory | `GET /inventory` | The team's sheet (paginated) |
+| Inventory | `GET /inventory` | The team's sheet (paginated). `?lowStock=true` gives the reorder list |
 | | `PUT /inventory/:partId` | Set quantity |
 | | `POST /inventory/:partId/adjust` | Adjust by a delta |
 | | `DELETE /inventory/:partId` | Stop tracking (distinct from quantity 0) |
@@ -172,6 +172,13 @@ immediately rather than at token expiry. Two error codes need explicit handling:
 
 - `TOKEN_REVOKED` — the password changed; log in again.
 - `ACCOUNT_GONE` — the account was deleted.
+
+**Low stock.** Each inventory row carries `minQuantity` (the level the team wants
+to keep) and `isLow`. A `minQuantity` of 0 means *not tracked*, so the feature is
+opt-in per part — without that, every part run down to zero would show as an
+alert and the list would be noise. `GET /inventory?lowStock=true` is the reorder
+view, and the natural thing to surface on a dashboard: for a competition team,
+"you are down to one spare motor" is the single most actionable signal here.
 
 **Anonymous access.** `GET /parts`, `GET /parts/:id`, `GET /categories`, and
 `GET /manufacturers` work without a token and return the approved global library.
