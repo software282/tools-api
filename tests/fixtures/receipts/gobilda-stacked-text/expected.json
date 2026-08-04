@@ -1,30 +1,85 @@
 {
   "vendor": "GOBILDA",
-  "synthetic": true,
-  "note": "Invented layout in the shape a real goBILDA confirmation takes. Replace input.txt with a real one and correct this file.",
-  "orderTotal": 139.46,
-  "purchasedAt": "2026-01-23",
+  "note": "Real order confirmation (forwarded 2026-08-04). Replaced the invented layout — this is what caught the name/SKU shift bug: the parser anchored on the SKU line but the real email prints the product name twice directly above it, so collectBlocks (which only looks forward) attached each item's name to the *next* item instead. Fixed in parseBySku via moveDuplicateNameAfterSku in src/services/ocr/vendors/common.ts.",
+  "orderTotal": 267.94,
+  "purchasedAt": "2025-03-02",
   "items": [
     {
-      "sku": "5203-2402-0027",
-      "name": "5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 312 RPM)",
+      "sku": "5000-0002-4008",
+      "name": "Modern Robotics/MATRIX 12VDC Motor with 8mm REX™ Pinion Shaft",
+      "quantity": 1,
+      "unitPrice": 18.74,
+      "lineTotal": 18.74
+    },
+    {
+      "sku": "1501-0006-0520",
+      "name": "1501 Series M4 x 0.7mm Standoff (6mm OD, 52mm Length) - 4 Pack",
+      "quantity": 3,
+      "unitPrice": 4.01,
+      "lineTotal": 12.03
+    },
+    {
+      "sku": "1501-0006-0320",
+      "name": "1501 Series M4 x 0.7mm Standoff (6mm OD, 32mm Length) - 4 Pack",
       "quantity": 2,
-      "unitPrice": 43.0,
-      "lineTotal": 86.0
+      "unitPrice": 2.96,
+      "lineTotal": 5.92
     },
     {
-      "sku": "3407-0016-0002",
-      "name": "Aluminum REX Shaft - 8mm",
+      "sku": "1120-0006-0168",
+      "name": "1120 Series U-Channel (6 Hole, 168mm Length)",
+      "quantity": 2,
+      "unitPrice": 6.74,
+      "lineTotal": 13.48
+    },
+    {
+      "sku": "3310-0014-0028",
+      "name": "3310 Series 8mm Pitch Aluminum Hub Mount Sprocket (14mm Bore, 28 Tooth)",
+      "quantity": 1,
+      "unitPrice": 5.99,
+      "lineTotal": 5.99
+    },
+    {
+      "sku": "2106-4008-1920",
+      "name": "8mm REX™ Shaft with E-Clip (Stainless Steel, 192mm Length)",
+      "quantity": 1,
+      "unitPrice": 4.12,
+      "lineTotal": 4.12
+    },
+    {
+      "sku": "5203-2402-0005",
+      "name": "5203 Series Yellow Jacket Planetary Gear Motor (5.2:1 Ratio, 24mm Length 8mm REX™ Shaft, 1150 RPM, 3.3 - 5V Encoder)",
       "quantity": 4,
-      "unitPrice": 8.99,
-      "lineTotal": 35.96
+      "unitPrice": 33.74,
+      "lineTotal": 134.96
     },
     {
-      "sku": "2903-0016-0002",
-      "name": "Nylon Spacer 8mm Bore",
-      "quantity": 10,
-      "unitPrice": 0.5,
-      "lineTotal": 5.0
+      "sku": "1611-0514-0006",
+      "name": "1611 Series Flanged Ball Bearing (6mm ID x 14mm OD, 5mm Thickness) - 2 Pack",
+      "quantity": 5,
+      "unitPrice": 2.99,
+      "lineTotal": 14.95
+    },
+    {
+      "sku": "2305-0025-0012",
+      "name": "2305 Series Brass, MOD 0.8, Servo Gear (25 Tooth Spline, 12 Tooth)",
+      "quantity": 1,
+      "unitPrice": 7.49,
+      "lineTotal": 7.49
+    },
+    {
+      "sku": "3618-4008-0016",
+      "name": "Intake Roller Wheel (8mm REX™, 16mm Diameter, 16mm Width, 30A Durometer) - 8 Pack",
+      "quantity": 1,
+      "unitPrice": 9.74,
+      "lineTotal": 9.74
+    },
+    {
+      "sku": "2910-0920-4008",
+      "name": "2910 Series Aluminum Clamping Collar (8mm REX™ ID x 20mm OD, 9mm Length)",
+      "quantity": 1,
+      "unitPrice": 3.74,
+      "lineTotal": 3.74
     }
   ]
 }

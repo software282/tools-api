@@ -1,0 +1,48 @@
+# Render Blueprint — connect this repo at https://dashboard.render.com/blueprints
+# and Render reads this file automatically, building the existing Dockerfile.
+#
+# Region is `oregon` to sit next to the Supabase project, which was provisioned
+# in West US (Oregon) — see SETUP.md Phase 2. Keeping them in the same region
+# avoids cross-region latency on every query.
+#
+# `sync: false` marks a var Render will prompt for once in the dashboard and
+# never expects to find in this file — used here for anything from `.env` that
+# is a real secret or deployment-specific value. Vars the app already defaults
+# sensibly (PORT, HOST, SUPABASE_RECEIPTS_BUCKET, rate limits, JWT_EXPIRES_IN,
+# ANTHROPIC_RECEIPT_MODEL, OCR_CONFIDENCE_THRESHOLD, SUPER_ADMIN_EMAIL) are
+# deliberately left out — see src/config/env.ts for what each defaults to.
+# SUPER_ADMIN_PASSWORD is also omitted: the running server never reads it, only
+# `npm run seed` does, and seeding isn't part of this image's startup.
+#
+# PORT is intentionally not set here — Render injects its own (see
+# https://render.com/docs/web-services#port-binding), and src/server.ts already
+# binds to `env.PORT`, so whatever Render assigns is picked up automatically.
+services:
+  - name: tools-api
+    type: web
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      # Comma-separated allowed origins for the future frontend. Update once
+      # design hands back a real origin — see SETUP.md Phase 7.6.
+      - key: CORS_ORIGINS
+        sync: false
+      # Optional: only needed if a receipt layout defeats every vendor parser.
+      # Leave blank in the dashboard prompt if not using the Claude fallback yet.
+      - key: ANTHROPIC_API_KEY
+        sync: false

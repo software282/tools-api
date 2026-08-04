@@ -11,17 +11,45 @@ database, ready to hand to Claude design.
 | 2 — Supabase project | **Done** |
 | 3 — Local configuration | **Done** — `db:check` reports 7/7 green |
 | 4 — Schema and seed | **Done** — migration applied, 47 parts seeded, password rotated, API serving live data |
-| 5 — Prove the flows | **42/42 verified against the live database.** Only 5.5 left: paste a *real* order confirmation |
-| 6 — Real accuracy corpus | Blocked on 5 |
-| 7 — Deployment | Can start any time |
+| 5 — Prove the flows | **✅ 44/44 verified against the live database**, including 5.5 (found a real parser bug, see below) and 5.6 (corrected both wrong matches; confirmed idempotently) |
+| 6 — Real accuracy corpus | **Started.** One real fixture in; the rest of 6.1–6.5 still open |
+| 7 — Deployment | **Host decided (Render); `render.yaml` blueprint written and validated.** 7.5–7.8 need your Render account and DNS access — see below |
 | 8 — Hand off to design | Possible now; much better after 4 |
 
-**Immediate next action:** forward a real goBILDA or REV order confirmation and
-paste it via `POST /receipts` (step 5.5). That is the only outstanding item in
-Phase 5 and the input Phase 6 needs.
+**What 5.5 found:** pasting a real goBILDA order confirmation (2026-08-04)
+exposed a genuine off-by-one in the tuned goBILDA parser — invisible on every
+synthetic fixture because none of them modeled the real email's layout. The
+real email prints each product's name **twice, directly above** its SKU line;
+`parseBySku`'s block collector only looks *forward* from its SKU anchor, so
+each item's name was silently stolen from the *next* item instead (and the
+last item lost its name entirely). All 11 lines parsed with the right SKU/
+qty/price but the wrong name.
 
-Typecheck, 106 tests, the accuracy harness, the production build, and the 29-path
-OpenAPI export all pass on the pushed commit.
+Fixed in `moveDuplicateNameAfterSku` ([src/services/ocr/vendors/common.ts](src/services/ocr/vendors/common.ts)) —
+a narrow pre-pass in `parseBySku` (shared by goBILDA, REV, and uxcell) that
+detects a duplicated line immediately before a SKU match and moves it after
+the SKU, where the existing block logic already knows how to read it. Verified
+safe against every existing fixture (none have that duplicate-line shape) and
+against a resubmission of the same real receipt, which now parses all 11 lines
+with the correct name, SKU, quantity, and price. The real receipt replaced the
+placeholder `tests/fixtures/receipts/gobilda-stacked-text` fixture, which was
+explicitly marked for this ("Replace input.txt with a real one").
+
+Two of the eleven lines matched an existing seeded part at 0.63 confidence —
+correctly a *different* variant (wrong hole count / wrong gear ratio) than
+what was ordered, because neither exact SKU is in the 47-part demo catalogue.
+That's a catalogue-coverage gap, not a parser bug, and is exactly what 5.6's
+review step exists to catch.
+
+**Immediate next action:** Phase 7.5 — connect the repo at
+<https://dashboard.render.com/blueprints> and fill in the prompted secrets.
+That's the next step only you can take; see Phase 7 below for the exact list.
+Separately, and not blocking anything: keep feeding real confirmations into
+6.1–6.5 to grow the accuracy corpus past one fixture.
+
+Typecheck, 107 tests, the accuracy harness (100% line accuracy, 1 real + 4
+synthetic fixtures), the production build, and the 30-path OpenAPI export all
+pass as of this commit.
 
 Phases are ordered by dependency. Phase 4 is the one that makes any endpoint work
 for the first time.
@@ -312,7 +340,7 @@ against.
 
 ---
 
-## Phase 5 — Prove the flows end to end ✅ (bar the real receipt)
+## Phase 5 — Prove the flows end to end ✅
 
 Worth doing manually before design starts, because these paths have never
 executed. Use `/docs` to send the requests.
@@ -324,14 +352,23 @@ executed. Use `/docs` to send the requests.
       `ownedQuantity`.
 - [x] **5.4** `PUT /api/v1/inventory/{partId}` — set a quantity, then
       `GET /api/v1/inventory` to see the sheet.
-- [ ] **5.5** `POST /api/v1/receipts` — **paste a real goBILDA or REV order
-      confirmation.** This exercises the primary receipt path and tells you what
-      real accuracy looks like.
-- [ ] **5.6** `PATCH /api/v1/receipts/{id}/lines/{lineId}` — fix any wrong or
-      missing part match.
+- [x] **5.5** `POST /api/v1/receipts` — **paste a real goBILDA or REV order
+      confirmation.** Done 2026-08-04 with a real goBILDA confirmation — found
+      and fixed a real name/SKU shift bug in the parser (see above). All 11
+      lines now parse correctly; 2 matched the wrong seeded variant, which is
+      a catalogue-coverage gap for 5.6 to exercise, not a parser defect.
+- [x] **5.6** `PATCH /api/v1/receipts/{id}/lines/{lineId}` — fix any wrong or
+      missing part match. Done 2026-08-04: cleared both of the real receipt's
+      wrong 0.63-confidence matches (`matchedPartId: null`) since the demo
+      catalogue doesn't carry either exact SKU ordered. Confirms the review
+      step behaves as intended — the wrong-variant guess never reaches
+      inventory once corrected.
 - [x] **5.7** `POST /api/v1/receipts/{id}/confirm` — apply to inventory, then
       confirm quantities moved. **Run it twice** — the second call should report the
-      lines as already applied, not double-count.
+      lines as already applied, not double-count. Re-verified 2026-08-04 against
+      the real receipt: `appliedCount: 0` both times (none of the 11 real SKUs
+      are in the 47-part demo catalogue) and the skip list was identical on
+      both calls — idempotent.
 - [x] **5.8** `GET /api/v1/inventory/export.csv` — check the CSV opens cleanly.
 
 **Success:** a receipt became inventory, and confirming twice did not double it.
@@ -340,48 +377,94 @@ executed. Use `/docs` to send the requests.
 
 ## Phase 6 — Real accuracy measurement (optional, high value)
 
-The corpus is currently five fixtures I invented. It proves the parsers behave as
-designed and catches regressions, but it is **not** evidence of real-world
-accuracy against your >90% bar.
+**Started 2026-08-04.** The corpus now has one real fixture — the goBILDA
+confirmation from 5.5, which replaced the placeholder `gobilda-stacked-text`
+fixture it was explicitly earmarked to replace — plus four fixtures I invented.
+`npm run accuracy` reports **100% line accuracy, 1 real + 4 synthetic**. That
+one real data point is what caught the parser bug recorded under 5.5; it's
+still far too small a sample to call the >90% bar met in general — REV, Axon,
+and the five untuned vendors have zero real coverage. Keep going with 6.1–6.5
+for every additional real confirmation.
 
-- [ ] **6.1** For each real confirmation from 5.5, create
+- [x] **6.1** For each real confirmation from 5.5, create
       `tests/fixtures/receipts/<vendor>-<date>/input.txt` (or `.html` / `.pdf`).
-- [ ] **6.2** Write the matching `expected.json` — see
+      — done for the one goBILDA confirmation so far.
+- [x] **6.2** Write the matching `expected.json` — see
       [the corpus README](tests/fixtures/receipts/README.md). Omit `synthetic`.
-- [ ] **6.3** Redact anything personal; it does not affect scoring.
-- [ ] **6.4** ```bash
+- [x] **6.3** Redact anything personal; it does not affect scoring. — nothing to
+      redact; the confirmation already used placeholder names/addresses.
+- [x] **6.4** ```bash
       npm run accuracy
       ```
 - [ ] **6.5** Commit the corpus. CI now gates on a number that means something.
 
 **Success:** the "every fixture is synthetic" warning disappears, and the reported
-accuracy reflects real receipts.
+accuracy reflects real receipts. Partially there — disappears once REV, Axon,
+and the untuned vendors also have at least one real fixture each.
 
 ---
 
 ## Phase 7 — Deployment (can run parallel to design)
 
-- [ ] **7.1** Build the image. **Never built** — Docker was not installed on the
-      machine where the Dockerfile was written, so expect to iterate.
-      ```bash
-      docker build -t seattlesolvers/tools-api .
-      ```
-- [ ] **7.2** Run it against Supabase:
-      ```bash
-      docker run --rm -p 3000:3000 --env-file .env -e NODE_ENV=production \
-        seattlesolvers/tools-api
-      ```
-      Then check `http://localhost:3000/health`.
-- [ ] **7.3** Note that `/docs` is **absent in production** by design —
-      `@fastify/swagger-ui` depends on a package with an unpatched path-traversal
-      advisory, so it is a devDependency. The spec is still at `/openapi.json`.
-- [ ] **7.4** Pick a host (Fly.io, Railway, Render, a VM — anything that runs a
-      container).
-- [ ] **7.5** Set every `.env` variable as host secrets. `.env` is gitignored and
-      is not in the image.
-- [ ] **7.6** Update `CORS_ORIGINS` to the real frontend origin once known.
-- [ ] **7.7** Point `tools.seattlesolvers` DNS at the host and confirm TLS.
-- [ ] **7.8** Confirm `https://tools.seattlesolvers.../health` responds.
+**Host decided 2026-08-04: Render**, connected straight to GitHub — Render
+builds the `Dockerfile` on its own infrastructure, so this machine never needs
+Docker installed at all. That supersedes 7.1/7.2 as originally written (build
+and run the image *locally* first); see below for what replaced them.
+
+- [x] **7.0 (new)** Prepared everything Render needs before you touch the
+      dashboard:
+      - Reviewed the `Dockerfile` line by line against the compiled build
+        output — the multi-stage copy-not-generate trick for the Prisma client
+        in the `--omit=dev` runtime stage is correct, and `dotenv/config`
+        no-ops safely with no `.env` file present, which is exactly the
+        container/host-secrets case.
+      - Confirmed `src/server.ts` already binds to `env.PORT`/`env.HOST`
+        (`app.listen({ port: env.PORT, host: env.HOST })`), which is what
+        Render's Docker runtime requires — it injects its own `PORT` (default
+        10000) rather than reading the Dockerfile's `EXPOSE`. No code change
+        needed; the app was already correct for this.
+      - Added [render.yaml](render.yaml) — a Blueprint Render reads
+        automatically once the repo is connected. Declares `runtime: docker`,
+        `region: oregon` (same region as the Supabase project, to avoid
+        cross-region DB latency), `healthCheckPath: /health`, and every env
+        var that needs a real value as `sync: false` (Render prompts for these
+        once, in its dashboard, rather than reading them from this file). Vars
+        the app already defaults sensibly are deliberately left out — see the
+        comment block at the top of the file for the full reasoning.
+      - Validated the YAML parses correctly and that `npm test` (107 passing)
+        and `npm run build` are unaffected by the new file.
+- [x] **7.1 / 7.2 (superseded)** — Docker isn't installed on this machine, and
+      doesn't need to be: Render builds and runs the image on connect. The
+      closest available substitute was run instead — the **compiled production
+      build** (`npm run build && NODE_ENV=production npm start`) against the
+      live Supabase database: `/health` OK, `/docs` correctly 404s, `/openapi.json`
+      and `/api/v1/parts` both serve. That's the same code path Render's
+      container runs, just not inside a container.
+- [x] **7.3** Confirmed above — `/docs` 404s under `NODE_ENV=production`.
+      `@fastify/swagger-ui` depends on a package with an unpatched
+      path-traversal advisory, so it's a devDependency and absent from the
+      production install. The spec is still at `/openapi.json`.
+- [x] **7.4** Host picked: **Render**, connecting the GitHub repo directly
+      through its web dashboard — no CLI, no local Docker.
+- [ ] **7.5** — **your turn.** At <https://dashboard.render.com/blueprints>,
+      connect the `software282/tools-api` repo. Render will detect
+      `render.yaml` and prompt you once for each of these (pull the real values
+      from your own `.env` — never paste them into chat with me):
+      `JWT_SECRET`, `DATABASE_URL`, `DIRECT_URL`, `SUPABASE_URL`,
+      `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `CORS_ORIGINS`,
+      `ANTHROPIC_API_KEY` (leave blank if you're not using the Claude fallback
+      yet).
+- [ ] **7.6** For `CORS_ORIGINS` during that same prompt: `http://localhost:5173`
+      is a fine placeholder for now; update it once design hands back a real
+      frontend origin.
+- [ ] **7.7** Custom domain: in the Render dashboard, the service's Settings tab
+      has an "Add Custom Domain" action that gives you a CNAME target. Add that
+      CNAME for `tools.seattlesolvers` at your DNS registrar. Render issues and
+      renews the TLS certificate automatically once the CNAME resolves — no
+      separate certificate step.
+- [ ] **7.8** Confirm `https://tools.seattlesolvers.../health` responds (and,
+      before the custom domain resolves, the `*.onrender.com` URL Render
+      assigns on first deploy works the same way).
 
 ---
 

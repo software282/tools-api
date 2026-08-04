@@ -211,12 +211,45 @@ export function parseGenericBlocks(lines: string[]): ParsedLineItem[] {
 }
 
 /**
+ * Some order-confirmation emails print the product name twice (a table cell
+ * plus its alt text both landing in the copy-pasted text) directly above the
+ * SKU line, e.g.:
+ *   Product Name
+ *   Product Name
+ *   5203-2402-0027
+ *   $18.74
+ * `collectBlocks` only looks forward from its anchor, so left uncorrected that
+ * name is stranded as trailing, undifferentiated text on the *previous*
+ * item's block, and the current item ends up nameless. The duplicate
+ * consecutive line right before a SKU match is a distinctive enough signature
+ * to move after the SKU, where the anchor-forward block logic can find it.
+ */
+function moveDuplicateNameAfterSku(lines: string[], skuRegex: RegExp): string[] {
+  const result: string[] = [];
+  for (const line of lines) {
+    if (skuRegex.test(line)) {
+      const last = result[result.length - 1];
+      const secondLast = result[result.length - 2];
+      if (last !== undefined && last === secondLast && !skuRegex.test(last)) {
+        result.pop();
+        result.pop();
+        result.push(line, last);
+        continue;
+      }
+    }
+    result.push(line);
+  }
+  return result;
+}
+
+/**
  * Extract line items anchored on lines containing a vendor SKU. Handles both
  * single-line and stacked layouts — see `collectBlocks`.
  */
 export function parseBySku(lines: string[], skuRegex: RegExp): ParsedLineItem[] {
+  const reordered = moveDuplicateNameAfterSku(lines, skuRegex);
   const items: ParsedLineItem[] = [];
-  for (const { anchor, block } of collectBlocks(lines, (line) => skuRegex.test(line))) {
+  for (const { anchor, block } of collectBlocks(reordered, (line) => skuRegex.test(line))) {
     const sku = anchor.match(skuRegex)?.[0];
     const item = parseBlockItem(block, sku);
     if (item) items.push(item);

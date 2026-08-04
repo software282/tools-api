@@ -1,26 +1,120 @@
-goBILDA
-Order Confirmation
-Order #1046221
-Placed on Jan 23, 2026
+From: goBILDA® <sales@gobilda.com>
+Date: Sun, Mar 2, 2025 at 5:16 PM
+Subject: Your goBILDA® Order Confirmation (#200077671)
+To: <johndoe@gmail.com>
 
-5203-2402-0027
-5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 312 RPM)
+goBILDA®
+
+Thanks for your order
+
+Order #200077671
+Modern Robotics/MATRIX 12VDC Motor with 8mm REX™ Pinion Shaft
+Modern Robotics/MATRIX 12VDC Motor with 8mm REX™ Pinion Shaft
+5000-0002-4008
+$18.74
+Qty: 1
+$18.74
+
+1501 Series M4 x 0.7mm Standoff (6mm OD, 52mm Length) - 4 Pack
+1501 Series M4 x 0.7mm Standoff (6mm OD, 52mm Length) - 4 Pack
+1501-0006-0520
+Brand: goBILDA®
+$4.01
+Qty: 3
+$12.03
+
+1501 Series M4 x 0.7mm Standoff (6mm OD, 32mm Length) - 4 Pack
+1501 Series M4 x 0.7mm Standoff (6mm OD, 32mm Length) - 4 Pack
+1501-0006-0320
+$2.96
 Qty: 2
-$43.00
-$86.00
+$5.92
 
-3407-0016-0002
-Aluminum REX Shaft - 8mm
+1120 Series U-Channel (6 Hole, 168mm Length)
+1120 Series U-Channel (6 Hole, 168mm Length)
+1120-0006-0168
+Brand: goBILDA®
+$6.74
+Qty: 2
+$13.48
+
+3310 Series 8mm Pitch Aluminum Hub Mount Sprocket (14mm Bore, 28 Tooth)
+3310 Series 8mm Pitch Aluminum Hub Mount Sprocket (14mm Bore, 28 Tooth)
+3310-0014-0028
+Brand: goBILDA®
+$5.99
+Qty: 1
+$5.99
+
+8mm REX™ Shaft with E-Clip (Stainless Steel, 192mm Length)
+8mm REX™ Shaft with E-Clip (Stainless Steel, 192mm Length)
+2106-4008-1920
+Brand: goBILDA®
+$4.12
+Qty: 1
+$4.12
+
+5203 Series Yellow Jacket Planetary Gear Motor (5.2:1 Ratio, 24mm Length 8mm REX™ Shaft, 1150 RPM, 3.3 - 5V Encoder)
+5203 Series Yellow Jacket Planetary Gear Motor (5.2:1 Ratio, 24mm Length 8mm REX™ Shaft, 1150 RPM, 3.3 - 5V Encoder)
+5203-2402-0005
+Brand: goBILDA®
+$33.74
 Qty: 4
-$8.99
-$35.96
+$134.96
 
-2903-0016-0002
-Nylon Spacer 8mm Bore
-Qty: 10
-$0.50
-$5.00
+1611 Series Flanged Ball Bearing (6mm ID x 14mm OD, 5mm Thickness) - 2 Pack
+1611 Series Flanged Ball Bearing (6mm ID x 14mm OD, 5mm Thickness) - 2 Pack
+1611-0514-0006
+Brand: goBILDA®
+$2.99
+Qty: 5
+$14.95
 
-Subtotal: $126.96
-Shipping: $12.50
-Order Total: $139.46
+2305 Series Brass, MOD 0.8, Servo Gear (25 Tooth Spline, 12 Tooth)
+2305 Series Brass, MOD 0.8, Servo Gear (25 Tooth Spline, 12 Tooth)
+2305-0025-0012
+Brand: goBILDA®
+$7.49
+Qty: 1
+$7.49
+
+Intake Roller Wheel (8mm REX™, 16mm Diameter, 16mm Width, 30A Durometer) - 8 Pack
+Intake Roller Wheel (8mm REX™, 16mm Diameter, 16mm Width, 30A Durometer) - 8 Pack
+3618-4008-0016
+Brand: goBILDA®
+$9.74
+Qty: 1
+$9.74
+
+2910 Series Aluminum Clamping Collar (8mm REX™ ID x 20mm OD, 9mm Length)
+2910 Series Aluminum Clamping Collar (8mm REX™ ID x 20mm OD, 9mm Length)
+2910-0920-4008
+Brand: goBILDA®
+$3.74
+Qty: 1
+$3.74
+
+Subtotal: $231.16
+Shipping: $11.99
+Tax: $24.79
+Grand total: $267.94
+
+Payment method: Credit Card
+Shipping method: Standard Shipping (Standard Shipping) for $11.99
+
+Shipping address
+John Doe
+1234 123rd ave SE
+CandyCane Lane, North Pole 12345
+Antartica
+1234567891
+
+Billing Address
+Jane Doe
+1234 123rd ave SE
+candycane, North Pole 12345
+United States
+1234567891
+
+Thanks,
+goBILDA® Order Support Team
