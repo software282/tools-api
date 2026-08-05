@@ -13,7 +13,7 @@ database, ready to hand to Claude design.
 | 4 — Schema and seed | **Done** — migration applied, 47 parts seeded, password rotated, API serving live data |
 | 5 — Prove the flows | **✅ 44/44 verified against the live database**, including 5.5 (found a real parser bug, see below) and 5.6 (corrected both wrong matches; confirmed idempotently) |
 | 6 — Real accuracy corpus | **Started.** One real fixture in; the rest of 6.1–6.5 still open |
-| 7 — Deployment | **Host decided (Render); `render.yaml` blueprint written and validated.** 7.5–7.8 need your Render account and DNS access — see below |
+| 7 — Deployment | **Live** at <https://tools-api-9vfr.onrender.com> — first-ever Docker build passed on the first try. Only 7.7 left: point `tools.seattlesolvers` DNS at it |
 | 8 — Hand off to design | Possible now; much better after 4 |
 
 **What 5.5 found:** pasting a real goBILDA order confirmation (2026-08-04)
@@ -41,11 +41,11 @@ what was ordered, because neither exact SKU is in the 47-part demo catalogue.
 That's a catalogue-coverage gap, not a parser bug, and is exactly what 5.6's
 review step exists to catch.
 
-**Immediate next action:** Phase 7.5 — connect the repo at
-<https://dashboard.render.com/blueprints> and fill in the prompted secrets.
-That's the next step only you can take; see Phase 7 below for the exact list.
-Separately, and not blocking anything: keep feeding real confirmations into
-6.1–6.5 to grow the accuracy corpus past one fixture.
+**Immediate next action:** Phase 7.7 — the API is live at
+<https://tools-api-9vfr.onrender.com>; only the custom domain (pointing
+`tools.seattlesolvers` DNS at it) is left, and that needs your DNS registrar
+access. See Phase 7 below. Separately, and not blocking anything: keep feeding
+real confirmations into 6.1–6.5 to grow the accuracy corpus past one fixture.
 
 Typecheck, 107 tests, the accuracy harness (100% line accuracy, 1 real + 4
 synthetic fixtures), the production build, and the 30-path OpenAPI export all
@@ -404,12 +404,14 @@ and the untuned vendors also have at least one real fixture each.
 
 ---
 
-## Phase 7 — Deployment (can run parallel to design)
+## Phase 7 — Deployment ✅ (bar the custom domain)
 
-**Host decided 2026-08-04: Render**, connected straight to GitHub — Render
-builds the `Dockerfile` on its own infrastructure, so this machine never needs
-Docker installed at all. That supersedes 7.1/7.2 as originally written (build
-and run the image *locally* first); see below for what replaced them.
+**Deployed 2026-08-04 on Render**, connected straight to GitHub — Render built
+the `Dockerfile` on its own infrastructure, so this machine never needed
+Docker installed at all. That superseded 7.1/7.2 as originally written (build
+and run the image *locally* first); see below for what replaced them. The
+first-ever build of this Dockerfile, on the very first attempt, deployed clean
+— live at <https://tools-api-9vfr.onrender.com>.
 
 - [x] **7.0 (new)** Prepared everything Render needs before you touch the
       dashboard:
@@ -446,25 +448,25 @@ and run the image *locally* first); see below for what replaced them.
       production install. The spec is still at `/openapi.json`.
 - [x] **7.4** Host picked: **Render**, connecting the GitHub repo directly
       through its web dashboard — no CLI, no local Docker.
-- [ ] **7.5** — **your turn.** At <https://dashboard.render.com/blueprints>,
-      connect the `software282/tools-api` repo. Render will detect
-      `render.yaml` and prompt you once for each of these (pull the real values
-      from your own `.env` — never paste them into chat with me):
-      `JWT_SECRET`, `DATABASE_URL`, `DIRECT_URL`, `SUPABASE_URL`,
-      `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `CORS_ORIGINS`,
-      `ANTHROPIC_API_KEY` (leave blank if you're not using the Claude fallback
-      yet).
-- [ ] **7.6** For `CORS_ORIGINS` during that same prompt: `http://localhost:5173`
-      is a fine placeholder for now; update it once design hands back a real
-      frontend origin.
-- [ ] **7.7** Custom domain: in the Render dashboard, the service's Settings tab
-      has an "Add Custom Domain" action that gives you a CNAME target. Add that
-      CNAME for `tools.seattlesolvers` at your DNS registrar. Render issues and
-      renews the TLS certificate automatically once the CNAME resolves — no
-      separate certificate step.
-- [ ] **7.8** Confirm `https://tools.seattlesolvers.../health` responds (and,
-      before the custom domain resolves, the `*.onrender.com` URL Render
-      assigns on first deploy works the same way).
+- [x] **7.5** Done 2026-08-04. Blueprint connected at
+      <https://dashboard.render.com/blueprints>; all secrets entered through
+      Render's dashboard prompt (never seen by me). **First-ever build of this
+      Dockerfile passed on the first try** — "Deploy live for 331c24d."
+      Live at <https://tools-api-9vfr.onrender.com>.
+- [x] **7.6** `CORS_ORIGINS` set to the `http://localhost:5173` placeholder
+      during the same prompt. Revisit once design hands back a real frontend
+      origin.
+- [ ] **7.7** Custom domain — **your turn.** In the Render dashboard, the
+      `tools-api` service's Settings tab has an "Add Custom Domain" action that
+      gives you a CNAME target. Add that CNAME for `tools.seattlesolvers` at
+      your DNS registrar. Render issues and renews the TLS certificate
+      automatically once the CNAME resolves — no separate certificate step.
+- [x] **7.8** Confirmed 2026-08-04 against the live `*.onrender.com` URL:
+      `/health` OK, `/docs` 404s (production build correctly omits it),
+      `/openapi.json` serves, and `/api/v1/parts` returns real seeded data —
+      proving `DATABASE_URL` and the Supabase secrets were entered correctly.
+      Re-confirm once more at `https://tools.seattlesolvers.../health` after
+      7.7's CNAME resolves.
 
 ---
 
@@ -497,17 +499,16 @@ migration is free, afterwards it is a migration.
 
 ## Known-unverified list
 
-Honest inventory of what has been written but never executed:
+Honest inventory of what's still unverified. (Everything else that used to be
+listed here — `prisma migrate dev`, `npm run seed`, every endpoint, CI,
+`docker build` — is done; see Phases 1–7 above.)
 
 | Thing | Status |
 |---|---|
-| `prisma migrate dev` | Never run — Phase 4.1 |
-| `npm run seed` | Never run — Phase 4.2 |
-| Every API endpoint against real data | Never run — Phase 5 |
-| `docker build` | Never run — Phase 7.1 |
-| GitHub Actions CI | Never run — Phase 1.6 |
+| Custom domain + TLS on `tools.seattlesolvers` | Not yet pointed there — Phase 7.7. The API is live at the Render-assigned URL in the meantime |
+| REV, Axon, and the five untuned vendors | Zero real-receipt coverage in the accuracy corpus — only goBILDA has a real fixture so far |
 | uxcell SKU pattern | Unverified against a real receipt; degrades safely to the generic parser |
-| Accuracy figure | 100% on synthetic fixtures only — not real-world accuracy |
+| Accuracy figure | 100% line accuracy, but on 1 real + 4 synthetic fixtures — too small a sample to call the >90% bar met in general |
 
 ## Troubleshooting
 
