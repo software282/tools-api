@@ -15,6 +15,11 @@ system.
 > at the repo root is the complete contract, committed and up to date. You do not
 > need a database, a server, or any credentials to read it. Regenerate it any time
 > with `npm run openapi`.
+>
+> **Live API:** <https://tools-api-9vfr.onrender.com> (Render, `oregon` region).
+> A custom domain at `tools.seattlesolvers` is pending DNS — see `SETUP.md`
+> Phase 7.7. `Authorization: Bearer <token>` on every authenticated route, token
+> from `POST /api/v1/auth/login`.
 
 ## What it does
 
@@ -295,20 +300,31 @@ threshold; CI runs it on every push.
 The Claude fallback is excluded from the score on purpose, so the number is
 reproducible, free, and moves only when the parsers improve.
 
-> The corpus currently contains **only synthetic fixtures**, so the reported 100%
-> means the parsers behave as designed on layouts we invented — it is not evidence
-> of real-world accuracy. Adding real confirmations is what makes the bar
-> meaningful; see the corpus README for the (short) process.
+> The corpus currently contains **one real fixture and four synthetic ones**. The
+> real one (a goBILDA order confirmation) already earned its keep once — it
+> caught a name/SKU misalignment bug that every synthetic fixture missed, because
+> none of them modeled the real email's layout. One data point per vendor is
+> still far too small to call the >90% bar met in general: REV, Axon, and the
+> five untuned vendors have zero real coverage so far. Adding more real
+> confirmations is what closes that gap; see the corpus README for the (short)
+> process.
 
 ## Testing status
 
-`npm test` runs 75 tests covering the vendor parsers (both single-line and
+`npm test` runs 107 tests covering the vendor parsers (both single-line and
 stacked digital layouts), HTML email and PDF text extraction, the part-matching
 ambiguity rule, the parts visibility/tenancy filter, and the HTTP contract
 (error envelope, auth rejection, request validation, rate limiting, security
 headers). All of it runs **without a database**, which is also how CI runs it.
 
-**Not yet covered:** anything requiring real rows — receipt-confirm idempotency,
-inventory arithmetic against Postgres, and the role/permission checks end to end.
-Those need a live Supabase project (or a throwaway Postgres) and are the first
-thing to add once one is available.
+**Manually verified against the live Supabase project** (see `SETUP.md` Phase
+5): auth, team/invite flows, inventory arithmetic, a real receipt end to end
+(including the parser bug it found and the correction workflow), and
+confirm-idempotency — confirming the same receipt twice does not double-apply
+it.
+
+**Not yet covered by the automated suite:** the same DB-dependent paths above
+have no integration tests exercising them against Postgres — they've only been
+checked by hand, once, against production data. Adding a throwaway-Postgres
+integration suite so this runs in CI, not just manually, is the next gap to
+close here.

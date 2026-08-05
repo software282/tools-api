@@ -472,11 +472,17 @@ first-ever build of this Dockerfile, on the very first attempt, deployed clean
 
 ## Phase 8 — Hand off to Claude design
 
+**Materials ready 2026-08-04; the actual handoff is still your call to make**
+— only you can invoke the design pass, so 8.1–8.3 stay unchecked until you do.
+Everything they'd need is current as of this commit:
+
 - [ ] **8.1** Give the design pass the repo, and point it at:
-      - `openapi.json` — the complete contract
-      - `README.md` — auth, error envelope, pagination, receipt review flow
-- [ ] **8.2** Tell it the base URL and that a Bearer JWT comes from
-      `POST /api/v1/auth/login`.
+      - `openapi.json` — the complete contract, verified drift-free
+      - `README.md` — auth, error envelope, pagination, receipt review flow, now
+        including the live base URL and an accurate testing-status section
+- [ ] **8.2** Tell it the base URL — **`https://tools-api-9vfr.onrender.com`**
+      for now (or `https://tools.seattlesolvers...` once 7.7's DNS resolves) —
+      and that a Bearer JWT comes from `POST /api/v1/auth/login`.
 - [ ] **8.3** Flag the deliberate constraints so it designs around them rather
       than against them:
       - No refresh tokens — plan a re-login when a 7-day JWT expires
