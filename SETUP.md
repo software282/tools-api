@@ -396,7 +396,8 @@ for every additional real confirmation.
 - [x] **6.4** ```bash
       npm run accuracy
       ```
-- [ ] **6.5** Commit the corpus. CI now gates on a number that means something.
+- [x] **6.5** Commit the corpus. Done in `331c24d`. CI now gates on a number
+      that means something — just still a small one (1 real fixture).
 
 **Success:** the "every fixture is synthetic" warning disappears, and the reported
 accuracy reflects real receipts. Partially there — disappears once REV, Axon,
