@@ -12,8 +12,8 @@ database, ready to hand to Claude design.
 | 3 — Local configuration | **Done** — `db:check` reports 7/7 green |
 | 4 — Schema and seed | **Done** — migration applied, 47 parts seeded, password rotated, API serving live data |
 | 5 — Prove the flows | **✅ 44/44 verified against the live database**, including 5.5 (found a real parser bug, see below) and 5.6 (corrected both wrong matches; confirmed idempotently) |
-| 6 — Real accuracy corpus | **Started.** One real fixture in; the rest of 6.1–6.5 still open |
-| 7 — Deployment | **Live** at <https://tools-api-9vfr.onrender.com> — first-ever Docker build passed on the first try. Only 7.7 left: point `tools.seattlesolvers` DNS at it |
+| 6 — Real accuracy corpus | **Started, ongoing.** One real fixture in (6.1–6.5 all done for it); growing past one fixture per vendor is never "finished," just keeps going as real receipts arrive |
+| 7 — Deployment | **Live** at <https://tools-api-9vfr.onrender.com>. Only 7.7 left: point `tools.seattlesolvers` DNS at it. Survived its first incident 2026-08-21 (Supabase free-tier auto-pause) — see 7.9, now guarded by a daily keep-alive Action |
 | 8 — Hand off to design | Possible now; much better after 4 |
 
 **What 5.5 found:** pasting a real goBILDA order confirmation (2026-08-04)
@@ -468,6 +468,21 @@ first-ever build of this Dockerfile, on the very first attempt, deployed clean
       proving `DATABASE_URL` and the Supabase secrets were entered correctly.
       Re-confirm once more at `https://tools.seattlesolvers.../health` after
       7.7's CNAME resolves.
+- [x] **7.9 (new)** **Incident, 2026-08-21: Supabase auto-paused the project.**
+      17 days with no real database query (the last one was 7.8's verification
+      on 2026-08-04) crossed Supabase's free-tier 7-day inactivity threshold,
+      which auto-pauses the project. Every DB-touching route started returning
+      a generic `500 INTERNAL_ERROR` — `/health` stayed fine throughout since it
+      never touches the database, which is what made this diagnosable rather
+      than a mystery. Fixed for that incident by restoring the project from the
+      Supabase dashboard. Fixed **going forward** by
+      [.github/workflows/keep-alive.yml](.github/workflows/keep-alive.yml) — a
+      daily scheduled Action that hits `/api/v1/parts` (a real Prisma query),
+      comfortably under the 7-day threshold. Update the hardcoded URL in that
+      file once 7.7's custom domain resolves. This does **not** fix Render's
+      separate, much shorter free-tier spin-down (~15 min of inactivity) — an
+      occasional slow first request is still expected until there's real
+      regular traffic or the Render plan is upgraded.
 
 ---
 

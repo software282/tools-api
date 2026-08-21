@@ -1,0 +1,31 @@
+name: Keep Supabase awake
+
+# Supabase pauses a free-tier project after 7 days with no database query —
+# tracked against actual DB activity, not API hits or dashboard visits. This
+# pings a route that runs a real Prisma query daily, comfortably under that
+# threshold with margin for GitHub's own scheduling jitter on cron workflows
+# (which run at a best-effort time, occasionally delayed under load).
+#
+# Update the URL below once the custom domain in SETUP.md Phase 7.7 resolves.
+#
+# Note this only prevents the Supabase pause. Render's free tier separately
+# spins the container down after ~15 minutes of inactivity — far shorter than
+# a daily ping can cover — so an occasional slow first request is expected
+# until there's real regular traffic or the Render plan is upgraded.
+on:
+  schedule:
+    - cron: '37 9 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit a database-backed endpoint
+        run: |
+          status=$(curl -s -o /dev/null -w '%{http_code}' https://tools-api-9vfr.onrender.com/api/v1/parts)
+          echo "Response status: $status"
+          if [ "$status" != "200" ]; then
+            echo "::error::Keep-alive ping got status $status, expected 200"
+            exit 1
+          fi
