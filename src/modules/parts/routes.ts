@@ -2,15 +2,28 @@ import type { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 import { prisma } from '../../lib/prisma.js';
+import { env } from '../../config/env.js';
 import { badRequest, notFound } from '../../lib/errors.js';
+import { suggestProductUrl } from '../../services/productUrlLookup.js';
 import {
   createPartBody,
   paginatedParts,
   partSchema,
   partSearchQuery,
+  suggestUrlQuery,
+  suggestUrlResponse,
   updatePartBody,
 } from './schemas.js';
 import { getPartById, searchParts, serializePart } from './service.js';
+
+/**
+ * `suggest-url` can trigger a Claude web-search call, same cost class as
+ * receipt intake — rate-limited the same way rather than left on the global
+ * limit.
+ */
+const suggestUrlRateLimit = {
+  rateLimit: { max: env.RATE_LIMIT_RECEIPT_MAX, timeWindow: '1 minute' },
+};
 
 /** Validate manufacturer/category ids exist, for a clear error instead of an FK violation. */
 async function assertCatalogRefs(manufacturerId?: string, categoryId?: string) {
@@ -65,6 +78,26 @@ const routes = async (app: FastifyInstance) => {
       if (!part) throw notFound('Part not found');
       return part;
     },
+  );
+
+  r.get(
+    '/suggest-url',
+    {
+      preHandler: app.requireAuth,
+      config: suggestUrlRateLimit,
+      schema: {
+        tags: ['parts'],
+        summary: 'Best-effort product page URL for a part not yet in the library',
+        description:
+          'Deterministic for vendors with a known SKU-to-URL formula (currently REV); ' +
+          'otherwise a web-search-grounded guess from Claude, or null if unconfigured or ' +
+          'unconfident. Always a suggestion to review, never a verified link.',
+        security: [{ bearerAuth: [] }],
+        querystring: suggestUrlQuery,
+        response: { 200: suggestUrlResponse },
+      },
+    },
+    async (req) => suggestProductUrl(req.query),
   );
 
   r.post(

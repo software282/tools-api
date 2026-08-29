@@ -16,6 +16,7 @@ const CATEGORIES: Array<{ slug: string; name: string; sort: number }> = [
   { slug: 'shaft-attachments', name: 'Shaft Attachments', sort: 70 },
   { slug: 'belts', name: 'Belts', sort: 80 },
   { slug: 'hardware', name: 'Hardware', sort: 90 },
+  { slug: 'tools', name: 'Tools', sort: 95 },
   { slug: 'misc', name: 'Misc', sort: 100 },
 ];
 

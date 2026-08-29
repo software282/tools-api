@@ -1648,6 +1648,90 @@
         }
       }
     },
+    "/api/v1/parts/suggest-url": {
+      "get": {
+        "summary": "Best-effort product page URL for a part not yet in the library",
+        "tags": [
+          "parts"
+        ],
+        "description": "Deterministic for vendors with a known SKU-to-URL formula (currently REV); otherwise a web-search-grounded guess from Claude, or null if unconfigured or unconfident. Always a suggestion to review, never a verified link.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "GOBILDA",
+                "REV",
+                "AXON",
+                "FERRA",
+                "MELONBOTICS",
+                "OFFSET",
+                "MATA",
+                "UXCELL",
+                "OTHER"
+              ]
+            },
+            "in": "query",
+            "name": "vendor",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "sku",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "in": "query",
+            "name": "name",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "nullable": true
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": [
+                        "deterministic",
+                        "ai_search",
+                        "none"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "source"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/inventory": {
       "get": {
         "summary": "The inventory sheet: parts your team tracks and how many you have",

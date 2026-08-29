@@ -98,6 +98,7 @@ describe('API contract', () => {
       ['GET', '/api/v1/dashboard', undefined],
       ['GET', '/api/v1/admin/submissions', undefined],
       ['DELETE', '/api/v1/parts/some-id', undefined],
+      ['GET', '/api/v1/parts/suggest-url?vendor=REV&sku=REV-31-1595&name=Motor', undefined],
       ['DELETE', '/api/v1/inventory/some-id', undefined],
       ['DELETE', '/api/v1/teams/members/some-id', undefined],
       ['POST', '/api/v1/teams/invite-code/rotate', undefined],

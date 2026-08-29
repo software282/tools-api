@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { vendorSchema } from '../receipts/schemas.js';
 
 export const partScopeSchema = z.enum(['GLOBAL', 'TEAM']);
 export const partStatusSchema = z.enum(['APPROVED', 'PENDING', 'REJECTED']);
@@ -64,3 +65,14 @@ export const updatePartBody = createPartBody
   .refine((body) => Object.keys(body).length > 0, {
     message: 'Provide at least one field to update',
   });
+
+export const suggestUrlQuery = z.object({
+  vendor: vendorSchema,
+  sku: z.string().optional(),
+  name: z.string().min(1),
+});
+
+export const suggestUrlResponse = z.object({
+  url: z.string().url().nullable(),
+  source: z.enum(['deterministic', 'ai_search', 'none']),
+});
