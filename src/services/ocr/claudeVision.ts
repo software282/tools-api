@@ -19,12 +19,13 @@ export async function parseWithClaude(
   buffer: Buffer,
   contentType: string,
   vendor: Vendor,
+  apiKey: string,
 ): Promise<ParsedReceipt> {
   if (!SUPPORTED_IMAGE_TYPES.has(contentType)) {
     throw new Error(`Claude vision does not support content type "${contentType}"`);
   }
 
-  const client = getClaude();
+  const client = getClaude(apiKey);
   const response = await client.messages.create({
     model: RECEIPT_MODEL,
     max_tokens: 2048,

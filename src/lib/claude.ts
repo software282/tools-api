@@ -1,17 +1,16 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { claudeEnabled, env } from '../config/env.js';
+import { env } from '../config/env.js';
 
-let client: Anthropic | null = null;
-
-/** Lazily-created Anthropic client. Throws if ANTHROPIC_API_KEY is missing. */
-export function getClaude(): Anthropic {
-  if (!claudeEnabled) {
-    throw new Error('Claude is not configured. Set ANTHROPIC_API_KEY to enable receipt vision.');
-  }
-  if (!client) {
-    client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
-  }
-  return client;
+/**
+ * Anthropic client for a specific team's own API key.
+ *
+ * There is no shared/global key: this is a multi-team hosted service, and each
+ * team is billed through its own Anthropic account (see
+ * src/lib/teamAnthropicKey.ts). Construction is cheap (no network call), so a
+ * fresh client per call is simpler than caching one per key.
+ */
+export function getClaude(apiKey: string): Anthropic {
+  return new Anthropic({ apiKey });
 }
 
 export const RECEIPT_MODEL = env.ANTHROPIC_RECEIPT_MODEL;

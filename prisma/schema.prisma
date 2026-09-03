@@ -74,6 +74,12 @@ model Team {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  // Each team supplies its own Anthropic key for the Claude receipt/product-url
+  // fallbacks — this is a shared multi-team service, so there is no single
+  // account to bill. Encrypted at rest (see src/lib/secretBox.ts); never
+  // decrypted for display, only used server-side to call the Anthropic API.
+  anthropicApiKeyCiphertext String?
+
   users        User[]
   inventory    InventoryItem[]
   receipts     Receipt[]

@@ -90,14 +90,15 @@ const routes = async (app: FastifyInstance) => {
         summary: 'Best-effort product page URL for a part not yet in the library',
         description:
           'Deterministic for vendors with a known SKU-to-URL formula (currently REV); ' +
-          'otherwise a web-search-grounded guess from Claude, or null if unconfigured or ' +
-          'unconfident. Always a suggestion to review, never a verified link.',
+          "otherwise a web-search-grounded guess from Claude, billed to your team's own " +
+          'Anthropic key (see PATCH /teams/current), or null if your team has not set one ' +
+          'or Claude was not confident. Always a suggestion to review, never a verified link.',
         security: [{ bearerAuth: [] }],
         querystring: suggestUrlQuery,
         response: { 200: suggestUrlResponse },
       },
     },
-    async (req) => suggestProductUrl(req.query),
+    async (req) => suggestProductUrl({ ...req.query, teamId: req.auth?.teamId ?? null }),
   );
 
   r.post(

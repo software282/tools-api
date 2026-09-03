@@ -42,7 +42,9 @@ services:
       # design hands back a real origin — see SETUP.md Phase 7.6.
       - key: CORS_ORIGINS
         sync: false
-      # Optional: only needed if a receipt layout defeats every vendor parser.
-      # Leave blank in the dashboard prompt if not using the Claude fallback yet.
-      - key: ANTHROPIC_API_KEY
+      # Encrypts each team's own Anthropic API key (PATCH /teams/current) at
+      # rest — this is a shared multi-team service, so there is no platform-wide
+      # Anthropic key to set here. Generate with:
+      #   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      - key: ENCRYPTION_KEY
         sync: false

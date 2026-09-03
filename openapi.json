@@ -135,13 +135,17 @@
                         },
                         "inviteCode": {
                           "type": "string"
+                        },
+                        "anthropicApiKeyConfigured": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
                         "id",
                         "number",
                         "name",
-                        "inviteCode"
+                        "inviteCode",
+                        "anthropicApiKeyConfigured"
                       ],
                       "additionalProperties": false,
                       "nullable": true
@@ -264,13 +268,17 @@
                         },
                         "inviteCode": {
                           "type": "string"
+                        },
+                        "anthropicApiKeyConfigured": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
                         "id",
                         "number",
                         "name",
-                        "inviteCode"
+                        "inviteCode",
+                        "anthropicApiKeyConfigured"
                       ],
                       "additionalProperties": false,
                       "nullable": true
@@ -380,13 +388,17 @@
                         },
                         "inviteCode": {
                           "type": "string"
+                        },
+                        "anthropicApiKeyConfigured": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
                         "id",
                         "number",
                         "name",
-                        "inviteCode"
+                        "inviteCode",
+                        "anthropicApiKeyConfigured"
                       ],
                       "additionalProperties": false,
                       "nullable": true
@@ -473,13 +485,17 @@
                         },
                         "inviteCode": {
                           "type": "string"
+                        },
+                        "anthropicApiKeyConfigured": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
                         "id",
                         "number",
                         "name",
-                        "inviteCode"
+                        "inviteCode",
+                        "anthropicApiKeyConfigured"
                       ],
                       "additionalProperties": false,
                       "nullable": true
@@ -527,13 +543,17 @@
                     },
                     "inviteCode": {
                       "type": "string"
+                    },
+                    "anthropicApiKeyConfigured": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "id",
                     "number",
                     "name",
-                    "inviteCode"
+                    "inviteCode",
+                    "anthropicApiKeyConfigured"
                   ],
                   "additionalProperties": false
                 }
@@ -641,13 +661,17 @@
                         },
                         "inviteCode": {
                           "type": "string"
+                        },
+                        "anthropicApiKeyConfigured": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
                         "id",
                         "number",
                         "name",
-                        "inviteCode"
+                        "inviteCode",
+                        "anthropicApiKeyConfigured"
                       ],
                       "additionalProperties": false,
                       "nullable": true
@@ -1654,7 +1678,7 @@
         "tags": [
           "parts"
         ],
-        "description": "Deterministic for vendors with a known SKU-to-URL formula (currently REV); otherwise a web-search-grounded guess from Claude, or null if unconfigured or unconfident. Always a suggestion to review, never a verified link.",
+        "description": "Deterministic for vendors with a known SKU-to-URL formula (currently REV); otherwise a web-search-grounded guess from Claude, billed to your team's own Anthropic key (see PATCH /teams/current), or null if your team has not set one or Claude was not confident. Always a suggestion to review, never a verified link.",
         "parameters": [
           {
             "schema": {
@@ -3656,6 +3680,9 @@
                     "inviteCode": {
                       "type": "string"
                     },
+                    "anthropicApiKeyConfigured": {
+                      "type": "boolean"
+                    },
                     "memberCount": {
                       "type": "integer"
                     }
@@ -3665,6 +3692,7 @@
                     "number",
                     "name",
                     "inviteCode",
+                    "anthropicApiKeyConfigured",
                     "memberCount"
                   ],
                   "additionalProperties": false
@@ -3675,11 +3703,11 @@
         }
       },
       "patch": {
-        "summary": "Rename your team",
+        "summary": "Rename your team, or set/remove its Anthropic API key",
         "tags": [
           "teams"
         ],
-        "description": "The FTC team number is immutable — it identifies the team and is referenced by submitted parts.",
+        "description": "The FTC team number is immutable — it identifies the team and is referenced by submitted parts. `anthropicApiKey` is encrypted at rest and never echoed back; only `anthropicApiKeyConfigured` reports whether one is set. Every team supplies its own key for the Claude receipt-parsing and product-URL fallbacks — there is no shared/platform key.",
         "requestBody": {
           "required": true,
           "content": {
@@ -3691,11 +3719,14 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 120
+                  },
+                  "anthropicApiKey": {
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 200,
+                    "nullable": true
                   }
                 },
-                "required": [
-                  "name"
-                ],
                 "additionalProperties": false
               }
             }
@@ -3725,13 +3756,17 @@
                     },
                     "inviteCode": {
                       "type": "string"
+                    },
+                    "anthropicApiKeyConfigured": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "id",
                     "number",
                     "name",
-                    "inviteCode"
+                    "inviteCode",
+                    "anthropicApiKeyConfigured"
                   ],
                   "additionalProperties": false
                 }
@@ -3979,13 +4014,17 @@
                     },
                     "inviteCode": {
                       "type": "string"
+                    },
+                    "anthropicApiKeyConfigured": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "id",
                     "number",
                     "name",
-                    "inviteCode"
+                    "inviteCode",
+                    "anthropicApiKeyConfigured"
                   ],
                   "additionalProperties": false
                 }
@@ -4026,13 +4065,17 @@
                     },
                     "inviteCode": {
                       "type": "string"
+                    },
+                    "anthropicApiKeyConfigured": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "id",
                     "number",
                     "name",
-                    "inviteCode"
+                    "inviteCode",
+                    "anthropicApiKeyConfigured"
                   ],
                   "additionalProperties": false
                 }

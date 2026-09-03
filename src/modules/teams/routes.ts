@@ -1,9 +1,12 @@
 import type { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../../lib/prisma.js';
 import { env } from '../../config/env.js';
 import { makeInviteCode } from '../../lib/inviteCode.js';
+import { encryptSecret } from '../../lib/secretBox.js';
+import { serializePublicTeam } from '../../lib/serializeTeam.js';
 import { badRequest, forbidden, notFound } from '../../lib/errors.js';
 import { publicTeamSchema, roleSchema } from '../auth/schemas.js';
 
@@ -20,7 +23,11 @@ const teamDetailSchema = publicTeamSchema.extend({
 });
 
 const updateTeamBody = z.object({
-  name: z.string().min(1).max(120),
+  name: z.string().min(1).max(120).optional(),
+  // Powers the Claude fallback for receipt parsing and product-URL suggestion,
+  // billed to your team's own Anthropic account. Omit to leave unchanged, send
+  // `null` to remove it.
+  anthropicApiKey: z.string().min(20).max(200).nullable().optional(),
 });
 
 // Team admins can only move members between MEMBER and TEAM_ADMIN. Granting
@@ -88,13 +95,7 @@ const routes = async (app: FastifyInstance) => {
         include: { _count: { select: { users: true } } },
       });
       if (!team) throw notFound('Team not found');
-      return {
-        id: team.id,
-        number: team.number,
-        name: team.name,
-        inviteCode: team.inviteCode,
-        memberCount: team._count.users,
-      };
+      return { ...serializePublicTeam(team), memberCount: team._count.users };
     },
   );
 
@@ -104,25 +105,31 @@ const routes = async (app: FastifyInstance) => {
       preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['teams'],
-        summary: 'Rename your team',
+        summary: 'Rename your team, or set/remove its Anthropic API key',
         description:
-          'The FTC team number is immutable — it identifies the team and is referenced by submitted parts.',
+          'The FTC team number is immutable — it identifies the team and is referenced by ' +
+          "submitted parts. `anthropicApiKey` is encrypted at rest and never echoed back; " +
+          'only `anthropicApiKeyConfigured` reports whether one is set. Every team supplies ' +
+          'its own key for the Claude receipt-parsing and product-URL fallbacks — there is ' +
+          'no shared/platform key.',
         security: [{ bearerAuth: [] }],
         body: updateTeamBody,
         response: { 200: publicTeamSchema },
       },
     },
     async (req) => {
+      const data: Prisma.TeamUpdateInput = {};
+      if (req.body.name !== undefined) data.name = req.body.name;
+      if (req.body.anthropicApiKey !== undefined) {
+        data.anthropicApiKeyCiphertext =
+          req.body.anthropicApiKey === null ? null : encryptSecret(req.body.anthropicApiKey);
+      }
+
       const team = await prisma.team.update({
         where: { id: req.auth!.teamId! },
-        data: { name: req.body.name },
+        data,
       });
-      return {
-        id: team.id,
-        number: team.number,
-        name: team.name,
-        inviteCode: team.inviteCode,
-      };
+      return serializePublicTeam(team);
     },
   );
 
@@ -241,12 +248,7 @@ const routes = async (app: FastifyInstance) => {
         where: { id: req.auth!.sub },
         data: { teamId: team.id },
       });
-      return {
-        id: team.id,
-        number: team.number,
-        name: team.name,
-        inviteCode: team.inviteCode,
-      };
+      return serializePublicTeam(team);
     },
   );
 
@@ -273,12 +275,7 @@ const routes = async (app: FastifyInstance) => {
             where: { id: teamId },
             data: { inviteCode: makeInviteCode() },
           });
-          return {
-            id: team.id,
-            number: team.number,
-            name: team.name,
-            inviteCode: team.inviteCode,
-          };
+          return serializePublicTeam(team);
         } catch (err) {
           if (attempt === 4) throw err;
         }

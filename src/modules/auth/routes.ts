@@ -4,6 +4,7 @@ import { prisma } from '../../lib/prisma.js';
 import { env } from '../../config/env.js';
 import { hashPassword, signToken, verifyPassword } from '../../lib/auth.js';
 import { makeInviteCode } from '../../lib/inviteCode.js';
+import { serializePublicTeam as toPublicTeam } from '../../lib/serializeTeam.js';
 import { conflict, notFound, unauthorized } from '../../lib/errors.js';
 import {
   authResultSchema,
@@ -15,10 +16,6 @@ import {
   publicTeamSchema,
 } from './schemas.js';
 import type { Team, User } from '@prisma/client';
-
-function toPublicTeam(team: Team) {
-  return { id: team.id, number: team.number, name: team.name, inviteCode: team.inviteCode };
-}
 
 function toPublicUser(user: User) {
   return {

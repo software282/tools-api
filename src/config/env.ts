@@ -23,7 +23,10 @@ const schema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
   SUPABASE_RECEIPTS_BUCKET: z.string().default('receipts'),
 
-  ANTHROPIC_API_KEY: z.string().optional(),
+  // Each team supplies its own Anthropic key (see src/lib/teamAnthropicKey.ts) —
+  // this key encrypts those at rest. Generate with:
+  //   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+  ENCRYPTION_KEY: z.string().min(16, 'ENCRYPTION_KEY must be at least 16 characters'),
   ANTHROPIC_RECEIPT_MODEL: z.string().default('claude-opus-5'),
 
   OCR_CONFIDENCE_THRESHOLD: z.coerce.number().min(0).max(100).default(70),
@@ -62,9 +65,6 @@ export const corsOrigins =
   env.CORS_ORIGINS === '*'
     ? true
     : env.CORS_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean);
-
-/** Whether the Claude receipt-vision fallback is configured and usable. */
-export const claudeEnabled = Boolean(env.ANTHROPIC_API_KEY);
 
 /** Whether Supabase Storage is configured (needed to persist receipt images). */
 export const supabaseStorageEnabled = Boolean(

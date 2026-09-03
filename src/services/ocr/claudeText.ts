@@ -14,8 +14,9 @@ import type { ParsedReceipt } from './types.js';
 export async function parseTextWithClaude(
   text: string,
   vendor: Vendor,
+  apiKey: string,
 ): Promise<ParsedReceipt> {
-  const client = getClaude();
+  const client = getClaude(apiKey);
 
   const response = await client.messages.create({
     model: RECEIPT_MODEL,

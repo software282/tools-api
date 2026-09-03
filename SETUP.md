@@ -258,9 +258,19 @@ and three API values. Nothing is written to `.env` yet — that is Phase 3.
       `change-me` and the seed will refuse it. This account approves parts for
       every team — use a real password from a manager.
 
-- [ ] **3.6** Optionally set `ANTHROPIC_API_KEY`. It is only the fallback for
-      receipt layouts no vendor parser recognises; pasted confirmations, PDFs, and
-      clear photos all work without it.
+- [x] **3.6 (changed 2026-09-01)** Set `ENCRYPTION_KEY` — **not** an Anthropic
+      key. This is now a shared, multi-team service (each FTC team has its own
+      login), so a single global `ANTHROPIC_API_KEY` no longer makes sense —
+      billing would fall on whoever set the env var, for every team's usage.
+      Instead each team pastes its **own** Anthropic key via
+      `PATCH /teams/current` (`anthropicApiKey`), and `ENCRYPTION_KEY` is what
+      encrypts those at rest:
+      ```bash
+      node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      ```
+      A team with no key configured simply gets no Claude fallback — pasted
+      confirmations, PDFs, and clear photos all still work without it, same as
+      before.
 
 - [x] **3.7** Set `CORS_ORIGINS` to your frontend origin(s), comma-separated.
       `http://localhost:5173` is fine for now.
@@ -527,6 +537,7 @@ listed here — `prisma migrate dev`, `npm run seed`, every endpoint, CI,
 
 | Thing | Status |
 |---|---|
+| **`ENCRYPTION_KEY` on Render** | ⚠️ **Blocking.** `env.ts` now requires it at boot (3.6) — the next deploy will crash-loop until it's added in the Render dashboard (Environment tab), same place `ANTHROPIC_API_KEY` used to be. `ANTHROPIC_API_KEY` can be removed there; it's no longer read anywhere. |
 | Custom domain + TLS on `tools.seattlesolvers` | Not yet pointed there — Phase 7.7. The API is live at the Render-assigned URL in the meantime |
 | REV, Axon, and the five untuned vendors | Zero real-receipt coverage in the accuracy corpus — only goBILDA has a real fixture so far |
 | uxcell SKU pattern | Unverified against a real receipt; degrades safely to the generic parser |

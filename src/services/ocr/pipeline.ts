@@ -1,5 +1,5 @@
 import type { ExtractionMethod, Vendor } from '@prisma/client';
-import { claudeEnabled, env } from '../../config/env.js';
+import { env } from '../../config/env.js';
 import { badRequest } from '../../lib/errors.js';
 import { extractText } from './tesseract.js';
 import { getVendorParser } from './vendors/index.js';
@@ -27,6 +27,7 @@ async function parseDigitalText(
   text: string,
   vendor: Vendor,
   method: ExtractionMethod,
+  apiKey: string | null,
 ): Promise<ExtractionResult> {
   const parsed = getVendorParser(vendor)(text, vendor);
 
@@ -34,12 +35,12 @@ async function parseDigitalText(
     return { method, rawText: text, parsed: parsed!, usedClaude: false, textConfidence: 100 };
   }
 
-  if (claudeEnabled) {
+  if (apiKey) {
     try {
       return {
         method: 'CLAUDE_TEXT',
         rawText: text,
-        parsed: await parseTextWithClaude(text, vendor),
+        parsed: await parseTextWithClaude(text, vendor, apiKey),
         usedClaude: true,
         textConfidence: 100,
       };
@@ -60,9 +61,10 @@ async function parseImage(
   buffer: Buffer,
   contentType: string,
   vendor: Vendor,
+  apiKey: string | null,
 ): Promise<ExtractionResult> {
   const canTesseract = TESSERACT_TYPES.has(contentType);
-  const canVision = claudeEnabled && CLAUDE_VISION_TYPES.has(contentType);
+  const canVision = apiKey !== null && CLAUDE_VISION_TYPES.has(contentType);
 
   let rawText: string | null = null;
   let textConfidence: number | undefined;
@@ -83,7 +85,7 @@ async function parseImage(
       return {
         method: 'CLAUDE_VISION',
         rawText,
-        parsed: await parseWithClaude(buffer, contentType, vendor),
+        parsed: await parseWithClaude(buffer, contentType, vendor, apiKey!),
         usedClaude: true,
         textConfidence,
       };
@@ -113,21 +115,25 @@ async function parseImage(
  * text that needs no OCR and no model call. Photos of physical receipts still
  * work, but they are the exception and the only path that pays for vision.
  */
-export async function runReceiptExtraction(input: ReceiptInput): Promise<ExtractionResult> {
+export async function runReceiptExtraction(
+  input: ReceiptInput,
+  apiKey: string | null,
+): Promise<ExtractionResult> {
   switch (input.kind) {
     case 'text':
-      return parseDigitalText(normalizeWhitespace(input.text), input.vendor, 'PASTED_TEXT');
+      return parseDigitalText(normalizeWhitespace(input.text), input.vendor, 'PASTED_TEXT', apiKey);
 
     case 'html':
       return parseDigitalText(
         normalizeWhitespace(htmlToText(input.html)),
         input.vendor,
         'PASTED_HTML',
+        apiKey,
       );
 
     case 'pdf': {
       const text = await pdfToText(input.buffer);
-      if (text) return parseDigitalText(text, input.vendor, 'PDF_TEXT');
+      if (text) return parseDigitalText(text, input.vendor, 'PDF_TEXT', apiKey);
       // No text layer means a scan or photo saved as PDF. Rasterising it would
       // need another dependency, so ask for an image instead of failing vaguely.
       // Thrown as an AppError so the route surfaces this wording to the user.
@@ -139,6 +145,6 @@ export async function runReceiptExtraction(input: ReceiptInput): Promise<Extract
     }
 
     case 'image':
-      return parseImage(input.buffer, input.contentType, input.vendor);
+      return parseImage(input.buffer, input.contentType, input.vendor, apiKey);
   }
 }

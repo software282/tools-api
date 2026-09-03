@@ -1,7 +1,7 @@
 import type { Vendor } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { getClaude, RECEIPT_MODEL } from '../lib/claude.js';
-import { claudeEnabled } from '../config/env.js';
+import { getTeamAnthropicApiKey } from '../lib/teamAnthropicKey.js';
 
 export type UrlSuggestionSource = 'deterministic' | 'ai_search' | 'none';
 
@@ -40,13 +40,15 @@ export async function suggestProductUrl(params: {
   vendor: Vendor;
   sku?: string;
   name: string;
+  teamId: string | null;
 }): Promise<UrlSuggestion> {
   const deterministic = deterministicUrl(params.vendor, params.sku);
   if (deterministic) {
     return { url: deterministic, source: 'deterministic' };
   }
 
-  if (!claudeEnabled) {
+  const apiKey = await getTeamAnthropicApiKey(params.teamId);
+  if (!apiKey) {
     return { url: null, source: 'none' };
   }
 
@@ -57,7 +59,7 @@ export async function suggestProductUrl(params: {
     });
     const domain = manufacturer?.websiteUrl ? new URL(manufacturer.websiteUrl).hostname : undefined;
 
-    const response = await getClaude().messages.create({
+    const response = await getClaude(apiKey).messages.create({
       model: RECEIPT_MODEL,
       max_tokens: 1024,
       tools: [

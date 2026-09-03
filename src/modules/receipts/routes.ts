@@ -12,6 +12,7 @@ import {
 import { AppError, badRequest, notFound } from '../../lib/errors.js';
 import { visibilityFilter } from '../parts/service.js';
 import { runReceiptExtraction } from '../../services/ocr/pipeline.js';
+import { getTeamAnthropicApiKey } from '../../lib/teamAnthropicKey.js';
 import { looksLikeHtml } from '../../services/ocr/textExtract.js';
 import type { ExtractionResult, ReceiptInput } from '../../services/ocr/types.js';
 import { matchLineItems } from '../../services/partMatch.js';
@@ -122,7 +123,8 @@ async function ingest(params: {
   input: ReceiptInput;
 }) {
   try {
-    const extraction = await runReceiptExtraction(params.input);
+    const apiKey = await getTeamAnthropicApiKey(params.teamId);
+    const extraction = await runReceiptExtraction(params.input, apiKey);
     await storeExtraction({
       receiptId: params.receiptId,
       teamId: params.teamId,

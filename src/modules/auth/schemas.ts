@@ -7,6 +7,8 @@ export const publicTeamSchema = z.object({
   number: z.number().int(),
   name: z.string(),
   inviteCode: z.string(),
+  // Never the key itself — just whether the Claude fallback is usable for this team.
+  anthropicApiKeyConfigured: z.boolean(),
 });
 
 export const publicUserSchema = z.object({
