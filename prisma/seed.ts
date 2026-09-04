@@ -1,9 +1,13 @@
 import 'dotenv/config';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { PrismaClient, type Vendor } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { standardParts, type SeedPart } from './data.js';
 
 const prisma = new PrismaClient();
+const dataDir = path.dirname(fileURLToPath(import.meta.url));
 
 // Fixed category list (slug is the stable key the API filters on).
 const CATEGORIES: Array<{ slug: string; name: string; sort: number }> = [
@@ -15,10 +19,41 @@ const CATEGORIES: Array<{ slug: string; name: string; sort: number }> = [
   { slug: 'shafts', name: 'Shafts', sort: 60 },
   { slug: 'shaft-attachments', name: 'Shaft Attachments', sort: 70 },
   { slug: 'belts', name: 'Belts', sort: 80 },
+  { slug: 'structure', name: 'Structure', sort: 85 },
   { slug: 'hardware', name: 'Hardware', sort: 90 },
   { slug: 'tools', name: 'Tools', sort: 95 },
+  { slug: 'kits', name: 'Kits & Bundles', sort: 97 },
   { slug: 'misc', name: 'Misc', sort: 100 },
 ];
+
+/** Shape written by scripts/scrape-gobilda.ts and the manually-compiled REV Duo list. */
+interface ScrapedPart {
+  sku: string | null;
+  name: string;
+  productUrl: string;
+  imageUrl: string | null;
+  ourCategory: string;
+}
+
+/** Loads a scraped-catalog JSON file if present; missing files just contribute nothing. */
+function loadScrapedParts(fileName: string, manufacturerSlug: string): SeedPart[] {
+  const filePath = path.join(dataDir, 'data', fileName);
+  let raw: ScrapedPart[];
+  try {
+    raw = JSON.parse(readFileSync(filePath, 'utf8'));
+  } catch {
+    console.warn(`  ! ${fileName} not found — skipping (see scripts/scrape-gobilda.ts)`);
+    return [];
+  }
+  return raw.map((p) => ({
+    manufacturerSlug,
+    name: p.name,
+    sku: p.sku,
+    category: p.ourCategory,
+    productUrl: p.productUrl,
+    imageUrl: p.imageUrl ?? undefined,
+  }));
+}
 
 // Manufacturers and their mapping to the receipt Vendor enum.
 const MANUFACTURERS: Array<{
@@ -92,37 +127,48 @@ async function seedSuperAdmin() {
   console.log(`  super admin: ${email} (created)`);
 }
 
+// Chunk size for createMany — keeps each round trip well under the pooler's
+// statement-size limits while still cutting thousands of inserts down to a
+// handful of queries.
+const CREATE_BATCH_SIZE = 250;
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
+}
+
+/**
+ * Seeds the catalog. Deliberately two strategies, not one, because the two
+ * data sources have very different sizes and idempotency needs:
+ *  - `standardParts` (~50 hand-curated entries) get a per-row find-then-
+ *    upsert, since their description/image text is edited over time and a
+ *    re-run should pick up those edits.
+ *  - The scraped goBILDA/REV catalogs (~1,700 entries) are create-only: a
+ *    single findMany builds an in-memory "already seeded" set, then new rows
+ *    go in via chunked `createMany`. A per-row findFirst+create loop over
+ *    that many rows is what disconnected mid-run against Supabase's pooler
+ *    the first time this ran — bulk inserts also just do the same job in a
+ *    few queries instead of ~3,400.
+ */
 async function seedParts() {
   const categories = await prisma.category.findMany();
   const manufacturers = await prisma.manufacturer.findMany();
   const catBySlug = new Map(categories.map((c) => [c.slug, c.id]));
   const mfrBySlug = new Map(manufacturers.map((m) => [m.slug, m.id]));
 
-  let created = 0;
-  let updated = 0;
-
-  for (const part of standardParts as SeedPart[]) {
+  function resolve(part: SeedPart) {
     const manufacturerId = mfrBySlug.get(part.manufacturerSlug);
     const categoryId = catBySlug.get(part.category);
     if (!manufacturerId) {
       console.warn(`  ! skipping "${part.name}" — unknown manufacturer ${part.manufacturerSlug}`);
-      continue;
+      return null;
     }
     if (!categoryId) {
       console.warn(`  ! skipping "${part.name}" — unknown category ${part.category}`);
-      continue;
+      return null;
     }
-
-    // Idempotent key: SKU within manufacturer when present, else name.
-    const existing = await prisma.part.findFirst({
-      where: {
-        manufacturerId,
-        scope: 'GLOBAL',
-        ...(part.sku ? { sku: part.sku } : { name: part.name }),
-      },
-    });
-
-    const data = {
+    return {
       name: part.name,
       sku: part.sku ?? null,
       description: part.description ?? null,
@@ -134,16 +180,61 @@ async function seedParts() {
       scope: 'GLOBAL' as const,
       status: 'APPROVED' as const,
     };
+  }
 
+  // --- Curated list: small, so a per-row upsert (with edits applying on
+  // re-run) is cheap enough. ---
+  let curatedCreated = 0;
+  let curatedUpdated = 0;
+  for (const part of standardParts as SeedPart[]) {
+    const data = resolve(part);
+    if (!data) continue;
+
+    const existing = await prisma.part.findFirst({
+      where: {
+        manufacturerId: data.manufacturerId,
+        scope: 'GLOBAL',
+        ...(data.sku ? { sku: data.sku } : { name: data.name }),
+      },
+    });
     if (existing) {
       await prisma.part.update({ where: { id: existing.id }, data });
-      updated++;
+      curatedUpdated++;
     } else {
       await prisma.part.create({ data });
-      created++;
+      curatedCreated++;
     }
   }
-  console.log(`  parts: ${created} created, ${updated} updated (${standardParts.length} in data set)`);
+  console.log(`  curated parts: ${curatedCreated} created, ${curatedUpdated} updated`);
+
+  // --- Scraped catalogs: bulk create-only. ---
+  const scraped = [
+    ...loadScrapedParts('gobilda-parts.json', 'gobilda'),
+    ...loadScrapedParts('rev-duo-parts.json', 'rev'),
+  ];
+
+  const existingGlobal = await prisma.part.findMany({
+    where: { scope: 'GLOBAL', manufacturerId: { in: [...mfrBySlug.values()] } },
+    select: { manufacturerId: true, sku: true, name: true },
+  });
+  const existingKeys = new Set(existingGlobal.map((p) => `${p.manufacturerId}::${p.sku ?? p.name}`));
+
+  const toCreate = [];
+  for (const part of scraped) {
+    const data = resolve(part);
+    if (!data) continue;
+    const key = `${data.manufacturerId}::${data.sku ?? data.name}`;
+    if (existingKeys.has(key)) continue;
+    existingKeys.add(key); // guards against duplicate SKUs within the scraped set itself
+    toCreate.push(data);
+  }
+
+  for (const batch of chunk(toCreate, CREATE_BATCH_SIZE)) {
+    await prisma.part.createMany({ data: batch });
+  }
+  console.log(
+    `  scraped parts: ${toCreate.length} created, ${scraped.length - toCreate.length} already present (${scraped.length} in data set)`,
+  );
 }
 
 async function main() {
