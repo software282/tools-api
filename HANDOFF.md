@@ -5,36 +5,38 @@ accounts and the next session starts with zero memory of any of this. Read
 this whole file before touching anything — it front-loads what would
 otherwise take an hour of re-deriving.
 
-## The one thing to do before anything else
+## Production status — RESOLVED 2026-09-05
 
-**The live API has been broken for ~10 commits.** `ENCRYPTION_KEY` (a
-required boot-time env var, added several commits back for the BYOK feature)
-was never actually added in Render's dashboard. Every deploy since has
-crash-looped on `Invalid environment configuration: ENCRYPTION_KEY: Required`
-— confirmed from the actual Render deploy logs, not guessed — and Render has
-just kept quietly serving whatever was live *before* that, with no visible
-error to a casual check (`/health` still returns 200, because that route
-never touches the DB or the encryption key).
+For ~10 commits the live API was stuck: `ENCRYPTION_KEY` (a required
+boot-time env var, added for the BYOK feature) had never been set in
+Render's dashboard, so every deploy crash-looped on
+`Invalid environment configuration: ENCRYPTION_KEY: Required` while Render
+quietly kept serving the last build from *before* that commit. `/health`
+returned 200 the whole time — it touches neither the DB nor the key — which
+is exactly why it went unnoticed.
 
-**Fix:** Render dashboard → `tools-api` service → Environment tab → add
-`ENCRYPTION_KEY` (any random 32+ byte hex string —
-`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
-generates one; it was already given to George in chat but isn't repeated here
-since this file is committed to a public repo). Save. Render redeploys
-automatically on an env var change; if it doesn't within a minute or two, use
-Manual Deploy → Deploy latest commit.
+**Fixed.** George added `ENCRYPTION_KEY` in Render and it deployed clean.
+Verified live: 34 paths, both `/api/v1/expenses` routes present,
+`/admin/stats` present, `auth/teams` returning the new `{ team, warning }`
+contract. `CORS_ORIGINS` also now includes the Claude Design preview origin,
+confirmed by preflight (allowed origin echoes back
+`access-control-allow-origin`; a random origin does not).
 
-**After that fix lands, verify it actually worked** — don't just trust a
-green Render dashboard:
+**The key used is the same one in this machine's `.env`** — deliberately, so
+local scripts and production can decrypt the same `Team.anthropicApiKeyCiphertext`
+values. Do not "helpfully" regenerate it. At the time it was set, zero teams
+had a key stored, so nothing was at risk; once teams start saving Anthropic
+keys, rotating it means every team must re-enter theirs.
+
+**How to re-verify production is current** (do this after any deploy — a
+green Render dashboard is not proof):
 ```
 curl https://tools-api-9vfr.onrender.com/health
-curl -o /dev/null -w "%{http_code}\n" https://tools-api-9vfr.onrender.com/api/v1/expenses   # 401 (needs auth) is correct/expected, not 404
-curl https://tools-api-9vfr.onrender.com/openapi.json | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>console.log(Object.keys(JSON.parse(d).paths).length))"   # should print 34
+curl -o /dev/null -w "%{http_code}\n" https://tools-api-9vfr.onrender.com/api/v1/expenses   # 401 (needs auth) is correct, 404 means stale
+curl https://tools-api-9vfr.onrender.com/openapi.json | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>console.log(Object.keys(JSON.parse(d).paths).length))"   # 34 as of d8f1c9b
 ```
-If that last number isn't 34, the deploy still isn't current — go back to
-Render's Events tab and read the actual failure, don't guess. See "A
-diagnostic technique worth keeping" below for how this was tracked down last
-time.
+If the path count is behind, read Render's Events tab for the actual failure
+rather than guessing. See "A diagnostic technique worth keeping" below.
 
 ## What this project is
 
@@ -204,27 +206,27 @@ latest push made it.
 
 ## Open items, roughly in order of urgency
 
-1. **Fix the Render `ENCRYPTION_KEY` gap** (above) — blocks everything else
-   from being real in production.
-2. **Confirm the frontend is actually deployed to Cloudflare Pages.** Ask
-   George directly; don't assume the zip having been generated means it was
-   uploaded.
-3. **`CORS_ORIGINS` on Render** almost certainly still needs the real
-   Cloudflare Pages origin added (comma-separated) once #2 is confirmed —
-   currently just the `http://localhost:5173` dev placeholder.
-4. **Expenses screen** doesn't exist in the frontend yet — the design brief
-   for it was just handed off; George is building it in Claude Design.
-5. **Cost-prompt UX** for when a receipt line's price fails to parse (the
-   frontend needs to ask for `unitCost` at that point, or that part can
-   never be expense-tracked) — covered in the same brief, not yet built.
-6. **Custom domain** (`tools.seattlesolvers.com`) — DNS CNAME still not
+1. ~~Fix the Render `ENCRYPTION_KEY` gap~~ — **done 2026-09-05**, see above.
+2. **Expenses screen** doesn't exist in the frontend yet. George is building
+   it in Claude Design and will hand over a **fresh zip export** — read
+   `MERGE-NOTES.md` in the frontend repo *before* unzipping it over
+   anything, or ~190 lines of API wiring get silently reverted.
+3. **Cost-prompt UX** for when a receipt line's price fails to parse (the
+   frontend needs to ask for `unitCost` then, or that part can never be
+   expense-tracked). Same merge applies.
+4. **Confirm the frontend is actually deployed to Cloudflare Pages.** Still
+   unconfirmed — the zip existing is not evidence it was uploaded. Ask.
+   Note George has been previewing via Claude Design
+   (`*.claudeusercontent.com`, now allow-listed in `CORS_ORIGINS`) rather
+   than a `.pages.dev` URL, so Cloudflare may never have happened at all.
+5. **Custom domain** (`tools.seattlesolvers.com`) — DNS CNAME still not
    pointed at Render; George's own registrar access, not urgent.
-7. **Four unused `screens-*.jsx` files** sit in the frontend repo
+6. **Four unused `screens-*.jsx` files** sit in the frontend repo
    (`screens-auth.jsx`, `screens-parts.jsx`, `screens-inventory.jsx`,
    `screens-receipts.jsx`) — an earlier design draft never wired into the
    real entry HTML, dead code. Asked once whether to delete them; no answer
    yet either way.
-8. **goBILDA/REV price backfill** — not started, would be a large separate
+7. **goBILDA/REV price backfill** — not started, would be a large separate
    scraping effort (see item 8 in the commit list above).
 
 ## Conventions this session established — keep following them
