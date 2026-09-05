@@ -2057,6 +2057,7 @@
         "tags": [
           "inventory"
         ],
+        "description": "Raising the quantity records an ESTIMATED expense for the difference, priced at the part's lastKnownPrice — this is the path the UI's quantity controls actually use, so it has to count as acquiring stock. Lowering it records nothing (stock gets used; there is no refund), and neither does raising a part whose price is still unknown — see GET /expenses.",
         "requestBody": {
           "required": true,
           "content": {
@@ -2316,7 +2317,7 @@
         "tags": [
           "inventory"
         ],
-        "description": "A positive delta on a part with a known lastKnownPrice records an ESTIMATED expense entry (see GET /expenses) — there is no receipt line here to read an exact price from. A negative delta, or a part with no known price yet, records nothing. (PUT /inventory/:partId sets an absolute count instead of a delta, so it never implies a purchase and never records an expense.)",
+        "description": "A positive delta on a part with a known lastKnownPrice records an ESTIMATED expense entry (see GET /expenses) — there is no receipt line here to read an exact price from. A negative delta, or a part with no known price yet, records nothing. PUT /inventory/:partId behaves the same way for the difference it implies, so it makes no distinction which of the two the caller uses.",
         "requestBody": {
           "required": true,
           "content": {

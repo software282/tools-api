@@ -200,6 +200,12 @@ const routes = async (app: FastifyInstance) => {
       schema: {
         tags: ['inventory'],
         summary: 'Set the quantity (and optional location/notes) of a part',
+        description:
+          'Raising the quantity records an ESTIMATED expense for the difference, priced ' +
+          "at the part's lastKnownPrice — this is the path the UI's quantity controls " +
+          'actually use, so it has to count as acquiring stock. Lowering it records ' +
+          'nothing (stock gets used; there is no refund), and neither does raising a ' +
+          'part whose price is still unknown — see GET /expenses.',
         security: [{ bearerAuth: [] }],
         params: z.object({ partId: z.string() }),
         body: setQtyBody,
@@ -208,16 +214,40 @@ const routes = async (app: FastifyInstance) => {
     },
     async (req) => {
       const teamId = req.auth!.teamId!;
-      await assertPartVisible(req.params.partId, teamId);
+      const part = await assertPartVisible(req.params.partId, teamId);
       const { quantity, minQuantity, location, notes } = req.body;
 
-      const row = await prisma.inventoryItem.upsert({
+      const existing = await prisma.inventoryItem.findUnique({
         where: { teamId_partId: { teamId, partId: req.params.partId } },
-        create: { teamId, partId: req.params.partId, quantity, minQuantity, location, notes },
-        // Omitted minQuantity leaves an existing threshold alone, so setting a
-        // quantity never silently clears one.
-        update: { quantity, location, notes, ...(minQuantity !== undefined ? { minQuantity } : {}) },
-        include: { part: { include: partInclude } },
+        select: { quantity: true },
+      });
+      const increase = quantity - (existing?.quantity ?? 0);
+
+      const row = await prisma.$transaction(async (tx) => {
+        const updated = await tx.inventoryItem.upsert({
+          where: { teamId_partId: { teamId, partId: req.params.partId } },
+          create: { teamId, partId: req.params.partId, quantity, minQuantity, location, notes },
+          // Omitted minQuantity leaves an existing threshold alone, so setting a
+          // quantity never silently clears one.
+          update: { quantity, location, notes, ...(minQuantity !== undefined ? { minQuantity } : {}) },
+          include: { part: { include: partInclude } },
+        });
+
+        if (increase > 0 && part.lastKnownPrice !== null) {
+          const unitCost = Number(part.lastKnownPrice);
+          await tx.expenseEntry.create({
+            data: {
+              teamId,
+              partId: part.id,
+              quantity: increase,
+              unitCost,
+              totalCost: unitCost * increase,
+              source: 'ESTIMATED',
+            },
+          });
+        }
+
+        return updated;
       });
       return serializeRow(row);
     },
@@ -234,8 +264,8 @@ const routes = async (app: FastifyInstance) => {
           "A positive delta on a part with a known lastKnownPrice records an ESTIMATED " +
           'expense entry (see GET /expenses) — there is no receipt line here to read an ' +
           "exact price from. A negative delta, or a part with no known price yet, records " +
-          "nothing. (PUT /inventory/:partId sets an absolute count instead of a delta, so " +
-          "it never implies a purchase and never records an expense.)",
+          'nothing. PUT /inventory/:partId behaves the same way for the difference it ' +
+          'implies, so it makes no distinction which of the two the caller uses.',
         security: [{ bearerAuth: [] }],
         params: z.object({ partId: z.string() }),
         body: adjustBody,

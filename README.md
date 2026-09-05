@@ -328,6 +328,7 @@ it represents, in exactly three places:
 | `POST /receipts/:id/confirm` on a line with a parsed price | `RECEIPT` | The line's own `unitPrice` — exact. Also refreshes the part's `lastKnownPrice`. |
 | `POST /receipts/:id/confirm` on a line with **no** parsed price | `ESTIMATED` | The part's existing `lastKnownPrice`, if it has one |
 | `POST /inventory/:partId/adjust` with a positive `delta` | `ESTIMATED` | The part's `lastKnownPrice`, if it has one |
+| `PUT /inventory/:partId` raising the quantity | `ESTIMATED` | The part's `lastKnownPrice`, if it has one |
 | `POST /parts` with `unitCost` supplied | — (sets the price; doesn't itself log a purchase) | Becomes the new part's `lastKnownPrice` |
 
 A quantity increase with no knowable cost — no receipt price, and the part has
@@ -335,10 +336,12 @@ no `lastKnownPrice` yet — creates **no row**, never a fabricated one. A part
 row's `allExact: false` in the response is the honest signal that its total
 mixes in an estimate rather than only real receipt prices.
 
-**`PUT /inventory/:partId` never logs an expense** — it sets an absolute
-count (a stock-take correction), which doesn't reliably imply a purchase the
-way a positive `/adjust` delta does. Only `/adjust` is treated as "we got
-more of this."
+**Both inventory write paths count, deliberately.** `PUT` originally didn't,
+on the theory that setting an absolute count is a stock-take correction
+rather than a purchase. That was wrong in practice: every quantity control in
+the frontend uses `PUT`, so the rule meant manual expense tracking could
+never fire at all. Raising a quantity now records the difference either way.
+Lowering one records nothing — stock gets used, and there is no refund.
 
 **Prompting for a manual cost:** when a receipt line's price parsing fails
 (`unitPrice: null`) and the reviewer adds it as a new part via `POST /parts`,
