@@ -46,9 +46,120 @@ function serialize(row: {
   };
 }
 
+const statsSchema = z.object({
+  generatedAt: z.string(),
+  requests: z.object({
+    today: z.number().int(),
+    last7Days: z.number().int(),
+    // statusCode >= 500 in the last 7 days — a rising count is a much earlier
+    // capacity-pressure signal than request volume alone.
+    serverErrorsLast7Days: z.number().int(),
+  }),
+  teams: z.object({
+    total: z.number().int(),
+    // Distinct teamId across requests in the last 7 days — "how many teams
+    // are actually using this," not just how many have ever signed up.
+    activeLast7Days: z.number().int(),
+    withAnthropicKeyConfigured: z.number().int(),
+  }),
+  receipts: z.object({
+    last7Days: z.number().int(),
+    totalAllTime: z.number().int(),
+  }),
+  topTeamsLast7Days: z.array(
+    z.object({
+      teamId: z.string(),
+      teamNumber: z.number().int().nullable(),
+      teamName: z.string().nullable(),
+      requestCount: z.number().int(),
+    }),
+  ),
+});
+
 const routes = async (app: FastifyInstance) => {
   const r = app.withTypeProvider<ZodTypeProvider>();
   const adminOnly = { preHandler: [app.requireAuth, app.requireRole('SUPER_ADMIN')] };
+
+  r.get(
+    '/stats',
+    {
+      ...adminOnly,
+      schema: {
+        tags: ['admin'],
+        summary: 'Usage stats — request volume, active teams, receipt throughput',
+        description:
+          'Backed by RequestLog, one row per API request (see src/server.ts\'s ' +
+          "onResponse hook; /health is excluded). Meant for capacity planning as " +
+          'more teams come on, not per-second monitoring — query it occasionally, ' +
+          "not in a tight poll loop (that would itself show up in next week's numbers).",
+        security: [{ bearerAuth: [] }],
+        response: { 200: statsSchema },
+      },
+    },
+    async () => {
+      const now = new Date();
+      const startOfToday = new Date(now);
+      startOfToday.setHours(0, 0, 0, 0);
+      const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+      const [
+        requestsToday,
+        requestsLast7Days,
+        serverErrorsLast7Days,
+        totalTeams,
+        teamsWithKey,
+        receiptsLast7Days,
+        receiptsTotal,
+        activeTeamRows,
+      ] = await Promise.all([
+        prisma.requestLog.count({ where: { createdAt: { gte: startOfToday } } }),
+        prisma.requestLog.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+        prisma.requestLog.count({
+          where: { createdAt: { gte: sevenDaysAgo }, statusCode: { gte: 500 } },
+        }),
+        prisma.team.count(),
+        prisma.team.count({ where: { anthropicApiKeyCiphertext: { not: null } } }),
+        prisma.receipt.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+        prisma.receipt.count(),
+        // groupBy, not a raw distinct-count: also doubles as the per-team
+        // request counts topTeamsLast7Days ranks below.
+        prisma.requestLog.groupBy({
+          by: ['teamId'],
+          where: { createdAt: { gte: sevenDaysAgo }, teamId: { not: null } },
+          _count: { _all: true },
+          orderBy: { _count: { teamId: 'desc' } },
+        }),
+      ]);
+
+      const topRows = activeTeamRows.slice(0, 10);
+      const teams = await prisma.team.findMany({
+        where: { id: { in: topRows.map((r) => r.teamId!) } },
+        select: { id: true, number: true, name: true },
+      });
+      const teamById = new Map(teams.map((t) => [t.id, t]));
+
+      return {
+        generatedAt: now.toISOString(),
+        requests: {
+          today: requestsToday,
+          last7Days: requestsLast7Days,
+          serverErrorsLast7Days,
+        },
+        teams: {
+          total: totalTeams,
+          activeLast7Days: activeTeamRows.length,
+          withAnthropicKeyConfigured: teamsWithKey,
+        },
+        receipts: { last7Days: receiptsLast7Days, totalAllTime: receiptsTotal },
+        topTeamsLast7Days: topRows.map((row) => ({
+          teamId: row.teamId!,
+          teamNumber: teamById.get(row.teamId!)?.number ?? null,
+          teamName: teamById.get(row.teamId!)?.name ?? null,
+          requestCount: row._count._all,
+        })),
+      };
+    },
+  );
 
   r.get(
     '/submissions',

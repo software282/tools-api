@@ -152,6 +152,7 @@ team join — team creation itself issues no token (see below).
 | | `POST /receipts/:id/confirm` | Apply matched lines to inventory (idempotent per line) |
 | Admin | `GET /admin/submissions` | Pending library submissions (`SUPER_ADMIN`) |
 | | `POST /admin/submissions/:id/approve\|reject` | Review |
+| | `GET /admin/stats` | Usage: request volume, active teams, receipt throughput (`SUPER_ADMIN`) — see SETUP.md Phase 7.10 |
 
 ## Notes for the design/frontend phase
 

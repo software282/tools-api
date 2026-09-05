@@ -4078,6 +4078,130 @@
         }
       }
     },
+    "/api/v1/admin/stats": {
+      "get": {
+        "summary": "Usage stats — request volume, active teams, receipt throughput",
+        "tags": [
+          "admin"
+        ],
+        "description": "Backed by RequestLog, one row per API request (see src/server.ts's onResponse hook; /health is excluded). Meant for capacity planning as more teams come on, not per-second monitoring — query it occasionally, not in a tight poll loop (that would itself show up in next week's numbers).",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "generatedAt": {
+                      "type": "string"
+                    },
+                    "requests": {
+                      "type": "object",
+                      "properties": {
+                        "today": {
+                          "type": "integer"
+                        },
+                        "last7Days": {
+                          "type": "integer"
+                        },
+                        "serverErrorsLast7Days": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "today",
+                        "last7Days",
+                        "serverErrorsLast7Days"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "teams": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "activeLast7Days": {
+                          "type": "integer"
+                        },
+                        "withAnthropicKeyConfigured": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "activeLast7Days",
+                        "withAnthropicKeyConfigured"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "receipts": {
+                      "type": "object",
+                      "properties": {
+                        "last7Days": {
+                          "type": "integer"
+                        },
+                        "totalAllTime": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "last7Days",
+                        "totalAllTime"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "topTeamsLast7Days": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "teamId": {
+                            "type": "string"
+                          },
+                          "teamNumber": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "teamName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "requestCount": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "teamId",
+                          "teamNumber",
+                          "teamName",
+                          "requestCount"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "generatedAt",
+                    "requests",
+                    "teams",
+                    "receipts",
+                    "topTeamsLast7Days"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/submissions": {
       "get": {
         "summary": "List parts submitted for the global library, pending review",

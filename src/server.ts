@@ -15,6 +15,7 @@ import { ZodError } from 'zod';
 
 import { corsOrigins, env } from './config/env.js';
 import { AppError } from './lib/errors.js';
+import { prisma } from './lib/prisma.js';
 import authPlugin from './plugins/auth.js';
 
 import authRoutes from './modules/auth/routes.js';
@@ -113,6 +114,27 @@ export async function buildServer() {
   }
 
   await app.register(authPlugin);
+
+  // Best-effort usage logging, for GET /admin/stats — capacity planning as
+  // more teams come on. Excludes /health: Render's own health check pings it
+  // far more often than any real usage ever would, and it carries no team.
+  // Never lets a logging failure touch the actual response.
+  app.addHook('onResponse', async (request, reply) => {
+    if (request.url === '/health' || env.NODE_ENV === 'test') return;
+    try {
+      await prisma.requestLog.create({
+        data: {
+          method: request.method,
+          path: request.routeOptions.url ?? request.url,
+          statusCode: reply.statusCode,
+          durationMs: Math.round(reply.elapsedTime),
+          teamId: request.auth?.teamId ?? null,
+        },
+      });
+    } catch (err) {
+      request.log.warn({ err }, 'failed to write request log');
+    }
+  });
 
   // Consistent error shape for the frontend.
   app.setErrorHandler((error: FastifyError, request, reply) => {

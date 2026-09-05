@@ -503,6 +503,56 @@ first-ever build of this Dockerfile, on the very first attempt, deployed clean
       occasional slow first request is still expected until there's real
       regular traffic or the Render plan is upgraded.
 
+- [x] **7.10 (new)** **Capacity check, 2026-09-05: what does 50 teams on their
+      own Anthropic keys actually mean for this stack?** George asked; here's
+      the reasoning, grounded against Render's and Supabase's current
+      documented limits (not guessed from memory) rather than the request
+      volume, since that turned out not to be the real constraint:
+
+      **Request volume is a non-issue at this scale.** A generous estimate —
+      50 teams × ~10 active users × ~3 meetings/week × ~30 requests/session —
+      is on the order of 40-50K requests/week, almost all clustered into each
+      team's after-school meeting hours. That is roughly 1,500-2,000 req/hour
+      *during* those windows and near-zero overnight — nowhere close to
+      `RATE_LIMIT_MAX` (300/min, and per-IP, so teams never compete with each
+      other for it), and a trivial load for either Render or Supabase's free
+      tiers by request count alone.
+
+      **Claude usage isn't pooled at all.** Because every team supplies its
+      own Anthropic key (see the BYOK work above), this server never sees or
+      pays for Claude spend — each team's own account absorbs its own cost
+      and rate limits. 50 teams' worth of receipt-parsing/product-lookup
+      calls is 50 separate bills, not one.
+
+      **What would actually bite, in order:**
+      1. **Render free tier's CPU (0.1 vCPU / 512 MB, confirmed via Render's
+         docs).** This is the real first bottleneck, not request count — a
+         burst of teams uploading *photo* receipts in the same window would
+         have several genuinely CPU-heavy Tesseract OCR jobs competing for
+         that sliver of CPU at once, slowing everyone down. The Starter plan
+         (0.5 vCPU, same 512 MB) is the first upgrade worth making, once that
+         kind of concurrent load actually shows up in `/admin/stats` below.
+      2. **Render's 750 free instance-hours/month** already covers one
+         always-on service (744h in a 31-day month) — already fully spent
+         just by staying up via 7.9's keep-alive Action, independent of
+         traffic. Fine as long as this stays one service.
+      3. **Supabase free tier (confirmed via Supabase's pricing page):** 500
+         MB database, 60 direct / 200 pooler connections, 5 GB egress/month.
+         The schema here is small relational rows — 1,726 parts plus modest
+         per-team inventory/receipt data fits 500 MB many times over even at
+         50 teams. Egress is the one to watch if receipt-photo upload/download
+         volume grows across seasons; not a concern yet.
+
+      **To actually watch this instead of estimating it:** `GET
+      /admin/stats` (SUPER_ADMIN) reports request volume (today/7-day),
+      server-error rate, active teams in the last 7 days, and the top 10
+      teams by request count — backed by `RequestLog`, one row per API
+      request (`/health` excluded, since Render's own health check would
+      otherwise dominate the numbers). Render and Supabase also have their
+      own request/DB dashboards built in, worth glancing at directly for
+      infra-level signals (CPU, memory, connection count) this table doesn't
+      carry.
+
 ---
 
 ## Phase 8 — Hand off to Claude design

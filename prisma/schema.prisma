@@ -241,3 +241,24 @@ model ReceiptLineItem {
 
   @@index([receiptId])
 }
+
+// ─────────────────────────── Usage ───────────────────────────
+
+// One row per API request, for GET /admin/stats — capacity planning across
+// however many teams end up on this (see SETUP.md's traffic-estimate note).
+// Deliberately no relation/FK to Team or User: this is a historical record of
+// what happened, and must stay intact and queryable even after a team leaves
+// or an account is removed. /health is excluded at the call site — Render's
+// own health-check pings it far more often than any real usage ever would.
+model RequestLog {
+  id         String   @id @default(cuid())
+  method     String
+  path       String
+  statusCode Int
+  durationMs Int
+  teamId     String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([teamId, createdAt])
+}
