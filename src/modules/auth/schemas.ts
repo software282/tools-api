@@ -28,9 +28,13 @@ export const authResultSchema = z.object({
 export const createTeamBody = z.object({
   teamNumber: z.number().int().positive(),
   teamName: z.string().min(1).max(120),
-  displayName: z.string().min(1).max(80),
-  email: z.string().email(),
-  password: z.string().min(8).max(200),
+});
+
+// No token/user here — see the route's description for why. `warning` is
+// carried in the payload itself (not just the docs) so no caller can miss it.
+export const createTeamResponse = z.object({
+  team: publicTeamSchema,
+  warning: z.string(),
 });
 
 export const joinTeamBody = z.object({

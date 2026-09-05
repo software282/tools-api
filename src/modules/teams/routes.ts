@@ -220,7 +220,8 @@ const routes = async (app: FastifyInstance) => {
         tags: ['teams'],
         summary: 'Join a team with an invite code, using your existing account',
         description:
-          'For accounts that do not currently belong to a team. To sign up and join in one step, use POST /auth/join instead. Leave your current team first if you have one.',
+          'For accounts that do not currently belong to a team. To sign up and join in one step, use POST /auth/join instead. Leave your current team first if you have one. ' +
+          'The first person to join a brand-new team (0 existing members) becomes TEAM_ADMIN automatically, same as POST /auth/join.',
         security: [{ bearerAuth: [] }],
         body: joinBody,
         response: { 200: publicTeamSchema },
@@ -232,7 +233,7 @@ const routes = async (app: FastifyInstance) => {
       // and rejecting them here would leave them unable to join anywhere.
       const self = await prisma.user.findUnique({
         where: { id: req.auth!.sub },
-        select: { teamId: true },
+        select: { teamId: true, role: true },
       });
       if (!self) throw notFound('Account no longer exists', 'ACCOUNT_GONE');
       if (self.teamId) {
@@ -244,9 +245,15 @@ const routes = async (app: FastifyInstance) => {
       });
       if (!team) throw notFound('No team found for that invite code', 'INVALID_INVITE');
 
+      // Same rule as POST /auth/join: nobody logs into "the team" itself, so the
+      // first real account to join a brand-new team becomes its admin. A
+      // Seattle Solvers SUPER_ADMIN has no team by design (see prisma/seed.ts) —
+      // never demote one to TEAM_ADMIN just for satisfying that check.
+      const memberCount = await prisma.user.count({ where: { teamId: team.id } });
+      const promoteToAdmin = memberCount === 0 && self.role !== 'SUPER_ADMIN';
       await prisma.user.update({
         where: { id: req.auth!.sub },
-        data: { teamId: team.id },
+        data: { teamId: team.id, role: promoteToAdmin ? 'TEAM_ADMIN' : undefined },
       });
       return serializePublicTeam(team);
     },

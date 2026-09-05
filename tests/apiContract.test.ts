@@ -189,10 +189,9 @@ describe('API contract', () => {
     it('rejects a too-short password', async () => {
       const res = await app.inject({
         method: 'POST',
-        url: '/api/v1/auth/teams',
+        url: '/api/v1/auth/join',
         payload: {
-          teamNumber: 12345,
-          teamName: 'Seattle Solvers',
+          inviteCode: 'ABCD1234',
           displayName: 'George',
           email: 'george@example.com',
           password: 'short',
@@ -232,9 +231,6 @@ describe('API contract', () => {
         payload: {
           teamNumber: 'not-a-number',
           teamName: 'Seattle Solvers',
-          displayName: 'George',
-          email: 'george@example.com',
-          password: 'a-long-enough-password',
         },
       });
       expect(res.statusCode).toBe(400);

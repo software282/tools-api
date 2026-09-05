@@ -27,10 +27,11 @@
     },
     "/api/v1/auth/teams": {
       "post": {
-        "summary": "Create a new team and its first (admin) member",
+        "summary": "Create a new team and get its one-time invite code",
         "tags": [
           "auth"
         ],
+        "description": "Creates only the Team — no login account, no token. Every person, including whoever calls this, gets their own account the same way everyone else does: POST /auth/join with the returned inviteCode. The first person to join a new team becomes TEAM_ADMIN automatically; everyone after that joins as MEMBER. There is no other way to see this invite code afterward (rotating it requires already being a team admin, which requires already having an account) — the caller MUST show `warning` and have the user save the code before leaving the page.",
         "requestBody": {
           "required": true,
           "content": {
@@ -47,28 +48,11 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 120
-                  },
-                  "displayName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 80
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "maxLength": 200
                   }
                 },
                 "required": [
                   "teamNumber",
-                  "teamName",
-                  "displayName",
-                  "email",
-                  "password"
+                  "teamName"
                 ],
                 "additionalProperties": false
               }
@@ -83,44 +67,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "token": {
-                      "type": "string"
-                    },
-                    "user": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string",
-                          "format": "email"
-                        },
-                        "displayName": {
-                          "type": "string"
-                        },
-                        "role": {
-                          "type": "string",
-                          "enum": [
-                            "MEMBER",
-                            "TEAM_ADMIN",
-                            "SUPER_ADMIN"
-                          ]
-                        },
-                        "teamId": {
-                          "type": "string",
-                          "nullable": true
-                        }
-                      },
-                      "required": [
-                        "id",
-                        "email",
-                        "displayName",
-                        "role",
-                        "teamId"
-                      ],
-                      "additionalProperties": false
-                    },
                     "team": {
                       "type": "object",
                       "properties": {
@@ -147,14 +93,15 @@
                         "inviteCode",
                         "anthropicApiKeyConfigured"
                       ],
-                      "additionalProperties": false,
-                      "nullable": true
+                      "additionalProperties": false
+                    },
+                    "warning": {
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "token",
-                    "user",
-                    "team"
+                    "team",
+                    "warning"
                   ],
                   "additionalProperties": false
                 }
@@ -170,6 +117,7 @@
         "tags": [
           "auth"
         ],
+        "description": "The usual way to get an account: teams have no login of their own, so this is how every member — including whoever created the team — signs up. The first person to join a brand-new team (0 existing members) becomes TEAM_ADMIN automatically; everyone after that joins as MEMBER.",
         "requestBody": {
           "required": true,
           "content": {
@@ -3974,7 +3922,7 @@
         "tags": [
           "teams"
         ],
-        "description": "For accounts that do not currently belong to a team. To sign up and join in one step, use POST /auth/join instead. Leave your current team first if you have one.",
+        "description": "For accounts that do not currently belong to a team. To sign up and join in one step, use POST /auth/join instead. Leave your current team first if you have one. The first person to join a brand-new team (0 existing members) becomes TEAM_ADMIN automatically, same as POST /auth/join.",
         "requestBody": {
           "required": true,
           "content": {

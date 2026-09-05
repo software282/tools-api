@@ -357,6 +357,15 @@ executed. Use `/docs` to send the requests.
 
 - [x] **5.1** `POST /api/v1/auth/teams` — create your team and first admin. Save
       the returned token and invite code.
+
+      **2026-09-05 update — this endpoint's contract changed.** Team creation no
+      longer creates a login account or returns a token: it never made sense for
+      a *team* to have its own shared password students could sign into. It now
+      returns just `{ team, warning }` — the invite code, and a `warning` string
+      the frontend must surface, since this is the only time that code is shown
+      outside of an already-logged-in admin rotating it. Every person, including
+      whoever runs this step, gets their own account via `POST /api/v1/auth/join`
+      afterward; the first person to join becomes `TEAM_ADMIN` automatically.
 - [x] **5.2** `POST /api/v1/auth/login` — confirm the token round-trips.
 - [x] **5.3** `GET /api/v1/parts` with the token — each part should now carry
       `ownedQuantity`.

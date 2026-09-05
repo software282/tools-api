@@ -113,13 +113,13 @@ Useful scripts:
   ([GHSA-83w8-p2f5-377r](https://github.com/advisories/GHSA-83w8-p2f5-377r)) with
   no fix available.
 
-All routes are under `/api/v1`. Auth is a Bearer JWT from `/auth/login`, team
-create, or team join.
+All routes are under `/api/v1`. Auth is a Bearer JWT from `/auth/login` or
+team join — team creation itself issues no token (see below).
 
 | Area | Endpoint | Notes |
 |------|----------|-------|
-| Auth | `POST /auth/teams` | Create team + first admin (`TEAM_ADMIN`), returns invite code |
-| | `POST /auth/join` | Sign up and join a team via invite code |
+| Auth | `POST /auth/teams` | Creates only the Team — no account, no token. Returns the invite code once, plus a `warning` to save it: nobody logs into a team directly, so this is the only time it's shown outside of an already-logged-in admin rotating it. |
+| | `POST /auth/join` | Sign up and join a team via invite code — how everyone gets an account, including whoever created the team. First joiner on a brand-new team becomes `TEAM_ADMIN` automatically; everyone after that is `MEMBER`. |
 | | `POST /auth/login` | Email + password → JWT |
 | | `GET /auth/me` | Current user + team |
 | | `GET /auth/invite-code` | Own team's invite code |

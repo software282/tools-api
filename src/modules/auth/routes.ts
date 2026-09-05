@@ -10,6 +10,7 @@ import {
   authResultSchema,
   changePasswordBody,
   createTeamBody,
+  createTeamResponse,
   joinTeamBody,
   loginBody,
   meResponse,
@@ -45,22 +46,25 @@ const routes = async (app: FastifyInstance) => {
       config: credentialRateLimit,
       schema: {
         tags: ['auth'],
-        summary: 'Create a new team and its first (admin) member',
+        summary: "Create a new team and get its one-time invite code",
+        description:
+          'Creates only the Team — no login account, no token. Every person, including ' +
+          'whoever calls this, gets their own account the same way everyone else does: ' +
+          'POST /auth/join with the returned inviteCode. The first person to join a new ' +
+          'team becomes TEAM_ADMIN automatically; everyone after that joins as MEMBER. ' +
+          'There is no other way to see this invite code afterward (rotating it requires ' +
+          'already being a team admin, which requires already having an account) — the ' +
+          'caller MUST show `warning` and have the user save the code before leaving ' +
+          'the page.',
         body: createTeamBody,
-        response: { 201: authResultSchema },
+        response: { 201: createTeamResponse },
       },
     },
     async (req, reply) => {
-      const { teamNumber, teamName, displayName, email, password } = req.body;
+      const { teamNumber, teamName } = req.body;
 
-      const [existingTeam, existingUser] = await Promise.all([
-        prisma.team.findUnique({ where: { number: teamNumber } }),
-        prisma.user.findUnique({ where: { email: email.toLowerCase() } }),
-      ]);
+      const existingTeam = await prisma.team.findUnique({ where: { number: teamNumber } });
       if (existingTeam) throw conflict(`Team ${teamNumber} already exists`, 'TEAM_EXISTS');
-      if (existingUser) throw conflict('An account with that email already exists', 'EMAIL_EXISTS');
-
-      const passwordHash = await hashPassword(password);
 
       // Retry invite-code generation on the rare unique collision.
       let team: Team | null = null;
@@ -75,23 +79,13 @@ const routes = async (app: FastifyInstance) => {
       }
       if (!team) throw conflict('Could not create team, please retry', 'TEAM_CREATE_FAILED');
 
-      const user = await prisma.user.create({
-        data: {
-          email: email.toLowerCase(),
-          passwordHash,
-          displayName,
-          role: 'TEAM_ADMIN',
-          teamId: team.id,
-        },
+      return reply.status(201).send({
+        team: toPublicTeam(team),
+        warning:
+          `Write down this invite code now: ${team.inviteCode}. It will not be shown ` +
+          "again, and there is no account or password for this team to log into — " +
+          'every member, including you, must join with it via POST /auth/join.',
       });
-
-      const token = signToken({
-        sub: user.id,
-        role: user.role,
-        teamId: user.teamId,
-        tv: user.tokenVersion,
-      });
-      return reply.status(201).send({ token, user: toPublicUser(user), team: toPublicTeam(team) });
     },
   );
 
@@ -102,6 +96,11 @@ const routes = async (app: FastifyInstance) => {
       schema: {
         tags: ['auth'],
         summary: 'Join an existing team using its invite code',
+        description:
+          'The usual way to get an account: teams have no login of their own, so this is ' +
+          'how every member — including whoever created the team — signs up. The first ' +
+          'person to join a brand-new team (0 existing members) becomes TEAM_ADMIN ' +
+          'automatically; everyone after that joins as MEMBER.',
         body: joinTeamBody,
         response: { 201: authResultSchema },
       },
@@ -118,8 +117,17 @@ const routes = async (app: FastifyInstance) => {
       if (existingUser) throw conflict('An account with that email already exists', 'EMAIL_EXISTS');
 
       const passwordHash = await hashPassword(password);
+      // Nobody logs into "the team" — the first person to actually join becomes
+      // the admin, and everyone after that is a regular member.
+      const memberCount = await prisma.user.count({ where: { teamId: team.id } });
       const user = await prisma.user.create({
-        data: { email: email.toLowerCase(), passwordHash, displayName, role: 'MEMBER', teamId: team.id },
+        data: {
+          email: email.toLowerCase(),
+          passwordHash,
+          displayName,
+          role: memberCount === 0 ? 'TEAM_ADMIN' : 'MEMBER',
+          teamId: team.id,
+        },
       });
 
       const token = signToken({
