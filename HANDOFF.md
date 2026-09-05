@@ -1,0 +1,257 @@
+# Handoff — read this first
+
+Written 2026-09-05, end of a long session, because George is switching Claude
+accounts and the next session starts with zero memory of any of this. Read
+this whole file before touching anything — it front-loads what would
+otherwise take an hour of re-deriving.
+
+## The one thing to do before anything else
+
+**The live API has been broken for ~10 commits.** `ENCRYPTION_KEY` (a
+required boot-time env var, added several commits back for the BYOK feature)
+was never actually added in Render's dashboard. Every deploy since has
+crash-looped on `Invalid environment configuration: ENCRYPTION_KEY: Required`
+— confirmed from the actual Render deploy logs, not guessed — and Render has
+just kept quietly serving whatever was live *before* that, with no visible
+error to a casual check (`/health` still returns 200, because that route
+never touches the DB or the encryption key).
+
+**Fix:** Render dashboard → `tools-api` service → Environment tab → add
+`ENCRYPTION_KEY` (any random 32+ byte hex string —
+`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+generates one; it was already given to George in chat but isn't repeated here
+since this file is committed to a public repo). Save. Render redeploys
+automatically on an env var change; if it doesn't within a minute or two, use
+Manual Deploy → Deploy latest commit.
+
+**After that fix lands, verify it actually worked** — don't just trust a
+green Render dashboard:
+```
+curl https://tools-api-9vfr.onrender.com/health
+curl -o /dev/null -w "%{http_code}\n" https://tools-api-9vfr.onrender.com/api/v1/expenses   # 401 (needs auth) is correct/expected, not 404
+curl https://tools-api-9vfr.onrender.com/openapi.json | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>console.log(Object.keys(JSON.parse(d).paths).length))"   # should print 34
+```
+If that last number isn't 34, the deploy still isn't current — go back to
+Render's Events tab and read the actual failure, don't guess. See "A
+diagnostic technique worth keeping" below for how this was tracked down last
+time.
+
+## What this project is
+
+`tools.seattlesolvers` — a parts-inventory, catalog-search, and
+receipt-reading web app for Seattle Solvers, an FTC (FIRST Tech Challenge)
+robotics team, built to eventually be used by other FTC teams too (BYOK
+support for Claude usage was added specifically so this scales to many
+teams without Seattle Solvers absorbing everyone's AI costs).
+
+**Two separate repos, both local-only git until noted otherwise:**
+
+| | Path | Remote |
+|---|---|---|
+| Backend (this repo) | `...\2025-2026 Eastside Catholic Portfolio\Seattle Solvers Parts Inventory Website` | `github.com/software282/tools-api` (public) |
+| Frontend | `...\2025-2026 Eastside Catholic Portfolio\Seattle Solvers Parts Inventory Frontend` | **none** — local git only, deployed by zipping and uploading to Cloudflare Pages by hand |
+
+The frontend has no CI/CD — there is no automated way to know if it's
+"deployed." A zip of it exists at
+`...\2025-2026 Eastside Catholic Portfolio\Seattle Solvers Parts Inventory Frontend.zip`,
+last regenerated after frontend commit `40f5fb6`. **It is unknown whether
+George has actually uploaded this to Cloudflare Pages yet** — that step was
+handed to him each time the zip was refreshed, but was never confirmed done.
+Ask, don't assume.
+
+## Stack
+
+- **Backend:** TypeScript, Fastify 5, Prisma 6 over Supabase Postgres, Zod
+  validation, JWT auth (custom, bcrypt — not Supabase Auth), Supabase Storage
+  for receipt files. Deployed on Render (Docker) at
+  `https://tools-api-9vfr.onrender.com`. `tools.seattlesolvers.com` DNS still
+  doesn't resolve — unfinished custom-domain step, not urgent, the Render URL
+  works fine.
+- **Frontend:** a *static* React app — no build step, no bundler. React 18 +
+  Babel Standalone loaded from a CDN in `index.html` (a.k.a.
+  `Solvers Tools.html`), JSX transpiled live in the browser. Was authored via
+  Claude Design (the canvas tool); George is doing further visual design work
+  there himself. **Important architectural fact learned the hard way this
+  session:** a page published *as a Claude Design/claude.ai Artifact* runs in
+  a sandbox that blocks `fetch`/XHR to any external host — it cannot talk to
+  this API at all from inside that sandbox. The plan is Design produces the
+  visual mockup; the actual deployed site is exported as real static files
+  and hosted for real (Cloudflare Pages), which has no such restriction. The
+  exported files already have this working — `app/api.jsx`'s `API_BASE`
+  points at the real Render URL and it functions once actually deployed
+  outside claude.ai's sandbox.
+- **Database:** one shared Supabase Postgres project, used directly (via
+  Prisma) both by this machine during development *and* by the live Render
+  deployment — there is no separate dev/prod database. Anything run against
+  it from a local script is real, live, shared data. (This is why every
+  verification step in this session that touched the DB was done with an
+  explicit throwaway team/user, cleaned up immediately after — see the
+  pattern below.)
+
+## Everything built this session, in order
+
+Each item below is one real commit on `main`, pushed, typechecked, tested,
+and (where it touches data) verified against the live database with a
+temporary script before being called done. Read the commit message for the
+full reasoning; this is just the index.
+
+1. **`cc89b87` — BYOK (bring your own key).** Removed the single global
+   `ANTHROPIC_API_KEY`; each Team now supplies its own Anthropic key via
+   `PATCH /teams/current`, encrypted at rest (`src/lib/secretBox.ts`,
+   AES-256-GCM keyed by `ENCRYPTION_KEY` — **the env var currently missing on
+   Render, see above**). `anthropicApiKeyConfigured: boolean` is the only
+   thing ever exposed back; the raw key never round-trips.
+2. **`c8b6bdf` — Full catalog import.** Scraped goBILDA's entire public
+   catalog (`scripts/scrape-gobilda.ts`, respecting their published 10s
+   AI-bot crawl-delay — this took over an hour to run) plus REV's Duo/FTC
+   line (compiled by hand, REV's storefront is client-rendered and not
+   scrapable the same way). Parts library went from 47 to 1,726. Added two
+   new categories (`structure`, `kits`) goBILDA's real taxonomy needed.
+3. **`6baac1a` — Search fix + auto image resolution.**
+   `src/lib/textSearch.ts` makes search match every typed *word* anywhere
+   across name/SKU/description/manufacturer, instead of requiring the whole
+   typed phrase to match one field verbatim (a real bug George hit: "1102
+   Series Flat Beam 23 Hole" couldn't find
+   "...Beam (23 Hole, 184mm Length)..." because of the punctuation). Also:
+   `GET /parts/suggest-url` now resolves an image (reads the product page's
+   og:image) alongside the URL, so reviewers never hand-paste either.
+4. **`dec7147` — No login account for teams.** George found he could log
+   directly into `team@seattlesolvers.com` — a shared credential, which
+   defeats individual accountability for a team of students. `POST
+   /auth/teams` now creates *only* the Team (no user, no token) and returns
+   `{ team, warning }` — the invite code is shown exactly once, with an
+   explicit warning to save it. Every person, including whoever set up the
+   team, gets an account via `POST /auth/join`; the *first* joiner is
+   auto-promoted to `TEAM_ADMIN`, everyone after is `MEMBER`.
+5. **`d9296d7` — Duplicate-checked library submissions + optional URLs.**
+   `productUrl` is now optional on `POST /parts` (only required when
+   requesting the shared library) — a personal inventory entry shouldn't
+   need a URL. `submitToLibrary` is now a *request*: it's checked against
+   existing/pending global parts first (`findLikelyDuplicateGlobalPart`,
+   reusing the receipt line-matcher's fuzzy logic) and silently skipped
+   (not queued) on a match, reporting `duplicateOf` instead — this is what
+   actually prevents duplicate/junk submissions from piling up in the admin
+   review queue.
+6. **`e428785` — Usage stats + a capacity estimate.** `GET /admin/stats`
+   (`SUPER_ADMIN`), backed by a new `RequestLog` table (one row per request,
+   `/health` excluded). `SETUP.md` Phase 7.10 has a full capacity writeup for
+   "50 teams on their own keys" grounded in Render's/Supabase's actual
+   documented limits (fetched fresh that session, not recalled) — TL;DR:
+   request volume is a non-issue at that scale; Render free tier's 0.1 vCPU
+   is the real first bottleneck (concurrent OCR-heavy photo receipts); Claude
+   spend isn't pooled at all since every team pays through its own key.
+7. **`0be7f5f` — Fixed CI.** Unrelated regression caught via a "got an email
+   saying run failed" report: CI had been red since commit 1 in this list
+   (`cc89b87`) because `.github/workflows/ci.yml`'s placeholder env vars were
+   never updated to include `ENCRYPTION_KEY` — passed locally the whole time
+   only because a real `.env` is always present on this machine. **This is
+   the same class of bug as the Render issue above**, caught in CI first but
+   apparently not connected to the *also-missing* Render env var at the time.
+8. **`d8f1c9b` — Expense tracking.** New `GET /expenses` (+ CSV export),
+   grouped by category then part (biggest spend first within each category),
+   backed by a new `ExpenseEntry` model — one row per inventory-quantity
+   increase with a knowable cost, written atomically alongside the increment
+   itself. `Part.lastKnownPrice` is the rolling fallback price. Three
+   creation paths: an exact price parsed off a confirmed receipt line
+   (`source: RECEIPT`, and refreshes `lastKnownPrice`); a manual
+   `POST /inventory/:partId/adjust` with a positive delta on a part that
+   already has a price (`source: ESTIMATED` — `PUT`, an absolute set, never
+   triggers this, since it's a stock-take correction, not an implied
+   purchase); or `POST /parts`'s new `unitCost` field, for when a receipt
+   line's price failed to parse and a human types one in while adding the
+   part. **The ~1,700 imported catalog parts have no price at all yet** —
+   goBILDA's real price isn't in the data the crawler captured (it's
+   JS-rendered, not in the static HTML that crawler reads), so this wasn't
+   attempted; parts simply pick up a price the first time any team actually
+   buys one through a receipt. Backfilling real prices for all of them would
+   be a separate large scraping effort, not started.
+
+**Also done, not a backend commit:** two Claude Design prompt briefs were
+written and handed to George for the parts of the frontend that needed to
+change to match all of the above — category filter buttons + real
+pagination for the parts library, the no-login-account sign-up flow, the
+optional-URL/duplicate-request part-adding flow, and (most recently) the new
+Expenses dashboard screen. These are in the chat history of the session that
+just ended, not saved as a file anywhere — if George asks for either again,
+they'd need to be reconstructed from this same information (they're derived
+directly from the API changes described above, so reconstructing them is
+mechanical, not something requiring the old conversation).
+
+**Also done: password reset + account cleanup.** Early in the session, a
+stray test team/user (`team@seattlesolvers.com` from an earlier test run)
+was found and deleted at George's request, then a *different*, real
+`team@seattlesolvers.com` account (which George had separately created) had
+its password reset because bcrypt hashes can't be recovered, only reset. If
+George mentions login trouble on that specific account again, check whether
+it's the same one or ask what changed since.
+
+## A diagnostic technique worth keeping
+
+Twice this session, "it works on my machine" turned out to be **exactly**
+the bug (CI, then Render) — both times because a required env var existed in
+`.env` locally but nowhere else. The fix both times was: **reproduce the
+failure exactly, with the exact env the failing environment actually has,
+before proposing a fix.** For Render specifically: build production
+(`npm run build`), then run `node dist/src/server.js` with `NODE_ENV=production`
+and *only* the env vars `render.yaml` declares (sourced from the real `.env`
+but injected via a small Node launcher script, not shell `export`/`source` —
+the Supabase pooler connection string contains a literal `&`, which a shell
+interprets as "run in background" if you naively `source` or `export` it;
+this cost real time once already). Compare `openapi.json`'s path count and a
+couple of response shapes (fetched live vs. `git show <commit>:openapi.json`)
+to figure out *which* commit is actually live, rather than assuming the
+latest push made it.
+
+## Open items, roughly in order of urgency
+
+1. **Fix the Render `ENCRYPTION_KEY` gap** (above) — blocks everything else
+   from being real in production.
+2. **Confirm the frontend is actually deployed to Cloudflare Pages.** Ask
+   George directly; don't assume the zip having been generated means it was
+   uploaded.
+3. **`CORS_ORIGINS` on Render** almost certainly still needs the real
+   Cloudflare Pages origin added (comma-separated) once #2 is confirmed —
+   currently just the `http://localhost:5173` dev placeholder.
+4. **Expenses screen** doesn't exist in the frontend yet — the design brief
+   for it was just handed off; George is building it in Claude Design.
+5. **Cost-prompt UX** for when a receipt line's price fails to parse (the
+   frontend needs to ask for `unitCost` at that point, or that part can
+   never be expense-tracked) — covered in the same brief, not yet built.
+6. **Custom domain** (`tools.seattlesolvers.com`) — DNS CNAME still not
+   pointed at Render; George's own registrar access, not urgent.
+7. **Four unused `screens-*.jsx` files** sit in the frontend repo
+   (`screens-auth.jsx`, `screens-parts.jsx`, `screens-inventory.jsx`,
+   `screens-receipts.jsx`) — an earlier design draft never wired into the
+   real entry HTML, dead code. Asked once whether to delete them; no answer
+   yet either way.
+8. **goBILDA/REV price backfill** — not started, would be a large separate
+   scraping effort (see item 8 in the commit list above).
+
+## Conventions this session established — keep following them
+
+- **Every schema/data change gets verified against the live database** with
+  a throwaway script (`scripts/_tmp-*.ts`, deleted immediately after) before
+  being called done — not just typecheck + unit tests. Clean up any test
+  team/user/data created this way in the same script.
+- **Migrations run directly against the live Supabase DB** via
+  `npx prisma migrate dev` (interactive, for genuinely new local changes) or
+  `npx prisma migrate deploy` (non-interactive — required when a migration
+  needs to be applied without a TTY, e.g. after hand-editing a migration
+  file). There is no separate dev database — treat every migration as
+  production.
+- **`npm run openapi` gets run and committed** after any route/schema
+  change — CI's "Check the committed OpenAPI document is up to date" step
+  fails the build otherwise.
+- **Every frontend `.jsx` edit gets syntax-checked** with
+  `node_modules/.bin/esbuild <file> --outfile=<scratch>` (borrowing esbuild
+  from the *backend's* `node_modules`, since the frontend has none of its
+  own — it's a zero-dependency static site) before being called done, since
+  there's no build step to catch a typo otherwise.
+- **Commit messages explain the *why*, not just the *what*** — this repo's
+  whole history (see `SETUP.md` and `README.md` too) is written as much for
+  a future reader as for git blame. Keep matching that register.
+- **The frontend repo has no remote.** "Push" only ever applies to the
+  backend. The frontend's deploy path is: edit → `esbuild` syntax-check →
+  `git commit` (local) → regenerate the zip
+  (`Compress-Archive` via PowerShell, excluding `.git`) → tell George to
+  upload it to Cloudflare Pages.

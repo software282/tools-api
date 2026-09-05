@@ -1,5 +1,9 @@
 # Setup runbook
 
+> **Starting a new session on this project? Read [`HANDOFF.md`](HANDOFF.md)
+> first** — it has the current blocker, everything built recently, and what's
+> still open, so you don't have to reconstruct it from this file's history.
+
 Everything needed to take this repo to a working service with a Supabase
 database, ready to hand to Claude design.
 
