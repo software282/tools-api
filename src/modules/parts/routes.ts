@@ -87,12 +87,14 @@ const routes = async (app: FastifyInstance) => {
       config: suggestUrlRateLimit,
       schema: {
         tags: ['parts'],
-        summary: 'Best-effort product page URL for a part not yet in the library',
+        summary: 'Best-effort product page URL and image for a part not yet in the library',
         description:
           'Deterministic for vendors with a known SKU-to-URL formula (currently REV); ' +
           "otherwise a web-search-grounded guess from Claude, billed to your team's own " +
           'Anthropic key (see PATCH /teams/current), or null if your team has not set one ' +
-          'or Claude was not confident. Always a suggestion to review, never a verified link.',
+          "or Claude was not confident. Once a product URL is known, its page's own " +
+          "og:image is read automatically — reviewers never hand-paste an image URL. " +
+          'Always a suggestion to review, never a verified link.',
         security: [{ bearerAuth: [] }],
         querystring: suggestUrlQuery,
         response: { 200: suggestUrlResponse },

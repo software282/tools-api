@@ -4,6 +4,7 @@ import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../../lib/prisma.js';
 import { badRequest, notFound } from '../../lib/errors.js';
+import { tokenizeQuery } from '../../lib/textSearch.js';
 import { partSchema } from '../parts/schemas.js';
 import { visibilityFilter } from '../parts/service.js';
 
@@ -78,15 +79,19 @@ function buildWhere(teamId: string, q: z.infer<typeof listQuery>): Prisma.Invent
     });
   }
   if (q.q) {
-    and.push({
-      part: {
-        OR: [
-          { name: { contains: q.q, mode: 'insensitive' } },
-          { sku: { contains: q.q, mode: 'insensitive' } },
-          { manufacturer: { name: { contains: q.q, mode: 'insensitive' } } },
-        ],
-      },
-    });
+    // See parts/service.ts searchParts — same word-by-word matching so a
+    // stored name's punctuation doesn't have to be typed to find it.
+    for (const token of tokenizeQuery(q.q)) {
+      and.push({
+        part: {
+          OR: [
+            { name: { contains: token, mode: 'insensitive' } },
+            { sku: { contains: token, mode: 'insensitive' } },
+            { manufacturer: { name: { contains: token, mode: 'insensitive' } } },
+          ],
+        },
+      });
+    }
   }
   if (q.category) and.push({ part: { category: { slug: q.category } } });
   if (q.manufacturer) and.push({ part: { manufacturer: { slug: q.manufacturer } } });

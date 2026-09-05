@@ -2,12 +2,19 @@ import type { Vendor } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { getClaude, RECEIPT_MODEL } from '../lib/claude.js';
 import { getTeamAnthropicApiKey } from '../lib/teamAnthropicKey.js';
+import { fetchOgImage } from '../lib/ogImage.js';
 
 export type UrlSuggestionSource = 'deterministic' | 'ai_search' | 'none';
 
 export interface UrlSuggestion {
   url: string | null;
   source: UrlSuggestionSource;
+  /**
+   * The product page's own image, read from its og:image tag. Resolved
+   * automatically once a product URL is known — hand-pasting an image URL is
+   * exactly the slow, manual step this (and `url` above) exists to skip.
+   */
+  imageUrl: string | null;
 }
 
 // REV Robotics product pages are the SKU, lowercased, as the whole path:
@@ -32,9 +39,12 @@ function isUrl(value: string): boolean {
 }
 
 /**
- * Best-effort product page URL for a part that isn't in the library yet.
- * Never throws — a failed lookup degrades to `{ url: null, source: 'none' }`,
- * same as the manual-entry experience this replaces.
+ * Best-effort product page URL *and image* for a part that isn't in the
+ * library yet. Never throws — a failed lookup degrades to
+ * `{ url: null, source: 'none', imageUrl: null }`, same as the manual-entry
+ * experience this replaces. Hand-finding either URL is slow and error-prone
+ * for a reviewer working through a stack of receipt lines, so both are
+ * resolved server-side from just the vendor/SKU/name already on the line.
  */
 export async function suggestProductUrl(params: {
   vendor: Vendor;
@@ -44,12 +54,12 @@ export async function suggestProductUrl(params: {
 }): Promise<UrlSuggestion> {
   const deterministic = deterministicUrl(params.vendor, params.sku);
   if (deterministic) {
-    return { url: deterministic, source: 'deterministic' };
+    return { url: deterministic, source: 'deterministic', imageUrl: await fetchOgImage(deterministic) };
   }
 
   const apiKey = await getTeamAnthropicApiKey(params.teamId);
   if (!apiKey) {
-    return { url: null, source: 'none' };
+    return { url: null, source: 'none', imageUrl: null };
   }
 
   try {
@@ -85,10 +95,10 @@ export async function suggestProductUrl(params: {
 
     const text = response.content.find((block) => block.type === 'text')?.text?.trim();
     if (!text || text.toUpperCase() === 'NONE' || !isUrl(text)) {
-      return { url: null, source: 'none' };
+      return { url: null, source: 'none', imageUrl: null };
     }
-    return { url: text, source: 'ai_search' };
+    return { url: text, source: 'ai_search', imageUrl: await fetchOgImage(text) };
   } catch {
-    return { url: null, source: 'none' };
+    return { url: null, source: 'none', imageUrl: null };
   }
 }

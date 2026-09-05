@@ -75,4 +75,7 @@ export const suggestUrlQuery = z.object({
 export const suggestUrlResponse = z.object({
   url: z.string().url().nullable(),
   source: z.enum(['deterministic', 'ai_search', 'none']),
+  // The product page's own image, read from its og:image tag — resolved
+  // automatically alongside `url` so reviewers never have to hand-find one.
+  imageUrl: z.string().url().nullable(),
 });

@@ -1,5 +1,6 @@
 import type { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma.js';
+import { tokenizeQuery } from '../../lib/textSearch.js';
 
 // A Part with its manufacturer + category joined, plus (optionally) the
 // viewing team's inventory quantity.
@@ -46,14 +47,20 @@ export async function searchParts(params: SearchParams, viewerTeamId: string | n
   const and: Prisma.PartWhereInput[] = [visibilityFilter(viewerTeamId)];
 
   if (params.q) {
-    and.push({
-      OR: [
-        { name: { contains: params.q, mode: 'insensitive' } },
-        { sku: { contains: params.q, mode: 'insensitive' } },
-        { description: { contains: params.q, mode: 'insensitive' } },
-        { manufacturer: { name: { contains: params.q, mode: 'insensitive' } } },
-      ],
-    });
+    // Each typed word must appear *somewhere* (name, SKU, description, or
+    // manufacturer) rather than the whole phrase matching one field verbatim —
+    // otherwise a part like "... (23 Hole, 184mm Length) - 2 Pack" is unfindable
+    // by typing "23 Hole" without its parentheses/comma.
+    for (const token of tokenizeQuery(params.q)) {
+      and.push({
+        OR: [
+          { name: { contains: token, mode: 'insensitive' } },
+          { sku: { contains: token, mode: 'insensitive' } },
+          { description: { contains: token, mode: 'insensitive' } },
+          { manufacturer: { name: { contains: token, mode: 'insensitive' } } },
+        ],
+      });
+    }
   }
   if (params.category) and.push({ category: { slug: params.category } });
   if (params.manufacturer) and.push({ manufacturer: { slug: params.manufacturer } });

@@ -17,6 +17,7 @@
  */
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+import { extractOgImage } from '../src/lib/ogImage.js';
 
 const prisma = new PrismaClient();
 const DELAY_MS = 400;
@@ -24,20 +25,6 @@ const TIMEOUT_MS = 20000;
 const force = process.argv.includes('--force');
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-/** Pull og:image out of a product page, tolerating either attribute order. */
-function extractOgImage(html: string): string | null {
-  const patterns = [
-    /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i,
-    /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i,
-    /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i,
-  ];
-  for (const p of patterns) {
-    const m = html.match(p);
-    if (m?.[1]) return m[1].trim();
-  }
-  return null;
-}
 
 async function main() {
   // A placeholder counts as still-missing: re-running should try to upgrade it
