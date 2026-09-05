@@ -40,18 +40,32 @@ export const paginatedParts = z.object({
   totalPages: z.number().int(),
 });
 
-export const createPartBody = z.object({
+const partFields = z.object({
   name: z.string().min(1).max(200),
   sku: z.string().max(120).optional(),
   description: z.string().max(2000).optional(),
-  // Item page is required so parts are always purchasable/traceable.
-  productUrl: z.string().url(),
+  // Optional for a team's own private part — a personal inventory entry
+  // shouldn't require hunting down a URL. Required only when requesting the
+  // shared library (see submitToLibrary and createPartBody's refinement
+  // below), since an approved library part must stay purchasable/traceable.
+  productUrl: z.string().url().optional(),
   purchaseUrl: z.string().url().optional(),
   imageUrl: z.string().url().optional(),
   manufacturerId: z.string(),
   categoryId: z.string(),
-  // If true, also queue a copy for the shared global library (admin review).
+  // If true, request this part for the shared global library instead of
+  // creating it there outright — see the route for what that actually does.
   submitToLibrary: z.boolean().default(false),
+});
+
+export const createPartBody = partFields.superRefine((body, ctx) => {
+  if (body.submitToLibrary && !body.productUrl) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['productUrl'],
+      message: 'A product page URL is required to request this part for the shared library.',
+    });
+  }
 });
 
 /**
@@ -59,12 +73,28 @@ export const createPartBody = z.object({
  * be present. `submitToLibrary` is deliberately excluded — submitting to the
  * global library is a separate action, not an edit.
  */
-export const updatePartBody = createPartBody
+export const updatePartBody = partFields
   .omit({ submitToLibrary: true })
   .partial()
   .refine((body) => Object.keys(body).length > 0, {
     message: 'Provide at least one field to update',
   });
+
+// A part visible enough to compare against — used both to report what an
+// existing/pending library entry looks like, and while reviewing a request.
+const duplicateCandidateSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  status: partStatusSchema,
+});
+
+export const createPartResponse = z.object({
+  part: partSchema,
+  // False whenever a shared-library request wasn't actually queued — either
+  // because none was asked for, or because `duplicateOf` already covers it.
+  submittedToLibrary: z.boolean(),
+  duplicateOf: duplicateCandidateSchema.nullable(),
+});
 
 export const suggestUrlQuery = z.object({
   vendor: vendorSchema,

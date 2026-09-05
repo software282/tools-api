@@ -1062,11 +1062,11 @@
         }
       },
       "post": {
-        "summary": "Add a custom part for your team (optionally submit to the global library)",
+        "summary": "Add a custom part for your team, optionally requesting it for the shared library",
         "tags": [
           "parts"
         ],
-        "description": "Creates a part scoped to your team that you can use immediately. If `submitToLibrary` is true, a copy is queued for Seattle Solvers to review and, if approved, publish to every team.",
+        "description": "Always creates a part scoped to your team, usable immediately — a personal inventory entry never needs more than a name, manufacturer, and category, so nothing here blocks on that. `submitToLibrary` additionally *requests* the part for the shared global library instead of adding it there outright: it requires a product URL (every approved library part must stay traceable), and is skipped rather than queued when `duplicateOf` already reports a matching or pending part — this is the guard against duplicate and junk submissions piling up in Seattle Solvers' review queue. A real request still needs SUPER_ADMIN approval (GET/POST /admin/submissions) before it reaches every team.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1112,7 +1112,6 @@
                 },
                 "required": [
                   "name",
-                  "productUrl",
                   "manufacturerId",
                   "categoryId"
                 ],
@@ -1134,48 +1133,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "sku": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "description": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "productUrl": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "purchaseUrl": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "imageUrl": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "scope": {
-                      "type": "string",
-                      "enum": [
-                        "GLOBAL",
-                        "TEAM"
-                      ]
-                    },
-                    "status": {
-                      "type": "string",
-                      "enum": [
-                        "APPROVED",
-                        "PENDING",
-                        "REJECTED"
-                      ]
-                    },
-                    "manufacturer": {
+                    "part": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -1184,18 +1142,114 @@
                         "name": {
                           "type": "string"
                         },
-                        "slug": {
+                        "sku": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "description": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "productUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "purchaseUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "scope": {
+                          "type": "string",
+                          "enum": [
+                            "GLOBAL",
+                            "TEAM"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "APPROVED",
+                            "PENDING",
+                            "REJECTED"
+                          ]
+                        },
+                        "manufacturer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "slug"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "category": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "slug"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "createdByTeamId": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "createdAt": {
                           "type": "string"
+                        },
+                        "ownedQuantity": {
+                          "type": "integer",
+                          "nullable": true
                         }
                       },
                       "required": [
                         "id",
                         "name",
-                        "slug"
+                        "sku",
+                        "description",
+                        "productUrl",
+                        "purchaseUrl",
+                        "imageUrl",
+                        "scope",
+                        "status",
+                        "manufacturer",
+                        "category",
+                        "createdByTeamId",
+                        "createdAt"
                       ],
                       "additionalProperties": false
                     },
-                    "category": {
+                    "submittedToLibrary": {
+                      "type": "boolean"
+                    },
+                    "duplicateOf": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -1204,43 +1258,28 @@
                         "name": {
                           "type": "string"
                         },
-                        "slug": {
-                          "type": "string"
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "APPROVED",
+                            "PENDING",
+                            "REJECTED"
+                          ]
                         }
                       },
                       "required": [
                         "id",
                         "name",
-                        "slug"
+                        "status"
                       ],
-                      "additionalProperties": false
-                    },
-                    "createdByTeamId": {
-                      "type": "string",
-                      "nullable": true
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    },
-                    "ownedQuantity": {
-                      "type": "integer",
+                      "additionalProperties": false,
                       "nullable": true
                     }
                   },
                   "required": [
-                    "id",
-                    "name",
-                    "sku",
-                    "description",
-                    "productUrl",
-                    "purchaseUrl",
-                    "imageUrl",
-                    "scope",
-                    "status",
-                    "manufacturer",
-                    "category",
-                    "createdByTeamId",
-                    "createdAt"
+                    "part",
+                    "submittedToLibrary",
+                    "duplicateOf"
                   ],
                   "additionalProperties": false
                 }

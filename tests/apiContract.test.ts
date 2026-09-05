@@ -164,12 +164,24 @@ describe('API contract', () => {
   });
 
   describe('request validation', () => {
-    it('rejects a part with no productUrl', async () => {
+    it('allows a personal/team part with no productUrl', async () => {
       const res = await app.inject({
         method: 'POST',
         url: '/api/v1/parts',
         headers: { authorization: 'Bearer not-a-real-jwt' },
         payload: { name: 'Bracket', manufacturerId: 'm1', categoryId: 'c1' },
+      });
+      // Not requesting the shared library, so a missing productUrl isn't a
+      // validation error — this clears the schema and fails on auth instead.
+      expect(res.statusCode).toBe(401);
+    });
+
+    it('rejects a shared-library request with no productUrl', async () => {
+      const res = await app.inject({
+        method: 'POST',
+        url: '/api/v1/parts',
+        headers: { authorization: 'Bearer not-a-real-jwt' },
+        payload: { name: 'Bracket', manufacturerId: 'm1', categoryId: 'c1', submitToLibrary: true },
       });
       // Validation runs before auth, so the schema error surfaces first.
       expect(res.statusCode).toBe(400);

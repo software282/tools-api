@@ -7,6 +7,7 @@ import { badRequest, notFound } from '../../lib/errors.js';
 import { suggestProductUrl } from '../../services/productUrlLookup.js';
 import {
   createPartBody,
+  createPartResponse,
   paginatedParts,
   partSchema,
   partSearchQuery,
@@ -14,7 +15,7 @@ import {
   suggestUrlResponse,
   updatePartBody,
 } from './schemas.js';
-import { getPartById, searchParts, serializePart } from './service.js';
+import { findLikelyDuplicateGlobalPart, getPartById, searchParts, serializePart } from './service.js';
 
 /**
  * `suggest-url` can trigger a Claude web-search call, same cost class as
@@ -109,12 +110,21 @@ const routes = async (app: FastifyInstance) => {
       preHandler: [app.requireAuth, app.requireTeam],
       schema: {
         tags: ['parts'],
-        summary: 'Add a custom part for your team (optionally submit to the global library)',
+        summary: 'Add a custom part for your team, optionally requesting it for the shared library',
         description:
-          'Creates a part scoped to your team that you can use immediately. If `submitToLibrary` is true, a copy is queued for Seattle Solvers to review and, if approved, publish to every team.',
+          'Always creates a part scoped to your team, usable immediately — a personal ' +
+          "inventory entry never needs more than a name, manufacturer, and category, so " +
+          "nothing here blocks on that. `submitToLibrary` additionally *requests* the " +
+          'part for the shared global library instead of adding it there outright: it ' +
+          "requires a product URL (every approved library part must stay traceable), " +
+          'and is skipped rather than queued when `duplicateOf` already reports a ' +
+          'matching or pending part — this is the guard against duplicate and junk ' +
+          "submissions piling up in Seattle Solvers' review queue. A real request still " +
+          'needs SUPER_ADMIN approval (GET/POST /admin/submissions) before it reaches ' +
+          'every team.',
         security: [{ bearerAuth: [] }],
         body: createPartBody,
-        response: { 201: partSchema },
+        response: { 201: createPartResponse },
       },
     },
     async (req, reply) => {
@@ -123,6 +133,17 @@ const routes = async (app: FastifyInstance) => {
       const userId = req.auth!.sub;
 
       await assertCatalogRefs(data.manufacturerId, data.categoryId);
+
+      // A request for the shared library is skipped (not queued) when
+      // something matching or already-pending exists — the team's own part
+      // below is created either way, so this never blocks personal use.
+      const duplicateOf = submitToLibrary
+        ? await findLikelyDuplicateGlobalPart({
+            manufacturerId: data.manufacturerId,
+            name: data.name,
+            sku: data.sku,
+          })
+        : null;
 
       const teamPart = await prisma.part.create({
         data: {
@@ -139,8 +160,8 @@ const routes = async (app: FastifyInstance) => {
         },
       });
 
-      // Queue a global-library copy for admin review.
-      if (submitToLibrary) {
+      const submittedToLibrary = submitToLibrary && !duplicateOf;
+      if (submittedToLibrary) {
         await prisma.part.create({
           data: {
             name: data.name,
@@ -159,7 +180,11 @@ const routes = async (app: FastifyInstance) => {
         });
       }
 
-      return reply.status(201).send(serializePart(teamPart, teamId));
+      return reply.status(201).send({
+        part: serializePart(teamPart, teamId),
+        submittedToLibrary,
+        duplicateOf,
+      });
     },
   );
 

@@ -1,6 +1,7 @@
 import type { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma.js';
 import { tokenizeQuery } from '../../lib/textSearch.js';
+import { pickBestNameMatch } from '../../services/partMatch.js';
 
 // A Part with its manufacturer + category joined, plus (optionally) the
 // viewing team's inventory quantity.
@@ -118,4 +119,41 @@ export function serializePart(part: PartWithRelations, viewerTeamId: string | nu
     createdAt: part.createdAt.toISOString(),
     ownedQuantity: owned,
   };
+}
+
+/**
+ * Whether a part already exists (or has a pending request) in the shared
+ * global library — checked before a team's "submit to library" request is
+ * queued, so the same part doesn't pile up duplicate PENDING rows for an
+ * admin to review one by one.
+ *
+ * Scoped to the same manufacturer, same as the receipt line-matcher this
+ * reuses (`pickBestNameMatch`): an exact SKU match wins outright, otherwise a
+ * fuzzy name match only counts when it clears the same "not ambiguous" bar
+ * used everywhere else a part gets matched by name.
+ */
+export async function findLikelyDuplicateGlobalPart(params: {
+  manufacturerId: string;
+  name: string;
+  sku?: string;
+}): Promise<{ id: string; name: string; status: 'APPROVED' | 'PENDING' } | null> {
+  const candidates = await prisma.part.findMany({
+    where: {
+      scope: 'GLOBAL',
+      status: { in: ['APPROVED', 'PENDING'] },
+      manufacturerId: params.manufacturerId,
+    },
+    select: { id: true, name: true, sku: true, status: true },
+  });
+
+  if (params.sku) {
+    const skuNorm = params.sku.toLowerCase();
+    const exact = candidates.find((c) => c.sku && c.sku.toLowerCase() === skuNorm);
+    if (exact) return { id: exact.id, name: exact.name, status: exact.status as 'APPROVED' | 'PENDING' };
+  }
+
+  const match = pickBestNameMatch(params.name, candidates);
+  if (!match) return null;
+  const hit = candidates.find((c) => c.id === match.id)!;
+  return { id: hit.id, name: hit.name, status: hit.status as 'APPROVED' | 'PENDING' };
 }
