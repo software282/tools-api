@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { prisma } from '../../lib/prisma.js';
 import { badRequest, notFound } from '../../lib/errors.js';
 import { tokenizeQuery } from '../../lib/textSearch.js';
+import { toCsv } from '../../lib/csv.js';
 import { partSchema } from '../parts/schemas.js';
 import { visibilityFilter } from '../parts/service.js';
 
@@ -136,6 +137,7 @@ function serializeRow(row: {
       createdByTeamId: p.createdByTeamId,
       createdAt: p.createdAt.toISOString(),
       ownedQuantity: row.quantity,
+      lastKnownPrice: p.lastKnownPrice === null ? null : Number(p.lastKnownPrice),
     },
   };
 }
@@ -228,6 +230,12 @@ const routes = async (app: FastifyInstance) => {
       schema: {
         tags: ['inventory'],
         summary: 'Adjust a part quantity by a delta (e.g. +5 after a purchase, -1 when used)',
+        description:
+          "A positive delta on a part with a known lastKnownPrice records an ESTIMATED " +
+          'expense entry (see GET /expenses) — there is no receipt line here to read an ' +
+          "exact price from. A negative delta, or a part with no known price yet, records " +
+          "nothing. (PUT /inventory/:partId sets an absolute count instead of a delta, so " +
+          "it never implies a purchase and never records an expense.)",
         security: [{ bearerAuth: [] }],
         params: z.object({ partId: z.string() }),
         body: adjustBody,
@@ -236,7 +244,7 @@ const routes = async (app: FastifyInstance) => {
     },
     async (req) => {
       const teamId = req.auth!.teamId!;
-      await assertPartVisible(req.params.partId, teamId);
+      const part = await assertPartVisible(req.params.partId, teamId);
       const { delta, minQuantity, location, notes } = req.body;
 
       const existing = await prisma.inventoryItem.findUnique({
@@ -246,17 +254,36 @@ const routes = async (app: FastifyInstance) => {
       if (existing === null && delta < 0) {
         throw badRequest('Cannot decrease a part you do not track yet', 'NO_INVENTORY');
       }
+      const increase = nextQty - (existing?.quantity ?? 0);
 
-      const row = await prisma.inventoryItem.upsert({
-        where: { teamId_partId: { teamId, partId: req.params.partId } },
-        create: { teamId, partId: req.params.partId, quantity: nextQty, minQuantity, location, notes },
-        update: {
-          quantity: nextQty,
-          ...(minQuantity !== undefined ? { minQuantity } : {}),
-          ...(location !== undefined ? { location } : {}),
-          ...(notes !== undefined ? { notes } : {}),
-        },
-        include: { part: { include: partInclude } },
+      const row = await prisma.$transaction(async (tx) => {
+        const updated = await tx.inventoryItem.upsert({
+          where: { teamId_partId: { teamId, partId: req.params.partId } },
+          create: { teamId, partId: req.params.partId, quantity: nextQty, minQuantity, location, notes },
+          update: {
+            quantity: nextQty,
+            ...(minQuantity !== undefined ? { minQuantity } : {}),
+            ...(location !== undefined ? { location } : {}),
+            ...(notes !== undefined ? { notes } : {}),
+          },
+          include: { part: { include: partInclude } },
+        });
+
+        if (increase > 0 && part.lastKnownPrice !== null) {
+          const unitCost = Number(part.lastKnownPrice);
+          await tx.expenseEntry.create({
+            data: {
+              teamId,
+              partId: part.id,
+              quantity: increase,
+              unitCost,
+              totalCost: unitCost * increase,
+              source: 'ESTIMATED',
+            },
+          });
+        }
+
+        return updated;
       });
       return serializeRow(row);
     },
@@ -320,7 +347,7 @@ const routes = async (app: FastifyInstance) => {
         'Notes',
         'ProductURL',
       ];
-      const lines = rows.map((row) => {
+      const rowCells = rows.map((row) => {
         const p = row.part;
         return [
           p.manufacturer.name,
@@ -333,26 +360,15 @@ const routes = async (app: FastifyInstance) => {
           row.location ?? '',
           row.notes ?? '',
           p.productUrl ?? '',
-        ]
-          .map(csvCell)
-          .join(',');
+        ];
       });
-      const csv = [header.join(','), ...lines].join('\r\n');
 
       reply
         .header('Content-Type', 'text/csv; charset=utf-8')
         .header('Content-Disposition', 'attachment; filename="inventory.csv"');
-      return csv;
+      return toCsv(header, rowCells);
     },
   );
 };
-
-/** Quote a CSV cell if it contains a comma, quote, or newline. */
-function csvCell(value: string): string {
-  if (/[",\r\n]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`;
-  }
-  return value;
-}
 
 export default routes;

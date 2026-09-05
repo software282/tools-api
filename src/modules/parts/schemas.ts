@@ -20,6 +20,10 @@ export const partSchema = z.object({
   createdAt: z.string(),
   // Present only when the request is authenticated with a team.
   ownedQuantity: z.number().int().nullable().optional(),
+  // The last unit price seen for this part, from a receipt, a manual entry,
+  // or an imported catalog listing — null when never known. See GET
+  // /expenses for how this feeds estimated (non-receipt) expense tracking.
+  lastKnownPrice: z.number().nullable(),
 });
 
 export const partSearchQuery = z.object({
@@ -53,6 +57,11 @@ const partFields = z.object({
   imageUrl: z.string().url().optional(),
   manufacturerId: z.string(),
   categoryId: z.string(),
+  // What this team actually paid, when known — becomes the part's
+  // lastKnownPrice. Prompt for this specifically when adding a part from a
+  // receipt line whose price parsing failed (see GET /expenses's `MANUAL`
+  // source): a part with no price at all can never be expense-tracked later.
+  unitCost: z.number().nonnegative().optional(),
   // If true, request this part for the shared global library instead of
   // creating it there outright — see the route for what that actually does.
   submitToLibrary: z.boolean().default(false),

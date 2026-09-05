@@ -80,10 +80,11 @@ model Team {
   // decrypted for display, only used server-side to call the Anthropic API.
   anthropicApiKeyCiphertext String?
 
-  users        User[]
-  inventory    InventoryItem[]
-  receipts     Receipt[]
-  createdParts Part[]          @relation("PartCreatedByTeam")
+  users          User[]
+  inventory      InventoryItem[]
+  receipts       Receipt[]
+  createdParts   Part[]          @relation("PartCreatedByTeam")
+  expenseEntries ExpenseEntry[]
 }
 
 model User {
@@ -146,6 +147,14 @@ model Part {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
+  // The last unit price actually seen for this part — from a parsed receipt
+  // line, a manual entry when adding it, or (for imported catalog parts) a
+  // vendor listing. Nullable: not every part has one yet. This is a rolling
+  // "last known" figure, not a live quote, and is what GET /expenses falls
+  // back to for any inventory increase that carries no price of its own (a
+  // manual +1 rather than a scanned receipt) — see ExpenseEntry.source.
+  lastKnownPrice Decimal? @db.Decimal(10, 2)
+
   manufacturerId String
   manufacturer   Manufacturer @relation(fields: [manufacturerId], references: [id])
 
@@ -160,6 +169,7 @@ model Part {
 
   inventoryItems   InventoryItem[]
   receiptLineItems ReceiptLineItem[]
+  expenseEntries   ExpenseEntry[]
 
   @@index([manufacturerId])
   @@index([categoryId])
@@ -217,7 +227,8 @@ model Receipt {
   uploadedByUserId String?
   uploadedByUser   User?   @relation(fields: [uploadedByUserId], references: [id])
 
-  lineItems ReceiptLineItem[]
+  lineItems      ReceiptLineItem[]
+  expenseEntries ExpenseEntry[]
 
   @@index([teamId])
 }
@@ -240,6 +251,52 @@ model ReceiptLineItem {
   matchedPart   Part?   @relation(fields: [matchedPartId], references: [id])
 
   @@index([receiptId])
+}
+
+// ─────────────────────────── Expenses ───────────────────────────
+
+// Where an ExpenseEntry's unitCost actually came from — surfaced in
+// GET /expenses so a team can tell an exact price from an estimated one.
+enum ExpenseSource {
+  RECEIPT   // this specific purchase carried its own parsed price
+  ESTIMATED // no price on this purchase itself — fell back to Part.lastKnownPrice,
+            // however that got set (an earlier receipt, or typed in by hand
+            // via POST /parts's unitCost when adding a brand-new part)
+}
+
+// One row per inventory-quantity increase with a known cost. Created
+// alongside the increment itself — inside the same transaction, on
+// POST /receipts/:id/confirm and POST /inventory/:partId/adjust — so an
+// expense row and the stock change it represents can never drift apart.
+// GET /expenses aggregates straight from this; nothing here is a cache.
+// A quantity increase with no knowable cost (no receipt price, and the part
+// has no lastKnownPrice yet) simply creates no row — never a fabricated one.
+model ExpenseEntry {
+  id        String        @id @default(cuid())
+  quantity  Int
+  unitCost  Decimal       @db.Decimal(10, 2)
+  totalCost Decimal       @db.Decimal(10, 2) // quantity * unitCost, stored so aggregation is a plain SUM
+  source    ExpenseSource
+  createdAt DateTime      @default(now())
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  // Nullable, no onDelete (defaults to SetNull): if the part is later
+  // deleted, the money it was spent on should outlive it as history, same
+  // as ReceiptLineItem.matchedPart above — excluded from GET /expenses'
+  // per-part breakdown once orphaned, but never silently destroyed.
+  partId String?
+  part   Part?   @relation(fields: [partId], references: [id])
+
+  // Nullable, no onDelete: no delete route exists for Receipt today, but an
+  // ESTIMATED/MANUAL entry never has one anyway, and this should survive a
+  // delete route being added later without a migration.
+  receiptId String?
+  receipt   Receipt? @relation(fields: [receiptId], references: [id])
+
+  @@index([teamId, partId])
+  @@index([teamId, createdAt])
 }
 
 // ─────────────────────────── Usage ───────────────────────────

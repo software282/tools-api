@@ -1014,6 +1014,10 @@
                           "ownedQuantity": {
                             "type": "integer",
                             "nullable": true
+                          },
+                          "lastKnownPrice": {
+                            "type": "number",
+                            "nullable": true
                           }
                         },
                         "required": [
@@ -1029,7 +1033,8 @@
                           "manufacturer",
                           "category",
                           "createdByTeamId",
-                          "createdAt"
+                          "createdAt",
+                          "lastKnownPrice"
                         ],
                         "additionalProperties": false
                       }
@@ -1104,6 +1109,10 @@
                   },
                   "categoryId": {
                     "type": "string"
+                  },
+                  "unitCost": {
+                    "type": "number",
+                    "minimum": 0
                   },
                   "submitToLibrary": {
                     "type": "boolean",
@@ -1227,6 +1236,10 @@
                         "ownedQuantity": {
                           "type": "integer",
                           "nullable": true
+                        },
+                        "lastKnownPrice": {
+                          "type": "number",
+                          "nullable": true
                         }
                       },
                       "required": [
@@ -1242,7 +1255,8 @@
                         "manufacturer",
                         "category",
                         "createdByTeamId",
-                        "createdAt"
+                        "createdAt",
+                        "lastKnownPrice"
                       ],
                       "additionalProperties": false
                     },
@@ -1409,6 +1423,10 @@
                     "ownedQuantity": {
                       "type": "integer",
                       "nullable": true
+                    },
+                    "lastKnownPrice": {
+                      "type": "number",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -1424,7 +1442,8 @@
                     "manufacturer",
                     "category",
                     "createdByTeamId",
-                    "createdAt"
+                    "createdAt",
+                    "lastKnownPrice"
                   ],
                   "additionalProperties": false
                 }
@@ -1476,6 +1495,10 @@
                   },
                   "categoryId": {
                     "type": "string"
+                  },
+                  "unitCost": {
+                    "type": "number",
+                    "minimum": 0
                   }
                 },
                 "additionalProperties": false
@@ -1597,6 +1620,10 @@
                     "ownedQuantity": {
                       "type": "integer",
                       "nullable": true
+                    },
+                    "lastKnownPrice": {
+                      "type": "number",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -1612,7 +1639,8 @@
                     "manufacturer",
                     "category",
                     "createdByTeamId",
-                    "createdAt"
+                    "createdAt",
+                    "lastKnownPrice"
                   ],
                   "additionalProperties": false
                 }
@@ -1957,6 +1985,10 @@
                               "ownedQuantity": {
                                 "type": "integer",
                                 "nullable": true
+                              },
+                              "lastKnownPrice": {
+                                "type": "number",
+                                "nullable": true
                               }
                             },
                             "required": [
@@ -1972,7 +2004,8 @@
                               "manufacturer",
                               "category",
                               "createdByTeamId",
-                              "createdAt"
+                              "createdAt",
+                              "lastKnownPrice"
                             ],
                             "additionalProperties": false
                           }
@@ -2197,6 +2230,10 @@
                         "ownedQuantity": {
                           "type": "integer",
                           "nullable": true
+                        },
+                        "lastKnownPrice": {
+                          "type": "number",
+                          "nullable": true
                         }
                       },
                       "required": [
@@ -2212,7 +2249,8 @@
                         "manufacturer",
                         "category",
                         "createdByTeamId",
-                        "createdAt"
+                        "createdAt",
+                        "lastKnownPrice"
                       ],
                       "additionalProperties": false
                     }
@@ -2278,6 +2316,7 @@
         "tags": [
           "inventory"
         ],
+        "description": "A positive delta on a part with a known lastKnownPrice records an ESTIMATED expense entry (see GET /expenses) — there is no receipt line here to read an exact price from. A negative delta, or a part with no known price yet, records nothing. (PUT /inventory/:partId sets an absolute count instead of a delta, so it never implies a purchase and never records an expense.)",
         "requestBody": {
           "required": true,
           "content": {
@@ -2450,6 +2489,10 @@
                         "ownedQuantity": {
                           "type": "integer",
                           "nullable": true
+                        },
+                        "lastKnownPrice": {
+                          "type": "number",
+                          "nullable": true
                         }
                       },
                       "required": [
@@ -2465,7 +2508,8 @@
                         "manufacturer",
                         "category",
                         "createdByTeamId",
-                        "createdAt"
+                        "createdAt",
+                        "lastKnownPrice"
                       ],
                       "additionalProperties": false
                     }
@@ -4606,6 +4650,163 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/expenses": {
+      "get": {
+        "summary": "Your team's spending, grouped by category then by part",
+        "tags": [
+          "expenses"
+        ],
+        "description": "Built from every inventory-quantity increase that had a knowable cost: an exact price parsed off a confirmed receipt line (source RECEIPT), or a fallback to the part's own last known price for a manual inventory bump (source ESTIMATED — that price may itself trace back to an earlier receipt, or to unitCost typed in by hand on POST /parts when adding a brand-new part). A quantity increase with no knowable cost at all creates no row — never a fabricated one, so `allExact: false` on a part row is the honest signal that its total mixes in an estimate rather than only real receipt prices.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "generatedAt": {
+                      "type": "string"
+                    },
+                    "grandTotal": {
+                      "type": "number"
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "categoryName": {
+                            "type": "string"
+                          },
+                          "totalSpent": {
+                            "type": "number"
+                          },
+                          "parts": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "partId": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "sku": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "manufacturer": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "slug": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name",
+                                    "slug"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "quantityPurchased": {
+                                  "type": "integer"
+                                },
+                                "currentQuantityOwned": {
+                                  "type": "integer"
+                                },
+                                "totalSpent": {
+                                  "type": "number"
+                                },
+                                "averageUnitCost": {
+                                  "type": "number"
+                                },
+                                "lastUnitCost": {
+                                  "type": "number",
+                                  "nullable": true
+                                },
+                                "allExact": {
+                                  "type": "boolean"
+                                },
+                                "lastPurchasedAt": {
+                                  "type": "string",
+                                  "nullable": true
+                                }
+                              },
+                              "required": [
+                                "partId",
+                                "name",
+                                "sku",
+                                "manufacturer",
+                                "quantityPurchased",
+                                "currentQuantityOwned",
+                                "totalSpent",
+                                "averageUnitCost",
+                                "lastUnitCost",
+                                "allExact",
+                                "lastPurchasedAt"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "categoryId",
+                          "categoryName",
+                          "totalSpent",
+                          "parts"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "generatedAt",
+                    "grandTotal",
+                    "categories"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/expenses/export.csv": {
+      "get": {
+        "summary": "Download the same spending breakdown as CSV",
+        "tags": [
+          "expenses"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
           }
         }
       }

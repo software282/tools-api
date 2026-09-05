@@ -150,6 +150,8 @@ team join — team creation itself issues no token (see below).
 | | `GET /receipts/:id/file` | Short-lived signed link to the original file (bucket is private) |
 | | `PATCH /receipts/:id/lines/:lineId` | Correct a parsed line/match |
 | | `POST /receipts/:id/confirm` | Apply matched lines to inventory (idempotent per line) |
+| Expenses | `GET /expenses` | Team spending, grouped by category then part — see [Expense tracking](#expense-tracking) below |
+| | `GET /expenses/export.csv` | Same breakdown as CSV |
 | Admin | `GET /admin/submissions` | Pending library submissions (`SUPER_ADMIN`) |
 | | `POST /admin/submissions/:id/approve\|reject` | Review |
 | | `GET /admin/stats` | Usage: request volume, active teams, receipt throughput (`SUPER_ADMIN`) — see SETUP.md Phase 7.10 |
@@ -309,6 +311,49 @@ reproducible, free, and moves only when the parsers improve.
 > five untuned vendors have zero real coverage so far. Adding more real
 > confirmations is what closes that gap; see the corpus README for the (short)
 > process.
+
+## Expense tracking
+
+`GET /expenses` reports a team's spending, grouped by category then by part —
+`totalSpent`, `quantityPurchased`, `averageUnitCost`, `lastUnitCost`, and
+`currentQuantityOwned` per part. It's a live aggregation over `ExpenseEntry`
+rows, not a cached table, so it's always current with no separate sync step.
+
+**Where an `ExpenseEntry` row comes from** (see `prisma/schema.prisma` for the
+full model) — one is created, atomically with the inventory-quantity increase
+it represents, in exactly three places:
+
+| Trigger | `source` | Unit cost used |
+|---|---|---|
+| `POST /receipts/:id/confirm` on a line with a parsed price | `RECEIPT` | The line's own `unitPrice` — exact. Also refreshes the part's `lastKnownPrice`. |
+| `POST /receipts/:id/confirm` on a line with **no** parsed price | `ESTIMATED` | The part's existing `lastKnownPrice`, if it has one |
+| `POST /inventory/:partId/adjust` with a positive `delta` | `ESTIMATED` | The part's `lastKnownPrice`, if it has one |
+| `POST /parts` with `unitCost` supplied | — (sets the price; doesn't itself log a purchase) | Becomes the new part's `lastKnownPrice` |
+
+A quantity increase with no knowable cost — no receipt price, and the part has
+no `lastKnownPrice` yet — creates **no row**, never a fabricated one. A part
+row's `allExact: false` in the response is the honest signal that its total
+mixes in an estimate rather than only real receipt prices.
+
+**`PUT /inventory/:partId` never logs an expense** — it sets an absolute
+count (a stock-take correction), which doesn't reliably imply a purchase the
+way a positive `/adjust` delta does. Only `/adjust` is treated as "we got
+more of this."
+
+**Prompting for a manual cost:** when a receipt line's price parsing fails
+(`unitPrice: null`) and the reviewer adds it as a new part via `POST /parts`,
+the frontend should prompt for a cost and send it as `unitCost`. Without that,
+the part has no `lastKnownPrice` and no expense entry is possible for it at
+all — not for this line, and not for any manual inventory bump later — until
+some future receipt happens to price it. `unitCost` is what closes that gap.
+
+**Backfilling the ~1,700 imported catalog parts' prices is not done.** The
+goBILDA/REV crawl (`scripts/scrape-gobilda.ts`, `prisma/data/*.json`) never
+captured price — goBILDA's is JS-rendered rather than in the static HTML that
+crawler reads, which makes a real backfill a separate, large scraping effort
+of its own. Until/unless that happens, an imported part simply starts with
+`lastKnownPrice: null` and picks one up the first time any team buys it
+through a receipt.
 
 ## Testing status
 

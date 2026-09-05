@@ -26,6 +26,7 @@ import inventoryRoutes from './modules/inventory/routes.js';
 import receiptRoutes from './modules/receipts/routes.js';
 import teamRoutes from './modules/teams/routes.js';
 import adminRoutes from './modules/admin/routes.js';
+import expenseRoutes from './modules/expenses/routes.js';
 
 export async function buildServer() {
   const app = Fastify({
@@ -192,6 +193,7 @@ export async function buildServer() {
       await api.register(receiptRoutes, { prefix: '/receipts' });
       await api.register(teamRoutes, { prefix: '/teams' });
       await api.register(adminRoutes, { prefix: '/admin' });
+      await api.register(expenseRoutes, { prefix: '/expenses' });
     },
     { prefix: '/api/v1' },
   );

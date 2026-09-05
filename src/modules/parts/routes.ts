@@ -128,7 +128,7 @@ const routes = async (app: FastifyInstance) => {
       },
     },
     async (req, reply) => {
-      const { submitToLibrary, ...data } = req.body;
+      const { submitToLibrary, unitCost, ...data } = req.body;
       const teamId = req.auth!.teamId!;
       const userId = req.auth!.sub;
 
@@ -148,6 +148,7 @@ const routes = async (app: FastifyInstance) => {
       const teamPart = await prisma.part.create({
         data: {
           ...data,
+          lastKnownPrice: unitCost,
           scope: 'TEAM',
           status: 'APPROVED',
           createdByTeamId: teamId,
@@ -170,6 +171,7 @@ const routes = async (app: FastifyInstance) => {
             productUrl: data.productUrl,
             purchaseUrl: data.purchaseUrl,
             imageUrl: data.imageUrl,
+            lastKnownPrice: unitCost,
             manufacturerId: data.manufacturerId,
             categoryId: data.categoryId,
             scope: 'GLOBAL',
@@ -218,9 +220,10 @@ const routes = async (app: FastifyInstance) => {
 
       await assertCatalogRefs(req.body.manufacturerId, req.body.categoryId);
 
+      const { unitCost, ...rest } = req.body;
       const updated = await prisma.part.update({
         where: { id: existing.id },
-        data: req.body,
+        data: { ...rest, ...(unitCost !== undefined ? { lastKnownPrice: unitCost } : {}) },
         include: {
           manufacturer: { select: { id: true, name: true, slug: true } },
           category: { select: { id: true, name: true, slug: true } },

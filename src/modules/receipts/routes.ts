@@ -472,6 +472,31 @@ const routes = async (app: FastifyInstance) => {
           });
           await tx.receiptLineItem.update({ where: { id: line.id }, data: { applied: true } });
           appliedCount++;
+
+          // Expense tracking: the line's own parsed price wins when present
+          // (an exact figure from this actual purchase); otherwise fall back
+          // to whatever price the part already carries. Neither known means
+          // no row — never a fabricated cost. A real line price also refreshes
+          // the part's lastKnownPrice, so it stays current for the *next*
+          // line/adjustment that has no price of its own to go on.
+          const linePrice = line.unitPrice !== null ? Number(line.unitPrice) : null;
+          const unitCost = linePrice ?? (line.matchedPart!.lastKnownPrice !== null ? Number(line.matchedPart!.lastKnownPrice) : null);
+          if (unitCost !== null) {
+            await tx.expenseEntry.create({
+              data: {
+                teamId,
+                partId: line.matchedPartId,
+                receiptId: receipt.id,
+                quantity: line.quantity,
+                unitCost,
+                totalCost: unitCost * line.quantity,
+                source: linePrice !== null ? 'RECEIPT' : 'ESTIMATED',
+              },
+            });
+            if (linePrice !== null) {
+              await tx.part.update({ where: { id: line.matchedPartId }, data: { lastKnownPrice: linePrice } });
+            }
+          }
         }
 
         await tx.receipt.update({ where: { id: receipt.id }, data: { status: 'CONFIRMED' } });

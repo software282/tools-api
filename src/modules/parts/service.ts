@@ -118,6 +118,7 @@ export function serializePart(part: PartWithRelations, viewerTeamId: string | nu
     createdByTeamId: part.createdByTeamId,
     createdAt: part.createdAt.toISOString(),
     ownedQuantity: owned,
+    lastKnownPrice: part.lastKnownPrice === null ? null : Number(part.lastKnownPrice),
   };
 }
 
