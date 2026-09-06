@@ -152,8 +152,10 @@ team join — team creation itself issues no token (see below).
 | | `POST /receipts/:id/confirm` | Apply matched lines to inventory (idempotent per line) |
 | Expenses | `GET /expenses` | Team spending, grouped by category then part — see [Expense tracking](#expense-tracking) below |
 | | `GET /expenses/export.csv` | Same breakdown as CSV |
+| Notifications | `GET /notifications` | Your team's notifications + unread count |
+| | `POST /notifications/:id/read`, `POST /notifications/read-all` | Mark read |
 | Admin | `GET /admin/submissions` | Pending library submissions (`SUPER_ADMIN`) |
-| | `POST /admin/submissions/:id/approve\|reject` | Review |
+| | `POST /admin/submissions/:id/approve\|reject` | Review. Optional `priceOverride` (approve) and `note`; either way the submitting team is notified |
 | | `GET /admin/stats` | Usage: request volume, active teams, receipt throughput (`SUPER_ADMIN`) — see SETUP.md Phase 7.10 |
 
 ## Notes for the design/frontend phase
@@ -350,13 +352,29 @@ the part has no `lastKnownPrice` and no expense entry is possible for it at
 all — not for this line, and not for any manual inventory bump later — until
 some future receipt happens to price it. `unitCost` is what closes that gap.
 
-**Backfilling the ~1,700 imported catalog parts' prices is not done.** The
-goBILDA/REV crawl (`scripts/scrape-gobilda.ts`, `prisma/data/*.json`) never
-captured price — goBILDA's is JS-rendered rather than in the static HTML that
-crawler reads, which makes a real backfill a separate, large scraping effort
-of its own. Until/unless that happens, an imported part simply starts with
-`lastKnownPrice: null` and picks one up the first time any team buys it
-through a receipt.
+### Where catalogue prices come from
+
+A shared-library part carries **one canonical price every team sees**;
+a team's own custom part carries whatever price that team set.
+
+`scripts/scrape-prices.ts` backfills the canonical prices, reading each
+product page's own `product:price:amount` / `itemprop="price"` meta tags —
+present in static HTML for both goBILDA and REV. (An earlier note claimed
+goBILDA's prices were JS-rendered. That's true of the *category listing*
+tables, not the product pages.) It only touches `GLOBAL` parts with no price
+yet, so it's resumable and leaves team-set prices alone; a full pass is
+~5 hours at goBILDA's published 10s crawl delay for bots.
+
+`scripts/backfill-inventory-expenses.ts` is its companion: stock acquired
+*before* its part had a price produced no expense row and never would, so
+after a price scrape this fills those gaps. Idempotent — it only ever writes
+the difference between what a team holds and what the ledger already covers.
+
+When a team submits a part to the shared library, Seattle Solvers can correct
+the price at approval time (`priceOverride` on
+`POST /admin/submissions/:id/approve`), and the team is told what it was
+changed from and to — silently rewriting it would skew that team's expense
+totals without explanation.
 
 ## Testing status
 

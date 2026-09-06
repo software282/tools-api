@@ -46,6 +46,18 @@ function serialize(row: {
   };
 }
 
+// Both review actions take the same optional extras, and both are entirely
+// optional so an approve/reject with no body keeps working as before.
+const reviewBody = z
+  .object({
+    // Approve only: the canonical price this part carries in the shared
+    // library from now on. Ignored on reject.
+    priceOverride: z.number().nonnegative().optional(),
+    // A line of explanation passed through to the team's notification.
+    note: z.string().max(500).optional(),
+  })
+  .optional();
+
 const statsSchema = z.object({
   generatedAt: z.string(),
   requests: z.object({
@@ -196,8 +208,16 @@ const routes = async (app: FastifyInstance) => {
       schema: {
         tags: ['admin'],
         summary: 'Approve a submission — publishes it to the global library for all teams',
+        description:
+          'A shared-library part carries one canonical price every team sees, so this is ' +
+          'where a wrong one gets fixed: pass `priceOverride` to correct what the ' +
+          'submitting team listed. Either way the team is told the outcome via an in-app ' +
+          'notification (GET /notifications), and a corrected price says what it was ' +
+          'changed from and to — a price silently rewritten under them would quietly ' +
+          "skew that team's expense totals.",
         security: [{ bearerAuth: [] }],
         params: z.object({ id: z.string() }),
+        body: reviewBody,
         response: { 200: submissionSchema },
       },
     },
@@ -206,15 +226,52 @@ const routes = async (app: FastifyInstance) => {
         where: { id: req.params.id, scope: 'GLOBAL' },
       });
       if (!existing) throw notFound('Submission not found');
-      const row = await prisma.part.update({
-        where: { id: req.params.id },
-        data: { status: 'APPROVED' },
-        include: {
-          manufacturer: { select: { id: true, name: true } },
-          category: { select: { id: true, name: true } },
-          createdByTeam: { select: { id: true, number: true, name: true } },
-        },
+
+      const { priceOverride, note } = req.body ?? {};
+      const oldPrice = existing.lastKnownPrice === null ? null : Number(existing.lastKnownPrice);
+      const priceChanged = priceOverride !== undefined && priceOverride !== oldPrice;
+
+      const row = await prisma.$transaction(async (tx) => {
+        const updated = await tx.part.update({
+          where: { id: req.params.id },
+          data: {
+            status: 'APPROVED',
+            ...(priceOverride !== undefined ? { lastKnownPrice: priceOverride } : {}),
+          },
+          include: {
+            manufacturer: { select: { id: true, name: true } },
+            category: { select: { id: true, name: true } },
+            createdByTeam: { select: { id: true, number: true, name: true } },
+          },
+        });
+
+        // Only a team-submitted part has someone to tell; a part seeded or
+        // added by staff directly has no submitting team.
+        if (updated.createdByTeamId) {
+          await tx.notification.create({
+            data: {
+              teamId: updated.createdByTeamId,
+              partId: updated.id,
+              kind: priceChanged ? 'PRICE_CORRECTED' : 'SUBMISSION_APPROVED',
+              title: priceChanged
+                ? `"${updated.name}" was approved, with a corrected price`
+                : `"${updated.name}" was approved`,
+              body: [
+                priceChanged
+                  ? `Seattle Solvers approved this for the shared library and set its price to $${priceOverride!.toFixed(2)}` +
+                    (oldPrice === null ? ' (it had no price listed).' : `, corrected from the $${oldPrice.toFixed(2)} listed.`)
+                  : 'Seattle Solvers approved this for the shared library. Every team can use it now.',
+                note,
+              ]
+                .filter(Boolean)
+                .join(' '),
+            },
+          });
+        }
+
+        return updated;
       });
+
       return serialize(row);
     },
   );
@@ -226,8 +283,14 @@ const routes = async (app: FastifyInstance) => {
       schema: {
         tags: ['admin'],
         summary: 'Reject a submission',
+        description:
+          "Tells the submitting team via an in-app notification, since otherwise a " +
+          'submission just sits unexplained forever. Pass `note` to say why — worth ' +
+          "doing, as it's the only signal they get. The team's own copy of the part is " +
+          'untouched; only the shared-library request is rejected.',
         security: [{ bearerAuth: [] }],
         params: z.object({ id: z.string() }),
+        body: reviewBody,
         response: { 200: submissionSchema },
       },
     },
@@ -236,15 +299,41 @@ const routes = async (app: FastifyInstance) => {
         where: { id: req.params.id, scope: 'GLOBAL' },
       });
       if (!existing) throw notFound('Submission not found');
-      const row = await prisma.part.update({
-        where: { id: req.params.id },
-        data: { status: 'REJECTED' },
-        include: {
-          manufacturer: { select: { id: true, name: true } },
-          category: { select: { id: true, name: true } },
-          createdByTeam: { select: { id: true, number: true, name: true } },
-        },
+
+      const note = req.body?.note;
+
+      const row = await prisma.$transaction(async (tx) => {
+        const updated = await tx.part.update({
+          where: { id: req.params.id },
+          data: { status: 'REJECTED' },
+          include: {
+            manufacturer: { select: { id: true, name: true } },
+            category: { select: { id: true, name: true } },
+            createdByTeam: { select: { id: true, number: true, name: true } },
+          },
+        });
+
+        if (updated.createdByTeamId) {
+          await tx.notification.create({
+            data: {
+              teamId: updated.createdByTeamId,
+              partId: updated.id,
+              kind: 'SUBMISSION_REJECTED',
+              title: `"${updated.name}" wasn't added to the shared library`,
+              body: [
+                'Seattle Solvers reviewed this and did not add it to the shared library.',
+                note,
+                "Your team's own copy is unaffected — you can still use it in your inventory.",
+              ]
+                .filter(Boolean)
+                .join(' '),
+            },
+          });
+        }
+
+        return updated;
       });
+
       return serialize(row);
     },
   );

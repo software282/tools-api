@@ -85,6 +85,7 @@ model Team {
   receipts       Receipt[]
   createdParts   Part[]          @relation("PartCreatedByTeam")
   expenseEntries ExpenseEntry[]
+  notifications  Notification[]
 }
 
 model User {
@@ -170,6 +171,7 @@ model Part {
   inventoryItems   InventoryItem[]
   receiptLineItems ReceiptLineItem[]
   expenseEntries   ExpenseEntry[]
+  notifications    Notification[]
 
   @@index([manufacturerId])
   @@index([categoryId])
@@ -296,6 +298,40 @@ model ExpenseEntry {
   receipt   Receipt? @relation(fields: [receiptId], references: [id])
 
   @@index([teamId, partId])
+  @@index([teamId, createdAt])
+}
+
+// ─────────────────────────── Notifications ───────────────────────────
+
+enum NotificationKind {
+  SUBMISSION_APPROVED
+  SUBMISSION_REJECTED
+  PRICE_CORRECTED // approved, but Seattle Solvers corrected the price the team listed
+}
+
+// How a team hears back about something it doesn't otherwise watch — chiefly
+// the outcome of a shared-library submission, since that's decided by Seattle
+// Solvers on their own schedule with nothing to poll. Deliberately in-app:
+// this project has no email infrastructure and none is wanted (see SETUP.md
+// on the admin dashboard replacing email approvals).
+model Notification {
+  id        String           @id @default(cuid())
+  kind      NotificationKind
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  // What it's about, when there is one. Nullable with no onDelete (so,
+  // SetNull) for the same reason as ExpenseEntry.part: the message should
+  // outlive the part it refers to rather than vanish with it.
+  partId String?
+  part   Part?   @relation(fields: [partId], references: [id])
+
+  @@index([teamId, readAt])
   @@index([teamId, createdAt])
 }
 
