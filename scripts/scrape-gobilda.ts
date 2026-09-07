@@ -149,6 +149,8 @@ async function fetchPage(url: string, attempt = 1): Promise<string | null> {
 
 function decodeEntities(s: string): string {
   return s
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
     .replace(/&#x27;|&#39;/g, "'")
@@ -215,14 +217,23 @@ async function crawlCategory(
   for (const { attrs, body } of cards) {
     if (attrs['data-card-type'] === 'product') {
       const sku = attrs['data-sku']?.trim();
-      const href = attrs['href'];
+      const rawHref = attrs['href'];
       const title = attrs['title'] ? decodeEntities(attrs['title']) : null;
-      if (!sku || !href || !title) continue;
+      if (!sku || !rawHref || !title) continue;
+      // Product cards sometimes carry a bare path and/or an entity-encoded
+      // query (`/x/?sku&#x3D;3216`); absolutise it the same way category
+      // hrefs are handled above, so downstream consumers get a real URL.
+      let productUrl: string;
+      try {
+        productUrl = new URL(decodeEntities(rawHref), 'https://www.gobilda.com').toString();
+      } catch {
+        productUrl = rawHref;
+      }
       if (!out.has(sku)) {
         out.set(sku, {
           sku,
           name: title,
-          productUrl: href,
+          productUrl,
           imageUrl: firstImageSrc(body),
           ourCategory,
         });

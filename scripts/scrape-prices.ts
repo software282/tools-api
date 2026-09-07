@@ -18,6 +18,7 @@
  *   npx tsx scripts/scrape-prices.ts --limit=20 # short trial run
  */
 import 'dotenv/config';
+import { pathToFileURL } from 'node:url';
 import { prisma } from '../src/lib/prisma.js';
 
 const REQUEST_DELAY_MS = 10_000;
@@ -30,6 +31,28 @@ const limitArg = process.argv.find((a) => a.startsWith('--limit='));
 const limit = limitArg ? Number(limitArg.split('=')[1]) : undefined;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Some catalog rows carry a bare path (`/yellow-jacket-motor/#encoder`) or an
+ * HTML-entity-encoded query (`/x/?sku&#x3D;3216`) — the goBILDA crawler stored
+ * a few product hrefs exactly as they appeared in the markup instead of
+ * absolutising them. `fetch()` rejects a relative URL outright, so normalise
+ * here: decode numeric/`&amp;` entities, then resolve against goBILDA's origin
+ * (every relative row in the catalog is a goBILDA product). Returns null only
+ * if even that won't parse.
+ */
+export function normalizeUrl(raw: string): string | null {
+  const decoded = raw
+    .trim()
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&amp;/g, '&');
+  try {
+    return new URL(decoded, 'https://www.gobilda.com').toString();
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Pull a unit price out of a product page.
@@ -98,7 +121,16 @@ async function main() {
   let missing = 0;
 
   for (const [i, part] of parts.entries()) {
-    const html = await fetchPage(part.productUrl!);
+    const url = normalizeUrl(part.productUrl!);
+
+    // A row whose href was stored relative/encoded is also broken for the
+    // frontend's "view product" link, so heal it in place whenever the
+    // normalised form differs — independent of whether a price turns up.
+    if (url && url !== part.productUrl) {
+      await prisma.part.update({ where: { id: part.id }, data: { productUrl: url } });
+    }
+
+    const html = url ? await fetchPage(url) : null;
     const price = html ? extractPrice(html) : null;
 
     if (price !== null) {
@@ -117,8 +149,12 @@ async function main() {
   await prisma.$disconnect();
 }
 
-main().catch(async (err) => {
-  console.error(err);
-  await prisma.$disconnect();
-  process.exit(1);
-});
+// Guard so `scripts/price-remaining.ts` can `import { extractPrice }` from here
+// without kicking off a full crawl as a side effect.
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
+  main().catch(async (err) => {
+    console.error(err);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
+}
