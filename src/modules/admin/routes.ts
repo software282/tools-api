@@ -56,7 +56,9 @@ const reviewBody = z
     // A line of explanation passed through to the team's notification.
     note: z.string().max(500).optional(),
   })
-  .optional();
+  // A bodyless POST (approve/reject with no options) arrives as `null`, not
+  // `undefined` — `.nullish()` so both are accepted.
+  .nullish();
 
 const statsSchema = z.object({
   generatedAt: z.string(),
