@@ -17,14 +17,25 @@ fallback-of-a-fallback. A random 12-part spot-check matched live goBILDA
 exactly. `scripts/price-progress.ts` reports the count; `scrape-prices.ts
 --force` re-does everything (~5h) if prices drift.
 
-**Frontend: deployed and live.**
-`https://solvers-tools.business-cf9.workers.dev` — Cloudflare "Workers &
-Pages", project `solvers-tools`, direct-upload (no Git remote). `CORS_ORIGINS`
-in Render is now that exact origin (no trailing slash — a slash breaks it).
-Redeploy = rebuild `Seattle Solvers Parts Inventory Frontend/dist/` (or
-`solvers-tools-deploy.zip`, both gitignored) and drag it into the same
-Cloudflare project. Use `zip` with forward slashes — PowerShell
-`Compress-Archive` writes backslashes that Cloudflare stores literally.
+**Frontend: deployed and live at `https://tools.seattlesolvers.com`.**
+- Cloudflare **Pages** project `parts` (→ `parts-3wg.pages.dev`), in the
+  **business** account (`Business@seattlesolvers…`). Direct-upload, no Git
+  remote. Redeploy = rebuild `Seattle Solvers Parts Inventory Frontend/dist/`
+  and drag that folder into the Pages project (Deployments → Create deployment).
+- The custom domain works cross-account: the `seattlesolvers.com` zone lives in
+  the **original** account (`Solvers.seattle@gm…`, Porkbun registrar). A
+  `CNAME tools → parts-3wg.pages.dev` (proxied) was added there, then
+  `tools.seattlesolvers.com` was added as a custom domain on the Pages project
+  via the "My DNS provider" path — same pattern as `www`. **Do NOT accept
+  Cloudflare's "transfer DNS" offer — the zone carries the team's email records.**
+- `CORS_ORIGINS` in Render = all three:
+  `https://tools.seattlesolvers.com,https://parts-3wg.pages.dev,https://solvers-tools.business-cf9.workers.dev`
+  (comma-separated, **no trailing slashes** — a slash silently breaks the match).
+- The old `solvers-tools` **Worker** in the business account is now redundant —
+  fine to delete once the Pages one is proven.
+- If you ever zip for upload: use `zip`/Python (forward slashes). PowerShell
+  `Compress-Archive` writes backslashes that Cloudflare stores as literal
+  filenames (`app\api.jsx`), which 404s every script.
 
 **Frontend: three commits since `d173ac5`.**
 - `42ddb70` — removed the in-browser demo backend entirely. It was masquerading
