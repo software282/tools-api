@@ -5,6 +5,48 @@ accounts and the next session starts with zero memory of any of this. Read
 this whole file before touching anything — it front-loads what would
 otherwise take an hour of re-deriving.
 
+---
+
+## Session update — 2026-09-08 (supersedes stale bits below)
+
+**Catalog prices: 100% done.** All 1,726 GLOBAL parts have a `lastKnownPrice`.
+Backend commit `1a8f2e6` — see the three `scripts/scrape-*` / `price-*` files.
+118 rows had relative/entity-encoded `productUrl`s (now normalised in place);
+~90 non-single-product URLs got a family-page median or a category median as a
+fallback-of-a-fallback. A random 12-part spot-check matched live goBILDA
+exactly. `scripts/price-progress.ts` reports the count; `scrape-prices.ts
+--force` re-does everything (~5h) if prices drift.
+
+**Frontend: deployed and live.**
+`https://solvers-tools.business-cf9.workers.dev` — Cloudflare "Workers &
+Pages", project `solvers-tools`, direct-upload (no Git remote). `CORS_ORIGINS`
+in Render is now that exact origin (no trailing slash — a slash breaks it).
+Redeploy = rebuild `Seattle Solvers Parts Inventory Frontend/dist/` (or
+`solvers-tools-deploy.zip`, both gitignored) and drag it into the same
+Cloudflare project. Use `zip` with forward slashes — PowerShell
+`Compress-Archive` writes backslashes that Cloudflare stores literally.
+
+**Frontend: three commits since `d173ac5`.**
+- `42ddb70` — removed the in-browser demo backend entirely. It was masquerading
+  as real data on every cold start (6s timeout < Render's 30-60s wake). Now a
+  live-only `api.jsx` with a 45s timeout and a `<Waking>` retry screen.
+- `36436c4` — merged the 2026-09-06 Claude Design export: Expenses, Settings,
+  Usage screens, light/dark theme. **The export rebuilt the demo backend again
+  — rejected.** See `MERGE-NOTES.md`.
+- `5c365c0` — notifications bell (`app/notifications.jsx`, hand-written) + a
+  change-password panel in Settings.
+
+**Database: wiped to a clean slate.** 0 teams. One user:
+`software@seattlesolvers.com` (SUPER_ADMIN, no team) — password was reset this
+session, George has the new one. The 1,726-part catalog + categories +
+manufacturers are intact. Request logs cleared. George will recreate team
+#23511 himself via "Start a team".
+
+**Still open:** custom domain `tools.seattlesolvers.com` (Cloudflare + add to
+`CORS_ORIGINS`); George recreating the team.
+
+---
+
 ## Production status — RESOLVED 2026-09-05
 
 For ~10 commits the live API was stuck: `ENCRYPTION_KEY` (a required
