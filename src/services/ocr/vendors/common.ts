@@ -42,8 +42,10 @@ export function findPurchaseDate(text: string): string | undefined {
     const date = new Date(Number(year), Number(m) - 1, Number(d));
     if (!Number.isNaN(date.getTime())) return date.toISOString();
   }
+  // "Jan 23, 2026" and "Aug 25th 2026" — the ordinal suffix and the missing
+  // comma are both things goBILDA's PDF invoice does.
   const named = text.match(
-    /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})\b/i,
+    /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b/i,
   );
   if (named) {
     const date = new Date(`${named[1]} ${named[2]}, ${named[3]}`);
@@ -84,9 +86,17 @@ export function parseGenericItemLine(line: string): ParsedLineItem | null {
 
 const MONEY = /\$?\s?[\d,]+\.\d{2}/g;
 
-/** Lines that mark the end of the item list, or are never items themselves. */
+/**
+ * Lines that mark the end of the item list, or are never items themselves.
+ *
+ * The payment / savings / tax-variant group matters as much as the totals one:
+ * an OCR'd or PDF-extracted receipt is littered with dollar amounts that aren't
+ * purchases — "Credit Card ($217.91)", "Visa ending 4242", "You saved $12.00",
+ * "GST $4.10" — and the block parser keys off a price, so without this it would
+ * turn every one of them into a line item.
+ */
 const NON_ITEM_LINE =
-  /sub\s*total|shipping|handling|sales\s*tax|\btax\b|\btotal\b|discount|coupon|promo|order\s*#|invoice|payment|billing|ship\s*to|bill\s*to|tracking/i;
+  /sub\s*total|shipping|handling|sales\s*tax|\btax\b|\btotal\b|discount|coupon|promo|order\s*#|invoice|payment|billing|ship\s*to|bill\s*to|tracking|credit\s*card|debit\s*card|\bvisa\b|mastercard|\bamex\b|american\s*express|\bpaypal\b|card\s*ending|ending\s*in\s*\d|(?:[x*•]\s*){3,}\d{2,4}|cardholder|auth(?:orization)?\s*(?:code|#)|approval\s*(?:code|#)|you\s*saved|\bsavings\b|\brewards\b|loyalty|store\s*credit|gift\s*card|\bgst\b|\bhst\b|\bpst\b|\bqst\b|\bvat\b/i;
 
 const QTY_LABEL = /\bqty\.?\s*[:x]?\s*(\d{1,4})\b/i;
 const QTY_WORD = /\bquantity\s*[:x]?\s*(\d{1,4})\b/i;

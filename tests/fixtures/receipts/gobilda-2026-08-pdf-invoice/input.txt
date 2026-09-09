@@ -1,0 +1,76 @@
+Bill To
+Seattle Solvers
+1 Redacted St
+Redacted, WA 00000
+United States
+Phone: 0000000000
+Email: redacted@example.com
+Ship To
+Seattle Solvers
+1 Redacted St
+Redacted, WA 00000
+United States
+Phone: 0000000000
+Email: redacted@example.com
+#200131241
+Credit Card ($217.91)
+Aug 25th 2026
+Standard Shipping (Standard
+Shipping)
+goBILDA® Invoice for Order #200131241
+1134 Hooser Road
+Winfield, KS 67156
+United States of America
+Order Items
+Qty Code/SKU Product Name Price Total
+8 1611-0514-
+0008
+1611 Series Flanged Ball Bearing (8mm ID
+x 14mm OD, 5mm Thickness) - 2 Pack
+$2.99 $23.92
+5 5027103001 Wera Tools 2.5mm Ball-End Hex-Plus L-
+Key
+$2.49 $12.45
+5 5027104001 Wera Tools 3mm Ball-End Hex-Plus L-Key $2.99 $14.95
+3 4202-0070-
+1070
+7mm Combination Wrench $1.99 $5.97
+2 5027105001 Wera Tools 4mm Ball End Hex-Plus L-Key $3.49 $6.98
+5 4206-0070-
+0001
+7mm Combination Nut Driver $2.99 $14.95
+5 1611-0514-
+4008
+1611 Series Flanged Ball Bearing (8mm
+REX® ID x 14mm OD, 5mm Thickness) - 2
+Pack
+$4.49 $22.45
+2 3422-4008-
+0020
+2mm Pitch GT2 Pinion Timing Pulley (8mm
+REX® Bore, 20 Tooth)
+$5.99 $11.98
+4 1117-0216-
+0352
+Clear Polycarbonate Grid Plate (1.5mm
+Thickness, 27 x 44 Hole, 216 x 352mm)
+$8.99 $35.96
+Subtotal $185.55
+Shipping $11.99
+Tax $20.37
+Grand total $217.91
+Order:
+Payment Method:
+Order Date:
+Shipping Method:
+Qty Code/SKU Product Name Price Total
+6 3422-0125-
+0020
+2mm Pitch GT2 Pinion Timing Pulley (1/8"
+Bore, 20 Tooth)
+$5.99 $35.94
+Subtotal $185.55
+Shipping $11.99
+Tax $20.37
+Grand total $217.91
+Comments

@@ -61,6 +61,87 @@ describe('goBILDA parser', () => {
   });
 });
 
+// goBILDA's downloadable PDF *invoice* — as opposed to the emailed confirmation
+// above. Its table wraps SKUs after the second hyphen and names across up to
+// three lines, leads each row with the quantity, and repeats on a second page
+// with its own header. This is a trimmed copy of a real one (Order #200131241);
+// the full receipt is tests/fixtures/receipts/gobilda-2026-08-pdf-invoice.
+const GOBILDA_PDF_INVOICE = `
+#200131241
+Credit Card ($217.91)
+Aug 25th 2026
+goBILDA® Invoice for Order #200131241
+Order Items
+Qty Code/SKU Product Name Price Total
+8 1611-0514-
+0008
+1611 Series Flanged Ball Bearing (8mm ID
+x 14mm OD, 5mm Thickness) - 2 Pack
+$2.99 $23.92
+5 5027103001 Wera Tools 2.5mm Ball-End Hex-Plus L-
+Key
+$2.49 $12.45
+3 4202-0070-
+1070
+7mm Combination Wrench $1.99 $5.97
+Subtotal $44.34
+Shipping $11.99
+Tax $4.87
+Grand total $61.20
+Qty Code/SKU Product Name Price Total
+6 3422-0125-
+0020
+2mm Pitch GT2 Pinion Timing Pulley (1/8"
+Bore, 20 Tooth)
+$5.99 $35.94
+Subtotal $44.34
+Grand total $61.20
+`;
+
+describe('goBILDA PDF invoice table', () => {
+  const parsed = getVendorParser('GOBILDA')(GOBILDA_PDF_INVOICE, 'GOBILDA');
+
+  it('parses every row across both pages, and nothing else', () => {
+    expect(parsed).not.toBeNull();
+    expect(parsed!.items).toHaveLength(4);
+  });
+
+  it('never treats the "Credit Card ($217.91)" summary line as an item', () => {
+    for (const item of parsed!.items) {
+      expect(item.name.toLowerCase()).not.toContain('credit card');
+      expect(item.lineTotal).not.toBe(217.91);
+    }
+  });
+
+  it('reassembles a SKU that wrapped after the second hyphen', () => {
+    expect(parsed!.items[0].sku).toBe('1611-0514-0008');
+    expect(parsed!.items[2].sku).toBe('4202-0070-1070');
+  });
+
+  it('takes the quantity from the front of the row', () => {
+    expect(parsed!.items.map((i) => i.quantity)).toEqual([8, 5, 3, 6]);
+  });
+
+  it('joins a wrapped product name — tight at a hyphen, spaced otherwise', () => {
+    expect(parsed!.items[0].name).toBe(
+      '1611 Series Flanged Ball Bearing (8mm ID x 14mm OD, 5mm Thickness) - 2 Pack',
+    );
+    expect(parsed!.items[1].name).toBe('Wera Tools 2.5mm Ball-End Hex-Plus L-Key');
+  });
+
+  it('reads unit price and line total from the "$u $t" cell', () => {
+    expect(parsed!.items[0].unitPrice).toBe(2.99);
+    expect(parsed!.items[0].lineTotal).toBe(23.92);
+    expect(parsed!.items[2].lineTotal).toBe(5.97);
+  });
+
+  it('reads the "25th" ordinal date and the grand total', () => {
+    expect(parsed!.orderTotal).toBe(61.2);
+    expect(new Date(parsed!.purchasedAt!).getMonth()).toBe(7); // August
+    expect(new Date(parsed!.purchasedAt!).getDate()).toBe(25);
+  });
+});
+
 describe('REV parser', () => {
   const parsed = getVendorParser('REV')(REV_RECEIPT, 'REV');
 

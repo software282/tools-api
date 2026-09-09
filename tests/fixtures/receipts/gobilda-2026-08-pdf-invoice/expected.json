@@ -1,0 +1,78 @@
+{
+  "vendor": "GOBILDA",
+  "note": "Real downloaded PDF invoice (goBILDA Order #200131241, extracted text layer; personal fields redacted). The table wraps SKUs after the second hyphen and product names across up to three lines, and the item list spans two pages, each repeating the totals block. Before the dedicated invoice-table parser this fell through to the generic parser, which read the 'Credit Card ($217.91)' line as a $217.91 item, lost every quantity, and mangled the wrapped names.",
+  "orderTotal": 217.91,
+  "purchasedAt": "2026-08-25",
+  "items": [
+    {
+      "sku": "1611-0514-0008",
+      "name": "1611 Series Flanged Ball Bearing (8mm ID x 14mm OD, 5mm Thickness) - 2 Pack",
+      "quantity": 8,
+      "unitPrice": 2.99,
+      "lineTotal": 23.92
+    },
+    {
+      "sku": "5027103001",
+      "name": "Wera Tools 2.5mm Ball-End Hex-Plus L-Key",
+      "quantity": 5,
+      "unitPrice": 2.49,
+      "lineTotal": 12.45
+    },
+    {
+      "sku": "5027104001",
+      "name": "Wera Tools 3mm Ball-End Hex-Plus L-Key",
+      "quantity": 5,
+      "unitPrice": 2.99,
+      "lineTotal": 14.95
+    },
+    {
+      "sku": "4202-0070-1070",
+      "name": "7mm Combination Wrench",
+      "quantity": 3,
+      "unitPrice": 1.99,
+      "lineTotal": 5.97
+    },
+    {
+      "sku": "5027105001",
+      "name": "Wera Tools 4mm Ball End Hex-Plus L-Key",
+      "quantity": 2,
+      "unitPrice": 3.49,
+      "lineTotal": 6.98
+    },
+    {
+      "sku": "4206-0070-0001",
+      "name": "7mm Combination Nut Driver",
+      "quantity": 5,
+      "unitPrice": 2.99,
+      "lineTotal": 14.95
+    },
+    {
+      "sku": "1611-0514-4008",
+      "name": "1611 Series Flanged Ball Bearing (8mm REX® ID x 14mm OD, 5mm Thickness) - 2 Pack",
+      "quantity": 5,
+      "unitPrice": 4.49,
+      "lineTotal": 22.45
+    },
+    {
+      "sku": "3422-4008-0020",
+      "name": "2mm Pitch GT2 Pinion Timing Pulley (8mm REX® Bore, 20 Tooth)",
+      "quantity": 2,
+      "unitPrice": 5.99,
+      "lineTotal": 11.98
+    },
+    {
+      "sku": "1117-0216-0352",
+      "name": "Clear Polycarbonate Grid Plate (1.5mm Thickness, 27 x 44 Hole, 216 x 352mm)",
+      "quantity": 4,
+      "unitPrice": 8.99,
+      "lineTotal": 35.96
+    },
+    {
+      "sku": "3422-0125-0020",
+      "name": "2mm Pitch GT2 Pinion Timing Pulley (1/8\" Bore, 20 Tooth)",
+      "quantity": 6,
+      "unitPrice": 5.99,
+      "lineTotal": 35.94
+    }
+  ]
+}
