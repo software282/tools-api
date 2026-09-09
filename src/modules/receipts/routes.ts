@@ -6,6 +6,7 @@ import { prisma } from '../../lib/prisma.js';
 import { env, supabaseStorageEnabled } from '../../config/env.js';
 import {
   createSignedReceiptUrl,
+  deleteReceiptFile,
   SIGNED_URL_TTL_SECONDS,
   uploadReceiptFile,
 } from '../../lib/supabase.js';
@@ -374,6 +375,46 @@ const routes = async (app: FastifyInstance) => {
         req.log.error({ err }, 'failed to sign receipt file URL');
         throw badRequest('Could not produce a link for this file', 'SIGN_FAILED');
       }
+    },
+  );
+
+  r.delete(
+    '/:id',
+    {
+      preHandler: [app.requireAuth, app.requireTeam],
+      schema: {
+        tags: ['receipts'],
+        summary: 'Delete a receipt (e.g. the wrong file, or a bad parse)',
+        description:
+          'Removes the receipt, its parsed line items, and its stored file. Any inventory or ' +
+          'expense entries a *confirmed* receipt already produced are left untouched — those ' +
+          'are separate records that outlive the receipt on purpose (see ExpenseEntry). ' +
+          'Use this to clear a mistaken upload or an unusable parse before confirming.',
+        security: [{ bearerAuth: [] }],
+        params: z.object({ id: z.string() }),
+        response: { 204: z.null() },
+      },
+    },
+    async (req, reply) => {
+      const receipt = await prisma.receipt.findFirst({
+        where: { id: req.params.id, teamId: req.auth!.teamId! },
+        select: { id: true, filePath: true },
+      });
+      if (!receipt) throw notFound('Receipt not found');
+
+      // Delete the row first — a leftover storage object is harmless, a receipt
+      // that can't be cleared because its file delete failed is not.
+      await prisma.receipt.delete({ where: { id: receipt.id } });
+
+      if (receipt.filePath && supabaseStorageEnabled) {
+        try {
+          await deleteReceiptFile(receipt.filePath);
+        } catch (err) {
+          req.log.warn({ err, path: receipt.filePath }, 'receipt deleted but its file was not');
+        }
+      }
+
+      return reply.status(204).send(null);
     },
   );
 

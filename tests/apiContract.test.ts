@@ -44,6 +44,9 @@ describe('API contract', () => {
     expect(spec.paths['/api/v1/receipts/upload'].post).toBeDefined();
     // One call for a home screen, so a dashboard need not fan out.
     expect(spec.paths['/api/v1/dashboard'].get).toBeDefined();
+    // Self-service: rename yourself, and clear a mistaken receipt.
+    expect(spec.paths['/api/v1/auth/profile'].patch).toBeDefined();
+    expect(spec.paths['/api/v1/receipts/{id}'].delete).toBeDefined();
   });
 
   // The receipts bucket is private, because order confirmations carry a name and
@@ -117,6 +120,8 @@ describe('API contract', () => {
       ['PATCH', '/api/v1/teams/members/some-id', { role: 'TEAM_ADMIN' }],
       ['POST', '/api/v1/teams/join', { inviteCode: 'ABCD2345' }],
       ['PATCH', '/api/v1/auth/password', { currentPassword: 'a', newPassword: 'long-enough-pw' }],
+      ['PATCH', '/api/v1/auth/profile', { displayName: 'Alex Chen' }],
+      ['DELETE', '/api/v1/receipts/some-id', undefined],
       [
         'POST',
         '/api/v1/receipts',

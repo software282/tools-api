@@ -15,6 +15,7 @@ import {
   loginBody,
   meResponse,
   publicTeamSchema,
+  updateProfileBody,
 } from './schemas.js';
 import type { Team, User } from '@prisma/client';
 
@@ -193,6 +194,30 @@ const routes = async (app: FastifyInstance) => {
         include: { team: true },
       });
       if (!user) throw unauthorized();
+      return { user: toPublicUser(user), team: user.team ? toPublicTeam(user.team) : null };
+    },
+  );
+
+  r.patch(
+    '/profile',
+    {
+      preHandler: app.requireAuth,
+      schema: {
+        tags: ['auth'],
+        summary: 'Update your own display name',
+        description:
+          'The name shown next to receipts you upload and next to your entry in the team member list. Changes take effect immediately; no re-login needed.',
+        security: [{ bearerAuth: [] }],
+        body: updateProfileBody,
+        response: { 200: meResponse },
+      },
+    },
+    async (req) => {
+      const user = await prisma.user.update({
+        where: { id: req.auth!.sub },
+        data: { displayName: req.body.displayName },
+        include: { team: true },
+      });
       return { user: toPublicUser(user), team: user.team ? toPublicTeam(user.team) : null };
     },
   );

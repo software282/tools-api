@@ -80,6 +80,17 @@ export async function createSignedReceiptUrl(
   return data.signedUrl;
 }
 
+/**
+ * Delete a stored receipt file. Best-effort: a receipt row is deleted whether
+ * or not its file removal succeeds (a stray object is harmless; a blocked
+ * delete would be worse), so failures are logged by the caller, not thrown.
+ */
+export async function deleteReceiptFile(path: string): Promise<void> {
+  const supabase = getClient();
+  const { error } = await supabase.storage.from(env.SUPABASE_RECEIPTS_BUCKET).remove([path]);
+  if (error) throw new Error(`Failed to delete receipt file: ${error.message}`);
+}
+
 function extensionFor(contentType: string, originalName?: string): string {
   const fromName = originalName?.match(/\.[a-z0-9]+$/i)?.[0];
   if (fromName) return fromName.toLowerCase();

@@ -461,6 +461,124 @@
         }
       }
     },
+    "/api/v1/auth/profile": {
+      "patch": {
+        "summary": "Update your own display name",
+        "tags": [
+          "auth"
+        ],
+        "description": "The name shown next to receipts you upload and next to your entry in the team member list. Changes take effect immediately; no re-login needed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  }
+                },
+                "required": [
+                  "displayName"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "displayName": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "MEMBER",
+                            "TEAM_ADMIN",
+                            "SUPER_ADMIN"
+                          ]
+                        },
+                        "teamId": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "displayName",
+                        "role",
+                        "teamId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "team": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "inviteCode": {
+                          "type": "string"
+                        },
+                        "anthropicApiKeyConfigured": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "number",
+                        "name",
+                        "inviteCode",
+                        "anthropicApiKeyConfigured"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "user",
+                    "team"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/invite-code": {
       "get": {
         "summary": "Get the current team's invite code",
@@ -3258,6 +3376,43 @@
             }
           }
         }
+      },
+      "delete": {
+        "summary": "Delete a receipt (e.g. the wrong file, or a bad parse)",
+        "tags": [
+          "receipts"
+        ],
+        "description": "Removes the receipt, its parsed line items, and its stored file. Any inventory or expense entries a *confirmed* receipt already produced are left untouched — those are separate records that outlive the receipt on purpose (see ExpenseEntry). Use this to clear a mistaken upload or an unusable parse before confirming.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/receipts/{id}/file": {
@@ -4417,7 +4572,8 @@
                         "maxLength": 500
                       }
                     },
-                    "additionalProperties": false
+                    "additionalProperties": false,
+                    "nullable": true
                   }
                 ]
               }
@@ -4579,7 +4735,8 @@
                         "maxLength": 500
                       }
                     },
-                    "additionalProperties": false
+                    "additionalProperties": false,
+                    "nullable": true
                   }
                 ]
               }
