@@ -118,13 +118,97 @@ function parseInvoiceTables(lines: string[]): ParsedLineItem[] {
   return items;
 }
 
+// ─────────────────────────── stacked email confirmation ───────────────────
+//
+// goBILDA's order-confirmation email stacks each item, in one of two layouts:
+//
+//   A (name above the SKU)          B (name below the SKU)
+//   7mm Combination Nut Driver      5203-2402-0027
+//   7mm Combination Nut Driver      5203 Series Yellow Jacket ...
+//   4206-0070-0001                  Qty: 2
+//   Brand: goBILDA®                 $43.00
+//   $2.99                           $86.00
+//   Qty: 5
+//   $14.95
+//
+// `parseBySku` mishandles both: it only knows goBILDA's hyphenated SKU, so the
+// 10-digit *resale* SKUs (Wera tools, etc.) aren't anchored and their names
+// bleed onto the item above; and it picks a name by "longest line in the
+// block", which grabs the *next* item's name, and strips "27 x 44" out of
+// "…, 27 x 44 Hole, …". This reads the structure directly.
+
+const STACKED_SKU_LINE = /^(\d{4}-\d{4}-\d{3,4}|\d{6,12})$/;
+const STACKED_END = /^(sub\s*total|grand\s*total)\b/i;
+const MONEY_ONLY = /^\$?\s?([\d,]+\.\d{2})$/;
+const QTY_LINE = /^qty\.?:?\s*(\d+)/i;
+
+/** A line that reads like a product name rather than a price, a SKU, a "Qty:",
+ *  a "Brand:" tag, or order metadata. */
+function looksLikeName(s: string | undefined): boolean {
+  if (!s) return false;
+  if (STACKED_SKU_LINE.test(s) || MONEY_ONLY.test(s) || QTY_LINE.test(s)) return false;
+  if (STACKED_END.test(s) || /^(brand\s*:|order\s*#|placed on|date\s*:|subject\s*:|from\s*:|to\s*:|shipping|payment|thanks)/i.test(s)) return false;
+  return /[a-z]{3}/i.test(s);
+}
+
+function parseStackedEmail(lines: string[]): ParsedLineItem[] {
+  const items: ParsedLineItem[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const skuMatch = lines[i].match(STACKED_SKU_LINE);
+    if (!skuMatch) continue;
+    const sku = skuMatch[1];
+
+    // Layout B prints the name right after the SKU; layout A right before it
+    // (twice). Prefer the line after when it's a real name.
+    const name = looksLikeName(lines[i + 1])
+      ? lines[i + 1]
+      : looksLikeName(lines[i - 1])
+        ? lines[i - 1]
+        : sku;
+
+    // Forward: first $ is the unit price, "Qty: N" the quantity, the next $ the
+    // line total. Stop at the next SKU line or a totals line.
+    let unitPrice: number | undefined;
+    let lineTotal: number | undefined;
+    let quantity = 1;
+    for (let j = i + 1; j < lines.length && j < i + 8; j++) {
+      if (STACKED_SKU_LINE.test(lines[j]) || STACKED_END.test(lines[j])) break;
+      const qty = lines[j].match(QTY_LINE);
+      if (qty) {
+        quantity = Number(qty[1]) || 1;
+        continue;
+      }
+      const money = lines[j].match(MONEY_ONLY);
+      if (money) {
+        if (unitPrice === undefined) unitPrice = parseMoney(money[1]);
+        else if (lineTotal === undefined) lineTotal = parseMoney(money[1]);
+      }
+    }
+    if (unitPrice === undefined && lineTotal === undefined) continue; // not a real item
+
+    items.push({
+      rawText: `${name} | ${sku}`,
+      sku,
+      name,
+      quantity,
+      unitPrice,
+      lineTotal: lineTotal ?? unitPrice,
+    });
+  }
+
+  return items;
+}
+
 export const parseGobilda: VendorParser = (text, vendor) => {
   const lines = toLines(text);
 
-  // The PDF invoice announces itself with a column header; anything else is the
-  // emailed / single-line confirmation that parseBySku already handles.
-  const invoiceItems = parseInvoiceTables(lines);
-  const items = invoiceItems.length > 0 ? invoiceItems : parseBySku(lines, GOBILDA_SKU);
+  // Three known layouts, most specific first: the PDF invoice's wrapped table,
+  // the stacked email confirmation, then parseBySku for a single-line paste or
+  // an OCR'd photo.
+  let items = parseInvoiceTables(lines);
+  if (items.length === 0) items = parseStackedEmail(lines);
+  if (items.length === 0) items = parseBySku(lines, GOBILDA_SKU);
   if (items.length === 0) return null;
 
   return {

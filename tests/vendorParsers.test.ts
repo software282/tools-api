@@ -142,6 +142,75 @@ describe('goBILDA PDF invoice table', () => {
   });
 });
 
+// goBILDA's order-confirmation *email*, "layout A": product name (printed
+// twice) above the SKU, an optional "Brand:" line, then $unit / Qty / $total.
+// Trimmed from a real one (Order #200131241). The 10-digit line is a Wera
+// resale SKU — goBILDA sells third-party tools under their own part numbers.
+const GOBILDA_EMAIL = `
+From: goBILDA® <sales@gobilda.com>
+Subject: Your goBILDA® Order Confirmation (#200131241)
+
+goBILDA®
+Order #200131241
+7mm Combination Nut Driver
+7mm Combination Nut Driver
+4206-0070-0001
+$2.99
+Qty: 5
+$14.95
+Wera Tools 2.5mm Ball-End Hex-Plus L-Key
+Wera Tools 2.5mm Ball-End Hex-Plus L-Key
+5027103001
+$2.49
+Qty: 5
+$12.45
+Clear Polycarbonate Grid Plate (1.5mm Thickness, 27 x 44 Hole, 216 x 352mm)
+Clear Polycarbonate Grid Plate (1.5mm Thickness, 27 x 44 Hole, 216 x 352mm)
+1117-0216-0352
+Brand: goBILDA®
+$8.99
+Qty: 4
+$35.96
+Subtotal:
+$53.86
+Grand total:
+$67.86
+`;
+
+describe('goBILDA stacked email confirmation', () => {
+  const parsed = getVendorParser('GOBILDA')(GOBILDA_EMAIL, 'GOBILDA');
+
+  it('finds every item, including one under a 10-digit resale SKU', () => {
+    expect(parsed).not.toBeNull();
+    expect(parsed!.items.map((i) => i.sku)).toEqual([
+      '4206-0070-0001',
+      '5027103001',
+      '1117-0216-0352',
+    ]);
+  });
+
+  it('takes each name from directly above its SKU — not the next item down', () => {
+    expect(parsed!.items[0].name).toBe('7mm Combination Nut Driver');
+    expect(parsed!.items[1].name).toBe('Wera Tools 2.5mm Ball-End Hex-Plus L-Key');
+  });
+
+  it('keeps "27 x 44 Hole, 216 x 352mm" intact in the name', () => {
+    expect(parsed!.items[2].name).toBe(
+      'Clear Polycarbonate Grid Plate (1.5mm Thickness, 27 x 44 Hole, 216 x 352mm)',
+    );
+  });
+
+  it('reads quantity and both prices from their own lines', () => {
+    expect(parsed!.items[0].quantity).toBe(5);
+    expect(parsed!.items[0].unitPrice).toBe(2.99);
+    expect(parsed!.items[0].lineTotal).toBe(14.95);
+  });
+
+  it('reads the grand total even when the label and amount are on separate lines', () => {
+    expect(parsed!.orderTotal).toBe(67.86);
+  });
+});
+
 describe('REV parser', () => {
   const parsed = getVendorParser('REV')(REV_RECEIPT, 'REV');
 

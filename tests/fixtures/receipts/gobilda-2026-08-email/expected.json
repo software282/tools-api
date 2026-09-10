@@ -1,0 +1,18 @@
+{
+  "vendor": "GOBILDA",
+  "note": "Real order-confirmation email (goBILDA Order #200131241, same order as the gobilda-2026-08-pdf-invoice fixture; personal fields redacted). Stacked layout A: name (twice) / SKU / optional Brand line / $unit / Qty: N / $total. Before the dedicated email parser, parseBySku dropped the three Wera resale items (10-digit SKUs it doesn't recognise), shifted the remaining names down a row, and cut '27 x 44 Hole, 216 x' out of the grid plate's name.",
+  "orderTotal": 217.91,
+  "purchasedAt": "2026-08-25",
+  "items": [
+    { "sku": "4206-0070-0001", "name": "7mm Combination Nut Driver", "quantity": 5, "unitPrice": 2.99, "lineTotal": 14.95 },
+    { "sku": "5027103001", "name": "Wera Tools 2.5mm Ball-End Hex-Plus L-Key", "quantity": 5, "unitPrice": 2.49, "lineTotal": 12.45 },
+    { "sku": "5027104001", "name": "Wera Tools 3mm Ball-End Hex-Plus L-Key", "quantity": 5, "unitPrice": 2.99, "lineTotal": 14.95 },
+    { "sku": "5027105001", "name": "Wera Tools 4mm Ball End Hex-Plus L-Key", "quantity": 2, "unitPrice": 3.49, "lineTotal": 6.98 },
+    { "sku": "4202-0070-1070", "name": "7mm Combination Wrench", "quantity": 3, "unitPrice": 1.99, "lineTotal": 5.97 },
+    { "sku": "1117-0216-0352", "name": "Clear Polycarbonate Grid Plate (1.5mm Thickness, 27 x 44 Hole, 216 x 352mm)", "quantity": 4, "unitPrice": 8.99, "lineTotal": 35.96 },
+    { "sku": "3422-0125-0020", "name": "2mm Pitch GT2 Pinion Timing Pulley (1/8\" Bore, 20 Tooth)", "quantity": 6, "unitPrice": 5.99, "lineTotal": 35.94 },
+    { "sku": "3422-4008-0020", "name": "2mm Pitch GT2 Pinion Timing Pulley (8mm REX® Bore, 20 Tooth)", "quantity": 2, "unitPrice": 5.99, "lineTotal": 11.98 },
+    { "sku": "1611-0514-0008", "name": "1611 Series Flanged Ball Bearing (8mm ID x 14mm OD, 5mm Thickness) - 2 Pack", "quantity": 8, "unitPrice": 2.99, "lineTotal": 23.92 },
+    { "sku": "1611-0514-4008", "name": "1611 Series Flanged Ball Bearing (8mm REX® ID x 14mm OD, 5mm Thickness) - 2 Pack", "quantity": 5, "unitPrice": 4.49, "lineTotal": 22.45 }
+  ]
+}

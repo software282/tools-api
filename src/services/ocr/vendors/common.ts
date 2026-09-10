@@ -24,8 +24,13 @@ export function findOrderTotal(lines: string[]): number | undefined {
   for (const pattern of patterns) {
     for (let i = lines.length - 1; i >= 0; i--) {
       if (pattern.test(lines[i]) && !/sub\s*total/i.test(lines[i])) {
-        const money = lines[i].match(/\$?\s?[\d,]+\.\d{2}/);
-        if (money) return parseMoney(money[0]);
+        // On the label line ("Grand total: $217.91") …
+        const inline = lines[i].match(/\$?\s?[\d,]+\.\d{2}/);
+        if (inline) return parseMoney(inline[0]);
+        // … or on the next line, which is how the email lays it out
+        // ("Grand total:" / "$217.91").
+        const next = lines[i + 1]?.match(/^\$?\s?([\d,]+\.\d{2})$/);
+        if (next) return parseMoney(next[1]);
       }
     }
   }
@@ -178,7 +183,10 @@ export function parseBlockItem(block: string[], sku?: string): ParsedLineItem | 
     withoutSku(text)
       .replace(MONEY, ' ')
       .replace(/\b(qty|quantity)\.?\s*[:x]?\s*\d+\b/gi, ' ')
-      .replace(/(?:^|\s)\d{1,3}\s*x\b/gi, ' ')
+      // Strip a "5 x" / "3x" quantity multiplier — but only when it sits right
+      // before a price or at the end of the line. "27 x 44 Hole" inside a
+      // product name has a digit after the x, so it is left alone.
+      .replace(/(?:^|\s)\d{1,3}\s*x(?=\s+\$|\s*$)/gi, ' ')
       .replace(/\s{2,}/g, ' ')
       .trim();
 
