@@ -46,6 +46,21 @@ const schema = z.object({
   // from starting over a value it doesn't use. prisma/seed.ts enforces the
   // minimum length at the point where the account is actually created.
   SUPER_ADMIN_PASSWORD: z.string().optional(),
+
+  // Transactional email (Resend — https://resend.com). Optional and unset in
+  // most environments; when absent, part-submission notifications are simply
+  // skipped (logged, never fatal — see src/lib/email.ts) rather than blocking
+  // API startup or the request that would have triggered one.
+  RESEND_API_KEY: z.string().optional(),
+  // Must be on a domain verified in the Resend dashboard, or sends fail.
+  EMAIL_FROM: z.string().default('Seattle Solvers Tools <notifications@seattlesolvers.com>'),
+  // Comma-separated, same convention as CORS_ORIGINS. Who hears about a new
+  // shared-library part request (GET/POST /admin/submissions reviews it).
+  PART_SUBMISSION_NOTIFY_EMAILS: z
+    .string()
+    .default('george.conlan@eastsidecatholicschool.org,software@seattlesolvers.com'),
+  // Origin of the deployed frontend, for the sign-in link in that email.
+  FRONTEND_URL: z.string().url().default('https://tools.seattlesolvers.com'),
 });
 
 const parsed = schema.safeParse(process.env);

@@ -5,6 +5,7 @@ import { prisma } from '../../lib/prisma.js';
 import { env } from '../../config/env.js';
 import { badRequest, notFound } from '../../lib/errors.js';
 import { suggestProductUrl } from '../../services/productUrlLookup.js';
+import { sendPartSubmissionEmail } from '../../lib/email.js';
 import {
   createPartBody,
   createPartResponse,
@@ -180,6 +181,24 @@ const routes = async (app: FastifyInstance) => {
             createdByUserId: userId,
           },
         });
+
+        // Best-effort: staff still see the request in GET /admin/submissions
+        // either way, so a failed/unconfigured send is never fatal here.
+        try {
+          const team = await prisma.team.findUnique({
+            where: { id: teamId },
+            select: { number: true, name: true },
+          });
+          if (team) {
+            await sendPartSubmissionEmail({
+              teamNumber: team.number,
+              teamName: team.name,
+              partName: data.name,
+            });
+          }
+        } catch (err) {
+          req.log.warn({ err }, 'part-submission notification email failed to send');
+        }
       }
 
       return reply.status(201).send({
