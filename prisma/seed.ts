@@ -62,7 +62,13 @@ const MANUFACTURERS: Array<{
   websiteUrl: string;
   vendor: Vendor;
 }> = [
-  { slug: 'gobilda', name: 'goBILDA', websiteUrl: 'https://www.gobilda.com', vendor: 'GOBILDA' },
+  // Merged with ServoCity (same parent company, heavy catalog overlap) into
+  // one manufacturer/brand entry — see HANDOFF.md. Slug and `vendor` stay
+  // 'gobilda'/'GOBILDA' on purpose: this upserts the existing row in place
+  // rather than creating a new one, so every Part/InventoryItem/ExpenseEntry
+  // FK pointing at it is untouched, and existing goBILDA-format receipt
+  // parsing (keyed on the Vendor enum, not this name) keeps working as-is.
+  { slug: 'gobilda', name: 'ServoCity/GoBilda', websiteUrl: 'https://www.gobilda.com', vendor: 'GOBILDA' },
   { slug: 'rev', name: 'REV Robotics', websiteUrl: 'https://www.revrobotics.com', vendor: 'REV' },
   { slug: 'axon', name: 'Axon Robotics', websiteUrl: 'https://axon-robotics.com', vendor: 'AXON' },
   { slug: 'ferra', name: 'Ferra Components', websiteUrl: 'https://ferracomponents.com', vendor: 'FERRA' },
