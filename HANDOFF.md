@@ -7,6 +7,98 @@ otherwise take an hour of re-deriving.
 
 ---
 
+## Session update — 2026-09-10 (supersedes stale bits below)
+
+**Frontend now has a real build step — the "zero build step, static site"
+description further down is stale.** The site was loading React's
+*development* UMD builds (~1.2MB) plus Babel Standalone (~3.1MB) from a CDN
+and re-transpiling all 9 `app/*.jsx` files live in the browser on every visit
+— by far the biggest load-time cost, and the thing George asked to fix.
+- Swapped `react.development.js` / `react-dom.development.js` for the
+  `.production.min.js` builds in all three HTML entry points (`index.html`,
+  `Solvers Tools.html`, `dist/index.html`) — real SRI hashes, verified by
+  downloading and hashing the actual files rather than guessing them (a
+  guessed `integrity` attribute makes the browser refuse to run the script
+  at all, so this isn't optional to get right).
+- Added `Seattle Solvers Parts Inventory Frontend/build.cjs` (`.cjs` because
+  the backend's `package.json` has `"type": "module"`, and Node resolves
+  module type from the nearest `package.json` above wherever the script
+  lives). Run it with `node build.cjs` from inside the frontend folder — it
+  resolves `esbuild` the same way the existing syntax-check convention
+  already did, by walking up to the backend's `node_modules` (the frontend
+  still has none of its own). It strips JSX from each `app/*.jsx` file ahead
+  of time and concatenates them, in the same order as the old `<script>`
+  tags, into `dist/app.bundle.js`, then writes a `dist/index.html` that
+  loads just that one file — no Babel, no live in-browser transpile.
+  - The source files have no `import`/`export`; every top-level `function`
+    (screens like `ReceiptsScreen`, helpers like `Btn`) is read as a bare
+    global identifier by other files (`app.jsx` references `ReceiptsScreen`
+    directly, never through `window.`), so the bundle concatenates them
+    flat rather than wrapping each in its own scope — anything else breaks
+    every screen reference.
+  - The one thing flat concatenation can't tolerate as-is: every file opens
+    with its own `const { useState, ... } = React;`, and redeclaring the
+    same `const` name twice in one shared scope is a hard `SyntaxError` once
+    they're one file instead of nine separate `<script>` elements.
+    `dedupeReactHooks()` in `build.cjs` strips hook names already
+    destructured by an earlier file in the bundle order before concatenating
+    — verified by `node --check`'ing the output, and by rendering
+    `dist/index.html` in real headless Chrome (`--dump-dom`) to confirm the
+    app actually mounts and reaches its "waking the server up" screen with
+    no console errors, not just that it parses.
+- **New deploy step, same shape as before:** run `node build.cjs` in the
+  frontend folder, *then* zip `dist/` (Python/`zip`, not PowerShell
+  `Compress-Archive` — see the existing warning about backslash filenames
+  below) and drag it into Cloudflare Pages, same as always. No npm install,
+  no CI, still a local command + manual upload.
+- `Seattle Solvers Parts Inventory Frontend/app/*.jsx` (the real source) is
+  untouched by this — still edit those directly, then re-run the build
+  before deploying. `index.html` (root) still references the raw `.jsx`
+  files + Babel Standalone and is fine to keep using for quick local preview
+  without a build step; only `dist/` is production.
+
+**Favicon added** (George's screenshot showed the generic globe icon in the
+tab). Generated `assets/favicon.ico` + `favicon-32.png`/`favicon-192.png`/
+`apple-touch-icon.png` from the existing `assets/logo-white.png` (Seattle
+Solvers lightbulb/Space Needle mark) — trimmed to its visible bounds, padded
+back to a square so it doesn't stretch, and downsized to a few KB instead of
+shipping the 740KB source as a favicon. Linked in `index.html` and
+`Solvers Tools.html`; `build.cjs` already copies everything under `assets/`
+into `dist/assets/`, so no build-script change was needed.
+
+**Deploy confirmed, frontend changes committed (2026-09-11 follow-up).**
+`dist-deploy.zip` got dragged into Cloudflare Pages — verified via the
+Cloudflare MCP (`GET /accounts/{accountId}/pages/projects`): project `parts`'
+latest deployment (`https://5b1b8850.parts-3wg.pages.dev`) succeeded at
+2026-09-11 00:11:56 UTC. All of the above (build.cjs, favicon assets, the
+JSX/CSS/HTML edits) is now committed in the frontend repo as `77fee1c`.
+
+**Cloudflare agent setup installed** (George ran
+`https://developers.cloudflare.com/agent-setup/prompt.md`'s official
+Claude Code instructions): `claude plugin marketplace add cloudflare/skills`
++ `claude plugin install cloudflare@cloudflare`, then `/reload-plugins`.
+This is a **plugin** (Cloudflare's own skills, e.g. `cloudflare:wrangler`,
+`cloudflare:workers-best-practices` — in the available-skills list) that
+also bundles Cloudflare MCP tools (`docs`, `search`, `execute` — the last
+runs arbitrary JS against the Cloudflare API via `cloudflare.request()`,
+pre-scoped to `accountId` = Business@seattlesolvers.com's account).
+
+**OAuth is done** — George completed it in an interactive PowerShell
+terminal. Confirmed working in a later (non-interactive) session by calling
+`mcp__plugin_cloudflare_cloudflare__execute` directly (the Pages-project
+query above) with no auth prompt needed.
+
+**Still open, next session:** revisit whether Pages deploys can go through
+the MCP `execute` tool directly (`cloudflare.request()` against the Pages
+deployment-creation endpoint) instead of the current "run `node build.cjs`,
+zip `dist/`, hand George the zip to drag into the dashboard" manual loop.
+Only read endpoints have been exercised so far (listing projects) — check
+what a deployment-creation call actually needs (likely a multipart upload of
+the built files, similar shape to the Worker-with-bindings example in the
+tool's own description) before promising George a fully automated deploy.
+
+---
+
 ## Session update — 2026-09-08 (supersedes stale bits below)
 
 **Catalog prices: 100% done.** All 1,726 GLOBAL parts have a `lastKnownPrice`.
@@ -53,8 +145,11 @@ session, George has the new one. The 1,726-part catalog + categories +
 manufacturers are intact. Request logs cleared. George will recreate team
 #23511 himself via "Start a team".
 
-**Still open:** custom domain `tools.seattlesolvers.com` (Cloudflare + add to
-`CORS_ORIGINS`); George recreating the team.
+**Still open:** George recreating the team. (Custom domain + `CORS_ORIGINS`
+were done later this same session — see the bullets above; this line was
+never updated when that landed. The old `solvers-tools` Worker in the
+business account is also still sitting there unused — fine to delete once
+the Pages deployment is confirmed proven in production.)
 
 ---
 
@@ -122,12 +217,18 @@ Ask, don't assume.
   `https://tools-api-9vfr.onrender.com`. `tools.seattlesolvers.com` DNS still
   doesn't resolve — unfinished custom-domain step, not urgent, the Render URL
   works fine.
-- **Frontend:** a *static* React app — no build step, no bundler. React 18 +
-  Babel Standalone loaded from a CDN in `index.html` (a.k.a.
-  `Solvers Tools.html`), JSX transpiled live in the browser. Was authored via
-  Claude Design (the canvas tool); George is doing further visual design work
-  there himself. **Important architectural fact learned the hard way this
-  session:** a page published *as a Claude Design/claude.ai Artifact* runs in
+- **Frontend:** a *static* React app, source-authored as raw `app/*.jsx`
+  with no `import`/`export` (cross-file sharing is bare global identifiers
+  and `Object.assign(window, {...})`). `index.html` (a.k.a.
+  `Solvers Tools.html`) still loads those files straight off disk via Babel
+  Standalone for quick local preview with no build step. **Production is
+  different as of 2026-09-10** — see the session update at the top of this
+  file: `dist/` is now built by `node build.cjs` (esbuild, JSX-only, no
+  bundler-style module resolution since there's nothing to resolve) into one
+  `dist/app.bundle.js`, and that's what actually gets zipped and deployed.
+  Was authored via Claude Design (the canvas tool); George is doing further
+  visual design work there himself. **Important architectural fact learned
+  the hard way this session:** a page published *as a Claude Design/claude.ai Artifact* runs in
   a sandbox that blocks `fetch`/XHR to any external host — it cannot talk to
   this API at all from inside that sandbox. The plan is Design produces the
   visual mockup; the actual deployed site is exported as real static files
@@ -267,13 +368,13 @@ latest push made it.
 3. **Cost-prompt UX** for when a receipt line's price fails to parse (the
    frontend needs to ask for `unitCost` then, or that part can never be
    expense-tracked). Same merge applies.
-4. **Confirm the frontend is actually deployed to Cloudflare Pages.** Still
-   unconfirmed — the zip existing is not evidence it was uploaded. Ask.
-   Note George has been previewing via Claude Design
-   (`*.claudeusercontent.com`, now allow-listed in `CORS_ORIGINS`) rather
-   than a `.pages.dev` URL, so Cloudflare may never have happened at all.
-5. **Custom domain** (`tools.seattlesolvers.com`) — DNS CNAME still not
-   pointed at Render; George's own registrar access, not urgent.
+4. ~~Confirm the frontend is actually deployed to Cloudflare Pages~~ —
+   **done, resolved 2026-09-08**: live at `tools.seattlesolvers.com`, Pages
+   project `parts`. See the session update at the top for what's still
+   pending on the Cloudflare front (a ready-to-upload zip, and the new
+   Cloudflare MCP/skills setup).
+5. ~~Custom domain (`tools.seattlesolvers.com`)~~ — **done, resolved
+   2026-09-08**, see above.
 6. **Four unused `screens-*.jsx` files** sit in the frontend repo
    (`screens-auth.jsx`, `screens-parts.jsx`, `screens-inventory.jsx`,
    `screens-receipts.jsx`) — an earlier design draft never wired into the
@@ -300,13 +401,16 @@ latest push made it.
 - **Every frontend `.jsx` edit gets syntax-checked** with
   `node_modules/.bin/esbuild <file> --outfile=<scratch>` (borrowing esbuild
   from the *backend's* `node_modules`, since the frontend has none of its
-  own — it's a zero-dependency static site) before being called done, since
-  there's no build step to catch a typo otherwise.
+  own) before being called done. As of 2026-09-10 there IS a real build
+  (`node build.cjs` — see the session update at the top), but it only
+  produces `dist/`; the source `app/*.jsx` files are still zero-dependency
+  and still worth a quick per-file syntax check while editing.
 - **Commit messages explain the *why*, not just the *what*** — this repo's
   whole history (see `SETUP.md` and `README.md` too) is written as much for
   a future reader as for git blame. Keep matching that register.
 - **The frontend repo has no remote.** "Push" only ever applies to the
-  backend. The frontend's deploy path is: edit → `esbuild` syntax-check →
-  `git commit` (local) → regenerate the zip
-  (`Compress-Archive` via PowerShell, excluding `.git`) → tell George to
-  upload it to Cloudflare Pages.
+  backend. The frontend's deploy path is: edit `app/*.jsx` → `esbuild`
+  syntax-check → `node build.cjs` to rebuild `dist/` → `git commit` (local)
+  → regenerate the zip *of `dist/`* (Python/`zip`, not PowerShell
+  `Compress-Archive` — see the backslash-filename warning above) → tell
+  George to upload it to Cloudflare Pages.
