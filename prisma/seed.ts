@@ -1,10 +1,11 @@
 import 'dotenv/config';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PrismaClient, type Vendor } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { standardParts, type SeedPart } from './data.js';
+import { pickBestNameMatch, type NameCandidate } from '../src/services/nameMatch.js';
 
 const prisma = new PrismaClient();
 const dataDir = path.dirname(fileURLToPath(import.meta.url));
@@ -217,13 +218,42 @@ async function seedParts() {
   const scraped = [
     ...loadScrapedParts('gobilda-parts.json', 'gobilda'),
     ...loadScrapedParts('rev-duo-parts.json', 'rev'),
+    ...loadScrapedParts('servocity-parts.json', 'gobilda'),
   ];
 
   const existingGlobal = await prisma.part.findMany({
     where: { scope: 'GLOBAL', manufacturerId: { in: [...mfrBySlug.values()] } },
-    select: { manufacturerId: true, sku: true, name: true },
+    select: { id: true, manufacturerId: true, sku: true, name: true, imageUrl: true },
   });
   const existingKeys = new Set(existingGlobal.map((p) => `${p.manufacturerId}::${p.sku ?? p.name}`));
+
+  // Fuzzy cross-catalog dedup (goBILDA/ServoCity merged into one manufacturer
+  // — see HANDOFF.md): an exact key match above already caught literal
+  // SKU/name collisions; this catches the same physical part listed under a
+  // *different* SKU/name on each site, using the same fuzzy-match logic
+  // (src/services/nameMatch.ts) findLikelyDuplicateGlobalPart already uses
+  // for this exact purpose elsewhere. Auto-skip + log, per George: the
+  // scraped duplicate is never created, its imageUrl backfills the
+  // surviving row if that row didn't have one, and every skip is written to
+  // prisma/data/dedup-report.md so a wrong match is easy to spot and reverse.
+  const candidatesByManufacturer = new Map<string, NameCandidate[]>();
+  const imageByCandidateId = new Map<string, string | null>();
+  for (const p of existingGlobal) {
+    if (!candidatesByManufacturer.has(p.manufacturerId)) candidatesByManufacturer.set(p.manufacturerId, []);
+    candidatesByManufacturer.get(p.manufacturerId)!.push({ id: p.id, name: p.name });
+    imageByCandidateId.set(p.id, p.imageUrl);
+  }
+
+  interface DedupSkip {
+    scrapedName: string;
+    scrapedSku: string | null;
+    matchedId: string;
+    matchedName: string;
+    confidence: number;
+    backfilledImage: boolean;
+  }
+  const dedupSkips: DedupSkip[] = [];
+  const imageBackfills = new Map<string, string>(); // existing part id -> imageUrl to set
 
   const toCreate = [];
   for (const part of scraped) {
@@ -232,15 +262,59 @@ async function seedParts() {
     const key = `${data.manufacturerId}::${data.sku ?? data.name}`;
     if (existingKeys.has(key)) continue;
     existingKeys.add(key); // guards against duplicate SKUs within the scraped set itself
+
+    const candidates = candidatesByManufacturer.get(data.manufacturerId) ?? [];
+    const match = pickBestNameMatch(data.name, candidates);
+    if (match) {
+      const backfillImage = !imageByCandidateId.get(match.id) && Boolean(data.imageUrl);
+      if (backfillImage) imageBackfills.set(match.id, data.imageUrl!);
+      dedupSkips.push({
+        scrapedName: data.name,
+        scrapedSku: data.sku,
+        matchedId: match.id,
+        matchedName: candidates.find((c) => c.id === match.id)!.name,
+        confidence: match.confidence,
+        backfilledImage: backfillImage,
+      });
+      continue;
+    }
+
+    // Register as a candidate too, so a second near-duplicate later in this
+    // same scraped batch (not just against what was already in the DB) also
+    // gets caught, rather than only checking against pre-existing rows.
+    if (!candidatesByManufacturer.has(data.manufacturerId)) candidatesByManufacturer.set(data.manufacturerId, []);
+    candidatesByManufacturer.get(data.manufacturerId)!.push({ id: key, name: data.name });
     toCreate.push(data);
   }
 
   for (const batch of chunk(toCreate, CREATE_BATCH_SIZE)) {
     await prisma.part.createMany({ data: batch });
   }
+  for (const [partId, imageUrl] of imageBackfills) {
+    await prisma.part.update({ where: { id: partId }, data: { imageUrl } });
+  }
   console.log(
-    `  scraped parts: ${toCreate.length} created, ${scraped.length - toCreate.length} already present (${scraped.length} in data set)`,
+    `  scraped parts: ${toCreate.length} created, ${scraped.length - toCreate.length - dedupSkips.length} already present, ` +
+      `${dedupSkips.length} skipped as likely duplicates (${imageBackfills.size} backfilled an image) (${scraped.length} in data set)`,
   );
+
+  if (dedupSkips.length) {
+    const lines = [
+      '# Dedup report',
+      '',
+      `Generated ${new Date().toISOString()} by \`npm run seed\`.`,
+      '',
+      '| scraped name | scraped sku | matched existing part | confidence | image backfilled? |',
+      '| --- | --- | --- | --- | --- |',
+      ...dedupSkips.map(
+        (s) =>
+          `| ${s.scrapedName} | ${s.scrapedSku ?? ''} | ${s.matchedName} (\`${s.matchedId}\`) | ${s.confidence} | ${s.backfilledImage ? 'yes' : 'no'} |`,
+      ),
+      '',
+    ];
+    writeFileSync(path.join(dataDir, 'data', 'dedup-report.md'), lines.join('\n'));
+    console.log(`  dedup report: prisma/data/dedup-report.md (${dedupSkips.length} skips)`);
+  }
 }
 
 async function main() {

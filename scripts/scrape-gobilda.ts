@@ -18,30 +18,33 @@
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
-import {
-  REQUEST_DELAY_MS,
-  fetchPage,
-  decodeEntities,
-  extractCards,
-  firstImageSrc,
-  sleep,
-} from './lib/catalogCrawl.js';
+import { crawlCatalog } from './lib/catalogCrawl.js';
 
+const BASE_URL = 'https://www.gobilda.com';
 const MAX_DEPTH = 4;
 
 // Every non-utility link from goBILDA's global nav (present on every page),
 // captured 2026-09-03. Utility/marketing pages (education, support, policies,
 // merch, distributors, etc.) are excluded — they carry no parts.
+//
+// Gap-fill (2026-09-11, see scripts/discover-categories.ts /
+// prisma/data/category-audit.md): the 2026-09-03 list was hand-transcribed
+// from the site's nav and missed several real categories entirely — most
+// notably `timing-belts-pulleys`, which is almost certainly the bulk of
+// goBILDA's pulley SKUs (the sibling `round-belts-pulleys` was already here,
+// this one just never got copied down). Marked inline below.
 const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   // Motors / servos
   { slug: 'motors', ourCategory: 'motors' },
   { slug: 'servos', ourCategory: 'servos' },
   { slug: 'linear-servos-1', ourCategory: 'servos' },
+  { slug: 'linear-servos', ourCategory: 'servos' }, // gap-fill: distinct URL from linear-servos-1
   { slug: 'see-also-motors-1', ourCategory: 'motors' },
   { slug: 'see-also-servos-1', ourCategory: 'servos' },
   // Wheels
   { slug: 'wheels-tires', ourCategory: 'wheels' },
   { slug: 'tracks', ourCategory: 'wheels' },
+  { slug: 'intake-wheels', ourCategory: 'wheels' }, // gap-fill
   // Motion
   { slug: 'gears', ourCategory: 'motion' },
   { slug: 'sprockets-chain', ourCategory: 'motion' },
@@ -56,8 +59,10 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   { slug: 'm4-threaded-rods-2', ourCategory: 'motion' },
   { slug: 'odometry', ourCategory: 'motion' },
   { slug: 'motion-bundles', ourCategory: 'motion' },
+  { slug: 'control-arms', ourCategory: 'motion' }, // gap-fill
   // Belts
   { slug: 'round-belts-pulleys', ourCategory: 'belts' },
+  { slug: 'timing-belts-pulleys', ourCategory: 'belts' }, // gap-fill: the "missing pulleys"
   // Shafts / shaft attachments
   { slug: 'shafting-tubing', ourCategory: 'shafts' },
   { slug: 'shafting-tubing-1', ourCategory: 'shafts' },
@@ -67,6 +72,7 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   { slug: 'collars-1', ourCategory: 'shaft-attachments' },
   { slug: 'couplers', ourCategory: 'shaft-attachments' },
   { slug: 'hubs', ourCategory: 'shaft-attachments' },
+  { slug: 'cv-universal-joints', ourCategory: 'shaft-attachments' }, // gap-fill
   // Structure
   { slug: 'channel', ourCategory: 'structure' },
   { slug: 'beams', ourCategory: 'structure' },
@@ -90,6 +96,7 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   { slug: 'structure-bundles', ourCategory: 'structure' },
   { slug: 'shocks', ourCategory: 'structure' },
   { slug: 'springs', ourCategory: 'structure' },
+  { slug: 'gorail', ourCategory: 'structure' }, // gap-fill
   // Electronics
   { slug: 'batteries', ourCategory: 'electronics' },
   { slug: 'motor-controllers-1', ourCategory: 'electronics' },
@@ -104,6 +111,9 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   { slug: 'wiring', ourCategory: 'electronics' },
   { slug: 'cable', ourCategory: 'electronics' },
   { slug: 'control-bundles', ourCategory: 'electronics' },
+  { slug: 'sensors', ourCategory: 'electronics' }, // gap-fill
+  { slug: 'cameras', ourCategory: 'electronics' }, // gap-fill
+  { slug: 'fuses', ourCategory: 'electronics' }, // gap-fill
   // Hardware
   { slug: 'screws', ourCategory: 'hardware' },
   { slug: 'washers', ourCategory: 'hardware' },
@@ -113,6 +123,8 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   { slug: 'rubber-feet', ourCategory: 'hardware' },
   { slug: 'grommets', ourCategory: 'hardware' },
   { slug: 'ptfe-tubing', ourCategory: 'hardware' },
+  { slug: 'nuts', ourCategory: 'hardware' }, // gap-fill
+  { slug: 'wire-management', ourCategory: 'hardware' }, // gap-fill (distinct from wire-management-1 above)
   { slug: 'hardware-bundles', ourCategory: 'hardware' },
   // Tools
   { slug: 'tools', ourCategory: 'tools' },
@@ -123,89 +135,18 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
   { slug: 'bundles', ourCategory: 'kits' },
 ];
 
-interface RawPart {
-  sku: string;
-  name: string;
-  productUrl: string;
-  imageUrl: string | null;
-  ourCategory: string;
-}
-
-async function crawlCategory(
-  rawUrl: string,
-  ourCategory: string,
-  depth: number,
-  visited: Set<string>,
-  out: Map<string, RawPart>,
-): Promise<void> {
-  // Category cards sometimes link with a relative path and/or a page-section
-  // anchor (e.g. "/foo/#conversion-kits") — normalize so both resolve to the
-  // same page and the visited-set actually dedupes it.
-  const url = new URL(rawUrl, 'https://www.gobilda.com').toString().split('#')[0];
-  if (visited.has(url) || depth > MAX_DEPTH) return;
-  visited.add(url);
-
-  console.log(`${'  '.repeat(depth)}fetching (${ourCategory}) ${url}`);
-  const html = await fetchPage(url);
-  await sleep(REQUEST_DELAY_MS);
-  if (!html) return;
-
-  const cards = extractCards(html);
-  const subCategories: string[] = [];
-
-  for (const { attrs, body } of cards) {
-    if (attrs['data-card-type'] === 'product') {
-      const sku = attrs['data-sku']?.trim();
-      const rawHref = attrs['href'];
-      const title = attrs['title'] ? decodeEntities(attrs['title']) : null;
-      if (!sku || !rawHref || !title) continue;
-      // Product cards sometimes carry a bare path and/or an entity-encoded
-      // query (`/x/?sku&#x3D;3216`); absolutise it the same way category
-      // hrefs are handled above, so downstream consumers get a real URL.
-      let productUrl: string;
-      try {
-        productUrl = new URL(decodeEntities(rawHref), 'https://www.gobilda.com').toString();
-      } catch {
-        productUrl = rawHref;
-      }
-      if (!out.has(sku)) {
-        out.set(sku, {
-          sku,
-          name: title,
-          productUrl,
-          imageUrl: firstImageSrc(body),
-          ourCategory,
-        });
-      }
-    } else if (attrs['data-card-type'] === 'category' && attrs['href']) {
-      subCategories.push(attrs['href']);
-    }
-  }
-
-  console.log(
-    `${'  '.repeat(depth)}  -> ${cards.length} cards, ${subCategories.length} sub-categories, ${out.size} total SKUs so far`,
-  );
-
-  for (const subUrl of subCategories) {
-    await crawlCategory(subUrl, ourCategory, depth + 1, visited, out);
-  }
-}
-
 async function main() {
-  const visited = new Set<string>();
-  const parts = new Map<string, RawPart>();
+  const outDir = path.resolve(import.meta.dirname, '../prisma/data');
+  mkdirSync(outDir, { recursive: true });
+  const outFile = path.join(outDir, 'gobilda-parts.json');
 
-  for (const { slug, ourCategory } of TOP_CATEGORIES) {
-    await crawlCategory(`https://www.gobilda.com/${slug}`, ourCategory, 0, visited, parts);
-
+  const parts = await crawlCatalog({
+    baseUrl: BASE_URL,
+    topCategories: TOP_CATEGORIES,
+    maxDepth: MAX_DEPTH,
     // Checkpoint after every top-level category so a crash doesn't lose progress.
-    const outDir = path.resolve(import.meta.dirname, '../prisma/data');
-    mkdirSync(outDir, { recursive: true });
-    writeFileSync(
-      path.join(outDir, 'gobilda-parts.json'),
-      JSON.stringify([...parts.values()], null, 2),
-    );
-  }
+    onCheckpoint: (parts) => writeFileSync(outFile, JSON.stringify([...parts.values()], null, 2)),
+  });
 
   console.log(`\nDone. ${parts.size} unique SKUs written to prisma/data/gobilda-parts.json`);
 }
