@@ -16,6 +16,7 @@
  * sibling categories on the same top-nav page. See HANDOFF.md.
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { crawlCatalog } from './lib/catalogCrawl.js';
 
@@ -129,17 +130,27 @@ const TOP_CATEGORIES: Array<{ slug: string; ourCategory: string }> = [
 
 async function main() {
   const outDir = path.resolve(import.meta.dirname, '../prisma/data');
-  mkdirSync(outDir, { recursive: true });
   const outFile = path.join(outDir, 'servocity-parts.json');
+
+  // Checkpoint to a local temp path, not prisma/data directly: this repo can
+  // live inside a OneDrive-synced folder, and a burst of rapid rewrites to
+  // the same cloud-synced file (several small categories checkpointing
+  // within seconds of each other) has been observed to lose a race with
+  // OneDrive's sync engine — the process finishes and logs the true final
+  // count, but the file on disk silently reverts to an earlier, smaller
+  // snapshot with no error. One single write to the real path at the end
+  // avoids that failure mode.
+  const checkpointFile = path.join(tmpdir(), 'seattle-solvers-scrape-servocity-checkpoint.json');
 
   const parts = await crawlCatalog({
     baseUrl: BASE_URL,
     topCategories: TOP_CATEGORIES,
     maxDepth: MAX_DEPTH,
-    // Checkpoint after every top-level category so a crash doesn't lose progress.
-    onCheckpoint: (parts) => writeFileSync(outFile, JSON.stringify([...parts.values()], null, 2)),
+    onCheckpoint: (parts) => writeFileSync(checkpointFile, JSON.stringify([...parts.values()], null, 2)),
   });
 
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(outFile, JSON.stringify([...parts.values()], null, 2));
   console.log(`\nDone. ${parts.size} unique SKUs written to prisma/data/servocity-parts.json`);
 }
 

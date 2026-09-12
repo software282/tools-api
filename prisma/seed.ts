@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { PrismaClient, type Vendor } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { standardParts, type SeedPart } from './data.js';
-import { pickBestNameMatch, type NameCandidate } from '../src/services/nameMatch.js';
+import { pickBestNameMatch, sameNumericSpec, sameQualifiers, type NameCandidate } from '../src/services/nameMatch.js';
 
 const prisma = new PrismaClient();
 const dataDir = path.dirname(fileURLToPath(import.meta.url));
@@ -264,9 +264,24 @@ async function seedParts() {
     existingKeys.add(key); // guards against duplicate SKUs within the scraped set itself
 
     const candidates = candidatesByManufacturer.get(data.manufacturerId) ?? [];
-    const match = pickBestNameMatch(data.name, candidates);
+    const nameMatch = pickBestNameMatch(data.name, candidates);
+    // A name match alone isn't enough — see sameNumericSpec's own comment:
+    // "280mm Pitch Length, 140 Tooth" vs "184mm Pitch Length, 92 Tooth" score
+    // as near-identical by word overlap despite being different SKUs. Both
+    // gates must agree before this counts as a real duplicate.
+    const match =
+      nameMatch &&
+      sameNumericSpec(data.name, candidates.find((c) => c.id === nameMatch.id)!.name) &&
+      sameQualifiers(data.name, candidates.find((c) => c.id === nameMatch.id)!.name)
+        ? nameMatch
+        : null;
     if (match) {
-      const backfillImage = !imageByCandidateId.get(match.id) && Boolean(data.imageUrl);
+      // Only a match against a real, already-persisted row is backfillable —
+      // `match.id` may instead be a same-batch scraped part that hasn't been
+      // created yet (see the toCreate-registration comment below), and
+      // there's no row to update() in that case.
+      const matchesRealRow = imageByCandidateId.has(match.id);
+      const backfillImage = matchesRealRow && !imageByCandidateId.get(match.id) && Boolean(data.imageUrl);
       if (backfillImage) imageBackfills.set(match.id, data.imageUrl!);
       dedupSkips.push({
         scrapedName: data.name,

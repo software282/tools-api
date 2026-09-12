@@ -287,20 +287,6 @@
     "ourCategory": "motors"
   },
   {
-    "sku": "rd-5202-0002-0001",
-    "name": "SEE ALSO: 5202 Series Yellow Jacket Motor (1:1 Ratio)",
-    "productUrl": "/5202-series-yellow-jacket-motor-1-1-ratio-24mm-length-6mm-d-shaft-6000-rpm-3-3-5v-encoder/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2413/15094/5202-0002-0001_ftc-legal__61618__13137__69111__54902__39144__57658.1753289026.jpg?c=1",
-    "ourCategory": "motors"
-  },
-  {
-    "sku": "rd-5203-2402-0001",
-    "name": "SEE ALSO: 5203 Series Yellow Jacket Motor (1:1 Ratio)",
-    "productUrl": "/5203-series-yellow-jacket-motor-1-1-ratio-24mm-length-8mm-rex-shaft-6000-rpm-3-3-5v-encoder/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2412/15093/5203-2402-0001__29183__05505__93626__40442.1753288975.jpg?c=1",
-    "ourCategory": "motors"
-  },
-  {
     "sku": "5105-0208-0019",
     "name": "1:1 Conversion Kit for 19.2:1 Ratio Gearbox",
     "productUrl": "https://www.gobilda.com/1-1-conversion-kit-for-19-2-1-ratio-gearbox/",
@@ -765,7 +751,7 @@
   {
     "sku": "3216-0002-0009",
     "name": "Shark-9 Servo Gearbox (8 RPM, 4248 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/shark-9-servo-gearbox-1-26-sec-60-8-rpm-4248-oz-in-torque-280-rotation/?sku&#x3D;3216-0002-0009",
+    "productUrl": "https://www.gobilda.com/shark-9-servo-gearbox-1-26-sec-60-8-rpm-4248-oz-in-torque-280-rotation/?sku=3216-0002-0009",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1719/8953/3216-0002-0009_A__15749__39830.1701993639.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -779,7 +765,7 @@
   {
     "sku": "3216-0002-0007",
     "name": "Shark-7 Servo Gearbox (10 RPM, 3304 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/shark-7-servo-gearbox-0-98-sec-60-10-rpm-3304-oz-in-torque-360-rotation/?sku&#x3D;3216-0002-0007",
+    "productUrl": "https://www.gobilda.com/shark-7-servo-gearbox-0-98-sec-60-10-rpm-3304-oz-in-torque-360-rotation/?sku=3216-0002-0007",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1717/8942/3216-0002-0007_A__13909__77054.1701993638.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -793,14 +779,14 @@
   {
     "sku": "3216-0002-0005",
     "name": "Shark-5 Servo Gearbox (14 RPM, 2360 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/shark-5-servo-gearbox-0-70-sec-60-14-rpm-2360-oz-in-torque-504-rotation/?sku&#x3D;3216-0002-0005",
+    "productUrl": "https://www.gobilda.com/shark-5-servo-gearbox-0-70-sec-60-14-rpm-2360-oz-in-torque-504-rotation/?sku=3216-0002-0005",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1715/8938/3216-0002-0005_A__60081__69222.1701993634.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3216-0002-0004",
     "name": "Shark-4 Servo Gearbox (18 RPM, 1888 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/shark-4-servo-gearbox-0-56-sec-60-18-rpm-1888-oz-in-torque-630-rotation/?sku&#x3D;3216-0002-0004",
+    "productUrl": "https://www.gobilda.com/shark-4-servo-gearbox-0-56-sec-60-18-rpm-1888-oz-in-torque-630-rotation/?sku=3216-0002-0004",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1714/8927/3216-0002-0004_A__12100__02102.1701993633.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -814,35 +800,35 @@
   {
     "sku": "3216-0002-0003",
     "name": "Shark-3 Servo Gearbox (24 RPM, 1416 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/shark-3-servo-gearbox-0-42-sec-60-24-rpm-1416-oz-in-torque-840-rotation/?sku&#x3D;3216-0002-0003",
+    "productUrl": "https://www.gobilda.com/shark-3-servo-gearbox-0-42-sec-60-24-rpm-1416-oz-in-torque-840-rotation/?sku=3216-0002-0003",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1712/8923/3216-0002-0003_A__21298__69832.1701993629.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3216-0001-0003",
     "name": "Shark-3 Servo Gearbox (0.42 sec/60°, 1416 oz-in Torque, 840° Rotation)",
-    "productUrl": "/shark-3-servo-gearbox-0-42-sec-60-24-rpm-1416-oz-in-torque-840-rotation/?sku&#x3D;3216-0001-0003",
+    "productUrl": "https://www.gobilda.com/shark-3-servo-gearbox-0-42-sec-60-24-rpm-1416-oz-in-torque-840-rotation/?sku=3216-0001-0003",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1711/8922/3216-0001-0003_A__23544__30992.1701993628.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3216-0001-0002",
     "name": "Shark-2 Servo Gearbox (0.28 sec/60°, 944 oz-in Torque, 1260° Rotation)",
-    "productUrl": "/shark-2-servo-gearbox-0-28-sec-60-36-rpm-944-oz-in-torque-1260-rotation/?sku&#x3D;3216-0001-0002",
+    "productUrl": "https://www.gobilda.com/shark-2-servo-gearbox-0-28-sec-60-36-rpm-944-oz-in-torque-1260-rotation/?sku=3216-0001-0002",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1710/8921/3216-0001-0002_A__27946__91311.1701993627.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3216-0002-0002",
     "name": "Shark-2 Servo Gearbox (36 RPM, 944 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/shark-2-servo-gearbox-0-28-sec-60-36-rpm-944-oz-in-torque-1260-rotation/?sku&#x3D;3216-0002-0002",
+    "productUrl": "https://www.gobilda.com/shark-2-servo-gearbox-0-28-sec-60-36-rpm-944-oz-in-torque-1260-rotation/?sku=3216-0002-0002",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1709/8920/3216-0002-0002_A__49416__60801.1701993627.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3216-0001-0009",
     "name": "Shark-9 Servo Gearbox (1.26 sec/60°, 4248 oz-in Torque, 280° Rotation)",
-    "productUrl": "/shark-9-servo-gearbox-1-26-sec-60-8-rpm-4248-oz-in-torque-280-rotation/?sku&#x3D;3216-0001-0009",
+    "productUrl": "https://www.gobilda.com/shark-9-servo-gearbox-1-26-sec-60-8-rpm-4248-oz-in-torque-280-rotation/?sku=3216-0001-0009",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1708/8908/3216-0001-0009_A__22363__44883.1701993626.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -856,14 +842,14 @@
   {
     "sku": "3216-0001-0007",
     "name": "Shark-7 Servo Gearbox (0.98 sec/60°, 3304 oz-in Torque, 360° Rotation)",
-    "productUrl": "/shark-7-servo-gearbox-0-98-sec-60-10-rpm-3304-oz-in-torque-360-rotation/?sku&#x3D;3216-0001-0007",
+    "productUrl": "https://www.gobilda.com/shark-7-servo-gearbox-0-98-sec-60-10-rpm-3304-oz-in-torque-360-rotation/?sku=3216-0001-0007",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1706/8905/3216-0001-0007_A__15969__75242.1701993622.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3216-0001-0005",
     "name": "Shark-5 Servo Gearbox (0.70 sec/60°, 2360 oz-in Torque, 504° Rotation)",
-    "productUrl": "/shark-5-servo-gearbox-0-70-sec-60-14-rpm-2360-oz-in-torque-504-rotation/?sku&#x3D;3216-0001-0005",
+    "productUrl": "https://www.gobilda.com/shark-5-servo-gearbox-0-70-sec-60-14-rpm-2360-oz-in-torque-504-rotation/?sku=3216-0001-0005",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1705/8892/3216-0001-0005_A__58266__20302.1701993621.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -877,7 +863,7 @@
   {
     "sku": "3216-0001-0004",
     "name": "Shark-4 Servo Gearbox (0.56 sec/60°, 1888 oz-in Torque, 630° Rotation)",
-    "productUrl": "/shark-4-servo-gearbox-0-56-sec-60-18-rpm-1888-oz-in-torque-630-rotation/?sku&#x3D;3216-0001-0004",
+    "productUrl": "https://www.gobilda.com/shark-4-servo-gearbox-0-56-sec-60-18-rpm-1888-oz-in-torque-630-rotation/?sku=3216-0001-0004",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1703/8878/3216-0001-0004_A__45919__40576.1701993617.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -905,21 +891,21 @@
   {
     "sku": "3215-0002-0007",
     "name": "Stingray-7 Servo Gearbox (8.6 RPM, 2450 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/stingray-7-servo-gearbox-1-19-sec-60-8-6-rpm-2450-oz-in-torque-257-rotation/?sku&#x3D;3215-0002-0007",
+    "productUrl": "https://www.gobilda.com/stingray-7-servo-gearbox-1-19-sec-60-8-6-rpm-2450-oz-in-torque-257-rotation/?sku=3215-0002-0007",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1699/8850/3215-0002-0007_A__94047__31240.1701993602.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0002-0005",
     "name": "Stingray-5 Servo Gearbox (12 RPM, 1750 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/stingray-5-servo-gearbox-0-85-sec-60-12-rpm-1750-oz-in-torque-360-rotation/?sku&#x3D;3215-0002-0005",
+    "productUrl": "https://www.gobilda.com/stingray-5-servo-gearbox-0-85-sec-60-12-rpm-1750-oz-in-torque-360-rotation/?sku=3215-0002-0005",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1697/8848/3215-0002-0005_A__93041__75466.1701993600.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0002-0004",
     "name": "Stingray-4 Servo Gearbox (15 RPM, 1400 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/stingray-4-servo-gearbox-0-68-sec-60-15-rpm-1400-oz-in-torque-450-rotation/?sku&#x3D;3215-0002-0004",
+    "productUrl": "https://www.gobilda.com/stingray-4-servo-gearbox-0-68-sec-60-15-rpm-1400-oz-in-torque-450-rotation/?sku=3215-0002-0004",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1696/8837/3215-0002-0004_A__45934__41752.1701993600.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -933,63 +919,63 @@
   {
     "sku": "3215-0002-0003",
     "name": "Stingray-3 Servo Gearbox (20 RPM, 1050 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/stingray-3-servo-gearbox-0-51-sec-60-20rpm-1050-oz-in-torque-600-rotation/?sku&#x3D;3215-0002-0003",
+    "productUrl": "https://www.gobilda.com/stingray-3-servo-gearbox-0-51-sec-60-20rpm-1050-oz-in-torque-600-rotation/?sku=3215-0002-0003",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1694/8833/3215-0002-0003_A__67861__55553.1701993596.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0002-0009",
     "name": "Stingray-9 Servo Gearbox (6.7 RPM, 3150 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/stingray-9-servo-gearbox-1-53-sec-60-6-7-rpm-3150-oz-in-torque-200-rotation/?sku&#x3D;3215-0002-0009",
+    "productUrl": "https://www.gobilda.com/stingray-9-servo-gearbox-1-53-sec-60-6-7-rpm-3150-oz-in-torque-200-rotation/?sku=3215-0002-0009",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1693/8832/3215-0002-0009_A__79060__43083.1701993595.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0002-0002",
     "name": "Stingray-2 Servo Gearbox (30 RPM, 700 oz-in Torque, Continuous Rotation)",
-    "productUrl": "/stingray-2-servo-gearbox-0-34-sec-60-30rpm-700-oz-in-torque-900-rotation/?sku&#x3D;3215-0002-0002",
+    "productUrl": "https://www.gobilda.com/stingray-2-servo-gearbox-0-34-sec-60-30rpm-700-oz-in-torque-900-rotation/?sku=3215-0002-0002",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1692/8831/3215-0002-0002_A__43225__25395.1701993595.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0001-0002",
     "name": "Stingray-2 Servo Gearbox (0.33 sec/60°, 700 oz-in Torque, 900° Rotation, Position Control)",
-    "productUrl": "/stingray-2-servo-gearbox-0-34-sec-60-30rpm-700-oz-in-torque-900-rotation/?sku&#x3D;3215-0001-0002",
+    "productUrl": "https://www.gobilda.com/stingray-2-servo-gearbox-0-34-sec-60-30rpm-700-oz-in-torque-900-rotation/?sku=3215-0001-0002",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1691/8830/3215-0001-0002_A__21880__84869.1701993594.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0001-0009",
     "name": "Stingray-9 Servo Gearbox (1.50 sec/60°, 3150 oz-in Torque, 200° Rotation, Position Control)",
-    "productUrl": "/stingray-9-servo-gearbox-1-53-sec-60-6-7-rpm-3150-oz-in-torque-200-rotation/?sku&#x3D;3215-0001-0009",
+    "productUrl": "https://www.gobilda.com/stingray-9-servo-gearbox-1-53-sec-60-6-7-rpm-3150-oz-in-torque-200-rotation/?sku=3215-0001-0009",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1690/8810/3215-0001-0009_A__58019__87685.1701993589.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0001-0007",
     "name": "Stingray-7 Servo Gearbox (1.17 sec/60°, 2450 oz-in Torque, 257° Rotation, Position Control)",
-    "productUrl": "/stingray-7-servo-gearbox-1-19-sec-60-8-6-rpm-2450-oz-in-torque-257-rotation/?sku&#x3D;3215-0001-0007",
+    "productUrl": "https://www.gobilda.com/stingray-7-servo-gearbox-1-19-sec-60-8-6-rpm-2450-oz-in-torque-257-rotation/?sku=3215-0001-0007",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1688/8808/3215-0001-0007_A__70050__60286.1701993586.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0001-0005",
     "name": "Stingray-5 Servo Gearbox (0.83 sec/60°, 1750 oz-in Torque, 360° Rotation, Position Control)",
-    "productUrl": "/stingray-5-servo-gearbox-0-85-sec-60-12-rpm-1750-oz-in-torque-360-rotation/?sku&#x3D;3215-0001-0005",
+    "productUrl": "https://www.gobilda.com/stingray-5-servo-gearbox-0-85-sec-60-12-rpm-1750-oz-in-torque-360-rotation/?sku=3215-0001-0005",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1686/8803/3215-0001-0005_A__46203__57131.1701993586.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0001-0004",
     "name": "Stingray-4 Servo Gearbox (0.67 sec/60°, 1400 oz-in Torque, 450° Rotation, Position Control)",
-    "productUrl": "/stingray-4-servo-gearbox-0-68-sec-60-15-rpm-1400-oz-in-torque-450-rotation/?sku&#x3D;3215-0001-0004",
+    "productUrl": "https://www.gobilda.com/stingray-4-servo-gearbox-0-68-sec-60-15-rpm-1400-oz-in-torque-450-rotation/?sku=3215-0001-0004",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1685/8799/3215-0001-0004_A__23678__36465.1701993585.jpg?c=1",
     "ourCategory": "servos"
   },
   {
     "sku": "3215-0001-0003",
     "name": "Stingray-3 Servo Gearbox (0.50 sec/60°, 1050 oz-in Torque, 600° Rotation, Position Control)",
-    "productUrl": "/stingray-3-servo-gearbox-0-51-sec-60-20rpm-1050-oz-in-torque-600-rotation/?sku&#x3D;3215-0001-0003",
+    "productUrl": "https://www.gobilda.com/stingray-3-servo-gearbox-0-51-sec-60-20rpm-1050-oz-in-torque-600-rotation/?sku=3215-0001-0003",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1683/8796/3215-0001-0003_A__92306__10086.1701993583.jpg?c=1",
     "ourCategory": "servos"
   },
@@ -1096,13 +1082,6 @@
     "name": "1804 Series Servo Stand (32-1)",
     "productUrl": "https://www.gobilda.com/1804-series-servo-stand-32-1/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/380/2746/1804-0032-0001-Rev1__51778__93768.1701991682.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
-    "sku": "rd-see-also-servoblocks",
-    "name": "SEE ALSO: ServoBlocks®",
-    "productUrl": "/servoblocks/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1784/9453/3217-0001-2501-Ang1__02075__62937.1701993792.jpg?c=1",
     "ourCategory": "servos"
   },
   {
@@ -1281,34 +1260,6 @@
     "ourCategory": "servos"
   },
   {
-    "sku": "rd-tjc8-servo-leads-1",
-    "name": "TJC8 Servo Leads",
-    "productUrl": "/connector-style-tjc8-servo/#leads",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1029/5001/3800-0017-0100__47962__87692.1701992395.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
-    "sku": "rd-tjc8-servo-cables-extensions-1",
-    "name": "TJC8 Servo Cables & Extensions",
-    "productUrl": "/connector-style-tjc8-servo/#cables-extensions",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1027/4999/3804-1717-0100__14187__87688.1701992393.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
-    "sku": "rd-tjc8-servo-y-harnesses-1",
-    "name": "TJC8 Servo Y-Harnesses",
-    "productUrl": "/connector-style-tjc8-servo/#y-harnesses",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1022/4991/3805-1718-0150__26905__92098.1701992390.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
-    "sku": "rd-6v-batteries-1",
-    "name": "6V Batteries",
-    "productUrl": "/6v-batteries/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1352/6622/3100-0006-0001__28515__26298.1701992910.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
     "sku": "3125-0001-0001",
     "name": "6V Servo Power Injector (6 Channel, 8-15V Input)",
     "productUrl": "https://www.gobilda.com/6v-servo-power-injector-6-channel-8-15v-input/",
@@ -1334,13 +1285,6 @@
     "name": "4 Channel Servo Recorder",
     "productUrl": "https://www.gobilda.com/4-channel-servo-recorder/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1938/10477/3109-0006-0001-4-Channel-Servo-Recorder__74543__08775.1701994118.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
-    "sku": "rd-transmitters-receivers-1",
-    "name": "Transmitters & Receivers",
-    "productUrl": "/transmitters-receivers/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1526/11833/3113-2006-0001_Ang1__38832.1714773877.jpg?c=1",
     "ourCategory": "servos"
   },
   {
@@ -1418,13 +1362,6 @@
     "name": "Servo Gear Set for 2000 Series 'Super Speed' Servo",
     "productUrl": "https://www.gobilda.com/servo-gear-set-for-2000-series-super-speed-servo/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1956/10565/2310-2000-0004__98652__53011.1701994149.jpg?c=1",
-    "ourCategory": "servos"
-  },
-  {
-    "sku": "rd-dont-forget-the-servo-grease",
-    "name": "Don't Forget the Servo Grease!",
-    "productUrl": "/super-lube-synthetic-grease-with-ptfe-clear-1ml-2-pack/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1884/10102/2922-0002-0001__45736__51466__61648__52711.1701993998.jpg?c=1",
     "ourCategory": "servos"
   },
   {
@@ -1526,20 +1463,6 @@
     "ourCategory": "wheels"
   },
   {
-    "sku": "rd-see-also--strafer-chassis-kit-140mm",
-    "name": "SEE ALSO: Strafer® Chassis Kit (140mm Wheels)",
-    "productUrl": "/strafer-chassis-kit-140mm-mecanum-wheels/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2007/13263/Ang1__79057.1725482072.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
-    "sku": "rd-see-also--strafer-chassis-kit-v7",
-    "name": "SEE ALSO: Strafer® Chassis Kit (96mm Wheels)",
-    "productUrl": "/strafer-chassis-kit-104mm-gripforce-mecanum-wheels/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1778/13294/Ang1__48995.1725636892.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
     "sku": "3624-4008-0032",
     "name": "3624 Series Omni Wheel (8mm REX® Bore, 32mm Diameter, 50A Durometer)",
     "productUrl": "https://www.gobilda.com/3624-series-omni-wheel-8mm-rex-bore-32mm-diameter-50a-durometer/",
@@ -1596,10 +1519,24 @@
     "ourCategory": "wheels"
   },
   {
+    "sku": "3632-0014-0072",
+    "name": "GripForce Gecko™ Wheel (14mm Bore, 72mm Diameter, 15A Durometer)",
+    "productUrl": "https://www.gobilda.com/gripforce-gecko-wheel-14mm-bore-72mm-diameter-15a-durometer/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2557/17035/3632-0014-0072-CAT__22494.1788882983.jpg?c=1",
+    "ourCategory": "wheels"
+  },
+  {
     "sku": "3613-0014-0072",
     "name": "GripForce Gecko™ Wheel (14mm Bore, 72mm Diameter, 30A Durometer)",
     "productUrl": "https://www.gobilda.com/gripforce-gecko-wheel-14mm-bore-72mm-diameter-30a-durometer/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1379/15725/3613-0014-0072_REV2_-_CAT__98643.1767737240.jpg?c=1",
+    "ourCategory": "wheels"
+  },
+  {
+    "sku": "3632-0014-0096",
+    "name": "GripForce Gecko™ Wheel (14mm Bore, 96mm Diameter, 15A Durometer)",
+    "productUrl": "https://www.gobilda.com/gripforce-gecko-wheel-14mm-bore-96mm-diameter-15a-durometer/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2558/17041/3632-0014-0096-CAT__82147.1788905405.jpg?c=1",
     "ourCategory": "wheels"
   },
   {
@@ -1621,13 +1558,6 @@
     "name": "Hogback Traction Wheel (96mm Diameter, 50A Durometer)",
     "productUrl": "https://www.gobilda.com/hogback-traction-wheel-96mm-diameter-50a-durometer/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2392/16644/3626-0014-0096-Ang1__29335.1776779177.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
-    "sku": "rd-hogback-see-also",
-    "name": "SEE ALSO: Hogback Traction Wheel",
-    "productUrl": "/hogback-traction-wheel-96mm-diameter-50a-durometer/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2429/15274/3626-0014-0096-Ang1__82733__94429__85251.1759175367.jpg?c=1",
     "ourCategory": "wheels"
   },
   {
@@ -1708,13 +1638,6 @@
     "ourCategory": "wheels"
   },
   {
-    "sku": "rd-gecko-wheels",
-    "name": "GripForce Gecko™ Wheels",
-    "productUrl": "/gecko-wheels/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1674/15743/3613-0014-0072_REV2_Ang1__62227.1767737397.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
     "sku": "3605-0014-0056",
     "name": "3605 Series Hurricane Rim - 2 Pack",
     "productUrl": "https://www.gobilda.com/3605-series-hurricane-rim-2-pack/",
@@ -1733,13 +1656,6 @@
     "name": "5.4\" Truggy Tire (for 2.2\" Rim, Includes Foam Insert) - 2 Pack",
     "productUrl": "https://www.gobilda.com/5-4-truggy-tire-for-2-2-rim-includes-foam-insert-2-pack/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2369/14544/3609-0001-0006_Ang1__43734__96665.1741296060.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
-    "sku": "rd-tracks",
-    "name": "See Also: Tracks",
-    "productUrl": "/tracks/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2062/11308/track-category__31393.original__13695__81257__18256__66535.1707756660.jpg?c=1",
     "ourCategory": "wheels"
   },
   {
@@ -2282,20 +2198,6 @@
     "ourCategory": "wheels"
   },
   {
-    "sku": "rd-see-also-chassis-kits",
-    "name": "See Also: Chassis Kits",
-    "productUrl": "/chassis-kits/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1937/10459/3209-0008-0004-Ang1__42405__93351.1701994115.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
-    "sku": "rd-see-also-outlaw-chassis-kit",
-    "name": "See Also: Outlaw Chassis Kit",
-    "productUrl": "/outlaw-chassis-kit/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1634/8575/3209-0005-0001_Ang1__99991__54823.1701993512.jpg?c=1",
-    "ourCategory": "wheels"
-  },
-  {
     "sku": "3309-0108-0050",
     "name": "3309 Series 8mm Pitch Plastic Chain (50 Links/400mm, Black)",
     "productUrl": "https://www.gobilda.com/3309-series-8mm-pitch-plastic-chain-50-links-400mm-black/",
@@ -2744,13 +2646,6 @@
     "ourCategory": "motion"
   },
   {
-    "sku": "rd-see-also-pan-kits",
-    "name": "SEE ALSO: Pan Kits",
-    "productUrl": "/pan-kits/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2337/14293/Ang1__92516__02804.1734562187.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
     "sku": "2311-0001-0131",
     "name": "Acetal MOD 0.8 Gear Rack (131 Tooth, 41 Hole)",
     "productUrl": "https://www.gobilda.com/acetal-mod-0-8-gear-rack-131-tooth-41-hole/",
@@ -2769,13 +2664,6 @@
     "name": "8mm Pitch Steel Clamping Sprocket (8mm REX® Bore, 14 Tooth)",
     "productUrl": "https://www.gobilda.com/8mm-pitch-steel-clamping-sprocket-8mm-rex-bore-14-tooth/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2378/14670/3302-4008-0014_Back__94567__75244.1743623802.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-8mm-pitch-sprockets",
-    "name": "8mm Pitch Sprockets",
-    "productUrl": "/sprockets-chain/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2130/11656/3307-4008-0010_Ang2__10826__37083.1614902377__01932.1617140888.1280.1280__82639__24644.1713541867.jpg?c=1",
     "ourCategory": "motion"
   },
   {
@@ -2807,52 +2695,10 @@
     "ourCategory": "motion"
   },
   {
-    "sku": "rd-8mm-pitch-set-screw-sprockets",
-    "name": "8mm Pitch Set-Screw Sprockets",
-    "productUrl": "/set-screw-sprockets/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1023/11815/3307-4008-0010_Ang2__10826__37083.1614902377__01932__43218__25271__12957.1713545505.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-hub-mount-sprockets",
-    "name": "Hub Mount Sprockets",
-    "productUrl": "/sprockets-chain/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1026/4998/3310-0014-0028__72677__58328.1701992392.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-8mm-pitch-plastic-chain",
-    "name": "Plastic Chain",
-    "productUrl": "/8mm-pitch-chain/#plastic-chain",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2164/11814/3309-0108-0050__06425__39040.1614902197.1280.1280__91320__36217.1713543890.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-steel-chain-loops",
-    "name": "Steel Chain Loops",
-    "productUrl": "/8mm-pitch-chain/#steel-chain-loops",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2132/11658/3315-0008-0022__45509__53100.1713541905.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-8mm-pitch-steel-chain",
-    "name": "Steel Chain",
-    "productUrl": "/8mm-pitch-chain/#steel-chain",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2131/11657/3308-0008-1000__17174__37170__07957__72527.1713541884.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
     "sku": "1524-0001-0001",
     "name": "1524 Series Arc-Slot Tensioner Bracket",
     "productUrl": "https://www.gobilda.com/1524-series-arc-slot-tensioner-bracket/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1597/8391/1524-0001-0001_Ang2__16160__51270.1701993449.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-chain-1",
-    "name": "Chain",
-    "productUrl": "/chain/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1025/4993/3309-0108-0050__06425__27587.1701992391.jpg?c=1",
     "ourCategory": "motion"
   },
   {
@@ -3052,13 +2898,6 @@
     "ourCategory": "motion"
   },
   {
-    "sku": "rd-see-also-tumbleweed-tank-tracks",
-    "name": "SEE ALSO: Tumbleweed Tank Tracks",
-    "productUrl": "/tumbleweed-tank-track-800mm-length-50a-durometer-treads/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2510/16672/2409-0001-0001-Belt__28465.1777385249.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
     "sku": "3315-0008-0070",
     "name": "8mm Pitch Steel Chain Loop (70 Links, 560mm Pitch Length)",
     "productUrl": "https://www.gobilda.com/8mm-pitch-steel-chain-loop-70-links-560mm-pitch-length/",
@@ -3227,13 +3066,6 @@
     "ourCategory": "motion"
   },
   {
-    "sku": "rd-tensioners-idlers-for-8mm-pitch-chain",
-    "name": "Tensioners & Idlers",
-    "productUrl": "/chain-tensioners-and-idlers/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2072/11351/ChainTensorCategory__05507__02030__41870.1709571833.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
     "sku": "3413-0001-0001",
     "name": "Acetal Timing Belt Idler (6mm ID x 12mm OD, 12mm Width, 1-1) - 2 Pack",
     "productUrl": "https://www.gobilda.com/acetal-timing-belt-idler-6mm-id-x-12mm-od-12mm-width-1-1-2-pack/",
@@ -3280,20 +3112,6 @@
     "name": "4mm Bore 1-Side, 1-Post Pillow Block (24mm Height)",
     "productUrl": "https://www.gobilda.com/4mm-bore-1-side-1-post-pillow-block-24mm-height/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2373/14575/1605-0024-0004-Vertical__68071__24525.1741872751.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-face-thru-hole-pillow-blocks-32mm-x-32mm-pattern",
-    "name": "Face Thru-Hole Pillow Blocks (32mm x 32mm Pattern)",
-    "productUrl": "/face-thru-hole-pillow-blocks/#pattern_32mmx32mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1955/16671/Ang1__31354.1777382903.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-face-thru-hole-pillow-blocks-16mm-x-32mm-pattern",
-    "name": "Face Thru-Hole Pillow Blocks (16mm x 32mm Pattern)",
-    "productUrl": "/face-thru-hole-pillow-blocks/#pattern_16mmx32mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1953/10549/1621-1632-4008_Ang1__30054__97525.1701994144.jpg?c=1",
     "ourCategory": "motion"
   },
   {
@@ -3682,20 +3500,6 @@
     "ourCategory": "motion"
   },
   {
-    "sku": "rd-8mm-lead-screws-1",
-    "name": "8mm Lead Screws",
-    "productUrl": "/8mm-lead-screws/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/938/4846/lead-screws-category__42965__79087.1701992329.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-8mm-lead-screw-nuts-1",
-    "name": "8mm Lead Screw Nuts",
-    "productUrl": "/8mm-lead-screw-nuts/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1006/4975/ang1__02052__51209.1701992382.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
     "sku": "1310-0016-5008",
     "name": "1310 Series Hyper Hub (4 Start, 8mm Lead Screw Bore)",
     "productUrl": "https://www.gobilda.com/1310-series-hyper-hub-4-start-8mm-lead-screw-bore/",
@@ -3707,48 +3511,6 @@
     "name": "3504 Series Lead Screw Clamping Collar (8mm Lead, 4 Start, 21mm OD, 9mm Length)",
     "productUrl": "https://www.gobilda.com/3504-series-lead-screw-clamping-collar-8mm-lead-4-start-21mm-od-9mm-length/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1422/7047/3504-0804-2109__22468__98720.1701993047.png?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-rail-channel-based-linear-motion",
-    "name": "Rail-Channel Based Linear Motion",
-    "productUrl": "/1122-series-rail-channel/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2335/14241/category_1__12098__70144.1732291147.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-linear-slides",
-    "name": "Linear Slides",
-    "productUrl": "/linear-slides/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2017/11054/2500-0014-0336_Ang2__69830__52658__09429.1701994300.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-linear-motion-for-t-slot-extrusion",
-    "name": "Linear Motion for goRAIL®",
-    "productUrl": "/gorail-based",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2052/11239/x-rail-linear-motion__52439.original__67677__33322.1702678580.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-linear-motion-for-channel",
-    "name": "Linear Motion for Channel",
-    "productUrl": "/channel-based-linear-motion-guides/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2051/11238/channel_carriage__18270__48510__07431.1702678379.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-linear-motion-for-v-guide",
-    "name": "Linear Motion for V-Guide",
-    "productUrl": "/v-guide-based/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2050/11237/apit2v1m6__04453.original__87617__91176.1702677968.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-linear-bearings",
-    "name": "Linear Bearings",
-    "productUrl": "/linear-ball-bearings",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2049/11236/shaft-based__73692.original__87860__24957.1702676832.jpg?c=1",
     "ourCategory": "motion"
   },
   {
@@ -4284,20 +4046,6 @@
     "ourCategory": "motion"
   },
   {
-    "sku": "rd-gobilda-v-wheel-kits",
-    "name": "V-Wheel Kits",
-    "productUrl": "/v-wheels/#-v-wheel-kits",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2055/16448/3205-0001-0003__04996.1774539597.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-w-wheels",
-    "name": "W-Wheels",
-    "productUrl": "/w-wheels/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2054/16447/3205-0002-0001__68749.1774539516.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
     "sku": "3207-0001-0001",
     "name": "Servo-Driven Gear Rack Kit (27kg Thrust, 60 mm/sec, Single Gear Rack)",
     "productUrl": "https://www.gobilda.com/servo-driven-gear-rack-kit-27kg-thrust-60-mm-sec-single-gear-rack/",
@@ -4316,13 +4064,6 @@
     "name": "Linear Actuator Kit (203mm Stroke)",
     "productUrl": "https://www.gobilda.com/linear-actuator-kit-1120-series-203mm-stroke-8mm-lead/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1063/5169/Ang2__29236__79921.1759438039.jpg?c=1",
-    "ourCategory": "motion"
-  },
-  {
-    "sku": "rd-see-also-linear-motion-guides",
-    "name": "SEE ALSO: Linear Motion Guides",
-    "productUrl": "/linear-motion-guides/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1343/6581/3210-0001-0005_Ang3-2__49944__27464.1701992898.jpg?c=1",
     "ourCategory": "motion"
   },
   {
@@ -4445,6 +4186,132 @@
     "ourCategory": "motion"
   },
   {
+    "sku": "1925-4008-0048",
+    "name": "Clamping Control-Arm (8mm REX® Bore, 48mm Length)",
+    "productUrl": "https://www.gobilda.com/clamping-control-arm-8mm-rex-bore-48mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2362/14434/1925-4008-0048_Ang1__37371__27849.1739312801.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1920-0032-0192",
+    "name": "Plastic Hub-Mount Disc (32mm Bore, 192mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-32mm-bore-192mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1970/10658/1920-0032-0192__16527__10271.1701994176.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1920-0032-0144",
+    "name": "Plastic Hub-Mount Disc (32mm Bore, 144mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-32mm-bore-144mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1968/10641/1920-0032-0144__80789__55303.1701994170.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1920-0032-0096",
+    "name": "Plastic Hub-Mount Disc (32mm Bore, 96mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-32mm-bore-96mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1967/10628/1920-0032-0096__30236__37758.1701994167.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1919-0014-0240",
+    "name": "Plastic Hub-Mount Disc (14mm Bore, 240mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-14mm-bore-240mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1964/10620/1919-0014-0240__95146__27814.1701994164.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1920-0032-0240",
+    "name": "Plastic Hub-Mount Disc (32mm Bore, 240mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-32mm-bore-240mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1963/10612/1920-0032-0240__47535__51465.1701994162.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1919-0014-0192",
+    "name": "Plastic Hub-Mount Disc (14mm Bore, 192mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-14mm-bore-192mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1962/10604/1919-0014-0192__59408__86374.1701994159.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1919-0014-0144",
+    "name": "Plastic Hub-Mount Disc (14mm Bore, 144mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-14mm-bore-144mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1960/10595/1919-0014-0144__40962__37935.1701994156.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1917-0014-0024",
+    "name": "Plastic Dual Hub-Mount Control Arm (24mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-dual-hub-mount-control-arm-24mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1959/10587/1917-0014-0024__70355__99412.1701994154.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1919-0014-0096",
+    "name": "Plastic Hub-Mount Disc (14mm Bore, 96mm Diameter)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-disc-14mm-bore-96mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1958/10580/1919-0014-0096__12603__45146.1701994152.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1918-0014-0072",
+    "name": "Plastic 90 Degree Hub-Mount Control Arm (72mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-90-degree-hub-mount-control-arm-72mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1957/10571/1918-0014-0072__82027__11094.1701994149.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1917-0014-0072",
+    "name": "Plastic Dual Hub-Mount Control Arm (72mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-dual-hub-mount-control-arm-72mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1954/10563/1917-0014-0072__21633__92525.1701994146.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1917-0014-0048",
+    "name": "Plastic Dual Hub-Mount Control Arm (48mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-dual-hub-mount-control-arm-48mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1952/10555/1917-0014-0048__16339__31038.1701994143.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1140-0006-0144",
+    "name": "1140 Series Aluminum Baseplate (6mm Thickness, 144mm Diameter)",
+    "productUrl": "https://www.gobilda.com/1140-series-aluminum-baseplate-6mm-thickness-144mm-diameter/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1357/13741/Ang1__19887.1732226913.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1916-0014-0024",
+    "name": "Plastic Hub-Mount Control Arm (24mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-control-arm-24mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1657/8665/1916-0014-0024__52599__01430.1701993541.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1916-0014-0048",
+    "name": "Plastic Hub-Mount Control Arm (48mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-control-arm-48mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1659/8676/1916-0014-0048__48184__72644.1701993543.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1916-0014-0072",
+    "name": "Plastic Hub-Mount Control Arm (72mm Length)",
+    "productUrl": "https://www.gobilda.com/plastic-hub-mount-control-arm-72mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1661/8687/1916-0014-0072__73587__72461.1701993547.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
+    "sku": "1914-0014-0072",
+    "name": "Aluminum Hub-Mount Control Arm (14mm Bore, 72mm Length)",
+    "productUrl": "https://www.gobilda.com/aluminum-hub-mount-control-arm-14mm-bore-72mm-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1610/16242/Ang1__32820.1773353316.jpg?c=1",
+    "ourCategory": "motion"
+  },
+  {
     "sku": "3400-0014-0032",
     "name": "3400 Series Hub Mount Round Belt Pulley (14mm Bore, 32mm PD)",
     "productUrl": "https://www.gobilda.com/3400-series-hub-mount-round-belt-pulley-14mm-bore-32mm-pd/",
@@ -4477,6 +4344,307 @@
     "name": "3400 Series Hub Mount Round Belt Pulley (32mm Bore, 96mm PD)",
     "productUrl": "https://www.gobilda.com/3400-series-hub-mount-round-belt-pulley-32mm-bore-96mm-pd/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/554/3457/3400-0032-0096__44621__17534.1701991905.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0184",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 184mm Pitch Length, 92 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-184mm-pitch-length-92-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2438/15381/3423-0006-0184__27316__83922.1760024715.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0280",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 280mm Pitch Length, 140 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-280mm-pitch-length-140-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2437/15377/3423-0006-0280__23311__45128.1760024699.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0312",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 312mm Pitch Length, 156 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-312mm-pitch-length-156-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2436/15373/3423-0006-0312__92183__25534.1760024627.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0360",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 360mm Pitch Length, 180 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-360mm-pitch-length-180-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2435/15369/3423-0006-0360__59847__58228.1760024613.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0456",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 456mm Pitch Length, 228 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-456mm-pitch-length-228-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2434/15365/3423-0006-0456__55979__18901.1760024596.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0552",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 552mm Pitch Length, 276 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-552mm-pitch-length-276-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2433/15361/3423-0006-0552__41415__13299.1760024577.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0600",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 600mm Pitch Length, 300 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-600mm-pitch-length-300-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2432/15357/3423-0006-0600__79414__37910.1760024412.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0648",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 648mm Pitch Length, 324 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-648mm-pitch-length-324-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2431/15353/3423-0006-0648__77195__27589.1760024398.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0088",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 88mm Pitch Length, 44 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-88mm-pitch-length-44-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2121/11577/3423-0006-0088__89464.1712249074.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0136",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 136mm Pitch Length, 68 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-136mm-pitch-length-68-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2120/11573/3423-0006-0136__05548.1712248656.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0216",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 216mm Pitch Length, 108 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-216mm-pitch-length-108-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2119/11569/3423-0006-0216__21258.1712248524.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0232",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 232mm Pitch Length, 116 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-232mm-pitch-length-116-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2118/11565/3423-0006-0232__83885.1712248391.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0264",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 264mm Pitch Length, 132 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-264mm-pitch-length-132-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2117/11558/3423-0006-0264__92770.1712246850.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0328",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 328mm Pitch Length, 164 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-328mm-pitch-length-164-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2116/11554/3423-0006-0328__68744.1712246539.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0376",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 376mm Pitch Length, 188 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-376mm-pitch-length-188-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2115/11547/3423-0006-0376__81871.1712245688.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0408",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 408mm Pitch Length, 204 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-408mm-pitch-length-204-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2114/11542/3423-0006-0408__75218.1712245561.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0418",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 418mm Pitch Length, 209 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-418mm-pitch-length-209-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2113/11539/3423-0006-0418__61936.1712245214.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0424",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 424mm Pitch Length, 212 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-424mm-pitch-length-212-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2112/11536/3423-0006-0424__08463.1712244964.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0466",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 466mm Pitch Length, 233 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-466mm-pitch-length-233-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2111/11532/3423-0006-0466__85740.1712244906.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0472",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 472mm Pitch Length, 236 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-472mm-pitch-length-236-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2110/11526/3423-0006-0472__48938.1712244647.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0504",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 504mm Pitch Length, 252 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-504mm-pitch-length-252-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2109/11521/3423-0006-0504__17896.1712244079.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3423-0006-0514",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 514mm Pitch Length, 257 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-514mm-pitch-length-257-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2108/11519/3423-0006-0514__53995.1712243862.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3426-0006-0005",
+    "name": "2mm Pitch GT2 Timing Belt (6mm Width, 5 meter Cut-Length)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-timing-belt-6mm-width-5-meter-cut-length/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1812/9742/3426-0006-0005__67215__20290.1701993886.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3422-4008-0040",
+    "name": "2mm Pitch GT2 Pinion Timing Pulley (8mm REX® Bore, 40 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-pinion-timing-pulley-8mm-rex-bore-40-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2473/15766/Ang1__64977.1768419609.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3422-4008-0030",
+    "name": "2mm Pitch GT2 Pinion Timing Pulley (8mm REX® Bore, 30 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-pinion-timing-pulley-8mm-rex-bore-30-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2472/16535/Ang1__00175.1776459306.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3422-0125-0020",
+    "name": "2mm Pitch GT2 Pinion Timing Pulley (1/8\" Bore, 20 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-pinion-timing-pulley-1-8-bore-20-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2449/15428/Ang1__35556.1761334465.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3422-4008-0020",
+    "name": "2mm Pitch GT2 Pinion Timing Pulley (8mm REX® Bore, 20 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-pinion-timing-pulley-8mm-rex-bore-20-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2123/11600/3422-4008-0020__68330.1712343907.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3422-0006-0020",
+    "name": "2mm Pitch GT2 Pinion Timing Pulley (6mm Bore, 20 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-pinion-timing-pulley-6mm-bore-20-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2122/11602/3422-0006-0020__08866.1712343946.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3421-0014-0060",
+    "name": "2mm Pitch GT2 Hub-Mount Timing Belt Pulley (14mm Bore, 60 Tooth)",
+    "productUrl": "https://www.gobilda.com/2mm-pitch-gt2-hub-mount-timing-belt-pulley-14mm-bore-60-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1817/9767/3421-0014-0060__31831__90798.1701993895.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3418-0006-0008",
+    "name": "3418 Series 5mm HTD Pitch Timing Belt Idler Pulley (6mm Bore, 8 Tooth) - 2 Pack",
+    "productUrl": "https://www.gobilda.com/3418-series-5mm-htd-pitch-timing-belt-idler-pulley-6mm-bore-8-tooth-2-pack/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1666/8703/3418-0006-0008__47065__28999.1701993553.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3417-1006-0016",
+    "name": "3417 Series 5mm HTD Pitch Set-Screw Pinion Timing Belt Pulley (6mm D-Bore, 16 Tooth)",
+    "productUrl": "https://www.gobilda.com/3417-series-5mm-htd-pitch-set-screw-pinion-timing-belt-pulley-6mm-d-bore-16-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1458/7281/3417-1006-0016__80906__33647.1701993115.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3417-4008-0016",
+    "name": "3417 Series 5mm HTD Pitch Set-Screw Pinion Timing Belt Pulley (8mm REX® Bore, 16 Tooth)",
+    "productUrl": "https://www.gobilda.com/3417-series-5mm-htd-pitch-set-screw-pinion-timing-belt-pulley-8mm-rex-bore-16-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1724/9031/3417-4008-0016-Ang1__36001__07074.1701993657.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3424-4008-0016",
+    "name": "Dual Belt, 5mm HTD Pitch, Set-Screw Pinion Timing Belt Pulley (8mm REX® Bore, 16 Tooth)",
+    "productUrl": "https://www.gobilda.com/dual-belt-5mm-htd-pitch-set-screw-pinion-timing-belt-pulley-8mm-rex-bore-16-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1993/10903/Ang_1__37314__52006.1701994251.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3417-4008-0024",
+    "name": "3417 Series 5mm HTD Pitch Set-Screw Pinion Timing Belt Pulley (8mm REX® Bore, 24 Tooth)",
+    "productUrl": "https://www.gobilda.com/3417-series-5mm-htd-pitch-set-screw-pinion-timing-belt-pulley-8mm-rex-bore-24-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1589/8345/3417-1006-0016_Ang1__72766__10134.1701993433.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3411-0014-0024",
+    "name": "3411 Series 5mm HTD Pitch Aluminum Hub Mount Timing Belt Pulley (14mm Bore, 24 Tooth)",
+    "productUrl": "https://www.gobilda.com/3411-series-5mm-htd-pitch-aluminum-hub-mount-timing-belt-pulley-14mm-bore-24-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1303/6425/3411-0014-0024_REV1__85999__84744.1701992846.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3415-0014-0048",
+    "name": "3415 Series 5mm HTD Pitch Hub Mount Timing Belt Pulley (14mm Bore, 48 Tooth)",
+    "productUrl": "https://www.gobilda.com/3415-series-5mm-htd-pitch-hub-mount-timing-belt-pulley-14mm-bore-48-tooth/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1317/6492/3415-0014-0048__90982__77315.1701992866.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3428-0019-0008",
+    "name": "Dual-Bearing Timing Belt Idler Pulley (8mm Bore, 18.5mm Diameter, 9.5mm Inside Width)",
+    "productUrl": "https://www.gobilda.com/dual-bearing-timing-belt-idler-pulley-8mm-bore-18-5mm-diameter-9-5mm-inside-width/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2088/11425/3428-0019-0008__26215__96299__09812.1710447071.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3428-0019-4008",
+    "name": "Dual-Bearing Timing Belt Idler Pulley (8mm REX® Bore, 18.5mm Diameter, 9.5mm Inside Width)",
+    "productUrl": "https://www.gobilda.com/dual-bearing-timing-belt-idler-pulley-8mm-rex-bore-18-5mm-diameter-9-5mm-inside-width/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2084/11397/3428-0019-4008__51170__28225.1709572483.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3428-0019-0006",
+    "name": "Dual-Bearing Timing Belt Idler Pulley (6mm Bore, 18.5mm Diameter, 9.5mm Inside Width)",
+    "productUrl": "https://www.gobilda.com/dual-bearing-timing-belt-idler-pulley-6mm-bore-18-5mm-diameter-9-5mm-inside-width/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2083/11392/3428-0019-0006__23852__91886.1709572472.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3428-0019-0004",
+    "name": "Dual-Bearing Timing Belt Idler Pulley (4mm Bore, 18.5mm Diameter, 9.5mm Inside Width)",
+    "productUrl": "https://www.gobilda.com/dual-bearing-timing-belt-idler-pulley-4mm-bore-18-5mm-diameter-9-5mm-inside-width/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2082/11387/3428-0019-0004__29988__76139.1709572458.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3427-0002-0001",
+    "name": "Timing Belt Idler Pulley for 2mm Pitch GT2, 6mm Width Belt - 4 Pack",
+    "productUrl": "https://www.gobilda.com/timing-belt-idler-pulley-for-2mm-pitch-gt2-6mm-width-belt-4-pack/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2008/10999/Ang1__64049__69851.1701994279.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "3409-0004-0001",
+    "name": "Steel Belt-Clamp for 2mm Pitch GT2 Timing Belt - 2 Pack",
+    "productUrl": "https://www.gobilda.com/steel-belt-clamp-for-2mm-pitch-gt2-timing-belt-2-pack/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2180/12122/3409-0004-0001_Ang1__78521.1718371072.jpg?c=1",
+    "ourCategory": "belts"
+  },
+  {
+    "sku": "1524-0001-0002",
+    "name": "Ball-Bearing Idler Arm (for 2mm Pitch GT2, 6mm Width Belt)",
+    "productUrl": "https://www.gobilda.com/ball-bearing-idler-arm-for-2mm-pitch-gt2-6mm-width-belt/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2489/16501/Ang1__27303.1776457283.jpg?c=1",
     "ourCategory": "belts"
   },
   {
@@ -5271,20 +5439,6 @@
     "ourCategory": "shafts"
   },
   {
-    "sku": "rd-servo-hub-shafts",
-    "name": "SEE ALSO: Servo Hub-Shafts",
-    "productUrl": "/25-tooth-spline-servo-shafts",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2358/14374/1910-0025-0816__90039__53665__66209.1737999558.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-flanged-shaft-rev-pattern",
-    "name": "SEE ALSO: Flanged Shaft for REV Motion Pattern",
-    "productUrl": "/flanged-stainless-steel-shaft-for-rev-motion-pattern-8mm-rex-29mm-length/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2357/14372/2105-4008-0029__38479__14942__28660.1737998892.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
     "sku": "4100-0608-0050",
     "name": "4100 Series Aluminum Tube (6mm ID x 8mm OD, 50mm Length)",
     "productUrl": "https://www.gobilda.com/4100-series-aluminum-tube-6mm-id-x-8mm-od-50mm-length/",
@@ -5464,27 +5618,6 @@
     "name": "4100 Series Aluminum Tube (27mm ID x 32mm OD, 600mm Length)",
     "productUrl": "https://www.gobilda.com/4100-series-aluminum-tube-27mm-id-x-32mm-od-600mm-length/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/632/3763/4100-2732-0600__28681__69277.1701992001.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-12mm-id-x-15mm-od-spacers",
-    "name": "SEE ALSO: 12mm ID x 15mm OD Spacers",
-    "productUrl": "/spacers/#12mm-id-x-15mm-od-spacers",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2352/14353/1515-Category__20510__28211__40578__40211.1737666193.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-8mm-id-x-10mm-od-spacers",
-    "name": "See Also: 8mm ID x 10mm OD Spacers",
-    "productUrl": "/spacers/#8mm-id-x-10mm-od-spacers",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2347/14348/1514-0010-0120__16990.1617640093.1280.1280__51115__71652__67029__56627__61777.1737662179.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-6mm-id-x-8mm-od-spacers",
-    "name": "See Also: 6mm ID x 8mm OD Spacers",
-    "productUrl": "/spacers/#6mm-id-x-8mm-od-spacers",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2346/14347/1512-0008-0120__61144.1617640058.1280.1280__48012__60227__01445__68968__72411.1737662116.jpg?c=1",
     "ourCategory": "shafts"
   },
   {
@@ -5754,41 +5887,6 @@
     "ourCategory": "shafts"
   },
   {
-    "sku": "rd-m4-standoffs-8mm-round",
-    "name": "M4 Standoffs (8mm Round)",
-    "productUrl": "/m4-standoffs/#round_8mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2087/11419/1523-0008-0430_Ang2__92527__34969__11206.1710445261.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-m4-standoffs-8mm-rex",
-    "name": "M4 Standoffs (8mm REX®)",
-    "productUrl": "/m4-standoffs/#rex_8mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1764/9311/8mm-rex-m4-standoffs__19588__46883.1701993746.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-m4-standoffs-6mm-round",
-    "name": "M4 Standoffs (6mm Round)",
-    "productUrl": "/m4-standoffs/#round_6mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1763/9307/6mm-round-m4-standoffs__61880__03939.1701993746.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-2106-series-8mm-rex-shafting",
-    "name": "2106 Series 8mm REX® Shafting",
-    "productUrl": "/stainless-steel-rex-shafting/#s2106_8mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1455/7260/Image_2513__93122__60916.1701993110.png?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-4mm-id-shims",
-    "name": "See Also: 4mm ID Shims",
-    "productUrl": "/shaft-spacers-shims/#id-4mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2353/14354/2807-0407-0250__59107__79443__59747__35053.1737670606.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
     "sku": "1502-0006-0010",
     "name": "1502 Series 4mm ID Spacer (6mm OD, 1mm Length) - 4 Pack",
     "productUrl": "https://www.gobilda.com/1502-series-4mm-id-spacer-6mm-od-1mm-length-4-pack/",
@@ -6006,13 +6104,6 @@
     "ourCategory": "shafts"
   },
   {
-    "sku": "rd-see-also-6mm-id-shims",
-    "name": "See Also: 6mm ID Shims",
-    "productUrl": "/shaft-spacers-shims/#id-6mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2354/14355/2807-0609-0250__62814__32308__79676__79597.1737671140.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
     "sku": "1521-0008-0020",
     "name": "1521 Series 6mm ID Spacer (8mm OD, 2mm Length) - 4 Pack",
     "productUrl": "https://www.gobilda.com/1521-series-6mm-id-spacer-8mm-od-2mm-length-4-pack/",
@@ -6045,20 +6136,6 @@
     "name": "1521 Series 6mm ID Spacer (8mm OD, 12mm Length) - 4 Pack",
     "productUrl": "https://www.gobilda.com/1521-series-6mm-id-spacer-8mm-od-12mm-length-4-pack/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2077/11357/1521-0008-0120__36338__34651.1709572227.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-6mm-id-tubing",
-    "name": "See Also: 6mm ID Tubing",
-    "productUrl": "/aluminum-tubing/#diameter-6x8",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2348/14349/4100-0608-0050__46634__83690.1614902167.1280.1280__86733__88934__11786__97447__39513.1737662388.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-8mm-id-shims",
-    "name": "See Also: 8mm ID Shims",
-    "productUrl": "/shaft-spacers-shims/#id-8mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2355/14356/2807-0811-0250__61912__73374__40372__05162.1737671141.jpg?c=1",
     "ourCategory": "shafts"
   },
   {
@@ -6118,13 +6195,6 @@
     "ourCategory": "shafts"
   },
   {
-    "sku": "rd-see-also-8mm-id-tubing",
-    "name": "See Also: 8mm ID Tubing",
-    "productUrl": "/aluminum-tubing/#diameter-8x10",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2349/14350/4100-0810-0050__81841__49009.1614902184.1280.1280__19706__16034__30025__60317__78906.1737662453.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
     "sku": "1529-0012-0100",
     "name": "8mm ID Steel Spacer (12mm OD, 10mm Length) - 4 Pack",
     "productUrl": "https://www.gobilda.com/8mm-id-steel-spacer-12mm-od-10mm-length-4-pack/",
@@ -6174,13 +6244,6 @@
     "ourCategory": "shafts"
   },
   {
-    "sku": "rd-12mm-id-x-15mm-od-stainless-steel-shims-1",
-    "name": "12mm ID x 15mm OD Stainless Steel Shims",
-    "productUrl": "/shaft-spacers-shims/#id-12mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1214/6056/2807-1215-0250__89934__10619.1701992734.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
     "sku": "1515-0015-0020",
     "name": "12mm ID Steel Spacer (15mm OD, 2mm Length) - 4 Pack",
     "productUrl": "https://www.gobilda.com/12mm-id-steel-spacer-15mm-od-2mm-length-4-pack/",
@@ -6223,38 +6286,10 @@
     "ourCategory": "shafts"
   },
   {
-    "sku": "rd-see-also-12mm-id-tubing",
-    "name": "See Also: 12mm ID Tubing",
-    "productUrl": "/aluminum-tubing/#diameter-12x14",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2350/14351/4100-1214-0050__14714__91902.1614902196.1280.1280__79168__86764__77751__91572__31386.1737663592.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
     "sku": "1523-0008-0430",
     "name": "1523 Series Stainless Steel M4 x 0.7mm Standoff (8mm Diameter, 43mm Length)",
     "productUrl": "https://www.gobilda.com/1523-series-stainless-steel-m4-x-0-7mm-standoff-8mm-diameter-43mm-length/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2086/11418/1523-0008-0430_Ang3__42928__49664__83907__65312.1710444628.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-12mm-rex-aluminum-shafting",
-    "name": "12mm REX® Aluminum Shafting",
-    "productUrl": "/aluminum-rex-shafting/#aluminum-rex-shafting-12mm-diameter",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1933/10443/2104-0012-0043__40882__30259.1701994109.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-12mm-rex-aluminum-shafting",
-    "name": "See Also: 12mm REX® Aluminum Shafting",
-    "productUrl": "/aluminum-rex-shafting/#aluminum-rex-shafting-12mm-diameter",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1771/9374/2104-0012-0043__34873__73485.1701993765.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-2106-series-8mm-rex-shafting",
-    "name": "See Also: 2106 Series 8mm REX® Shafting",
-    "productUrl": "/2106-series-8mm-rex-stainless-steel-shafting/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1770/9356/2106-4008-0430__91385__47952.1701993764.jpg?c=1",
     "ourCategory": "shafts"
   },
   {
@@ -6605,13 +6640,6 @@
     "name": "1505 Series 32mm OD Counterbored Pattern Spacer (16mm Length)",
     "productUrl": "https://www.gobilda.com/1505-series-32mm-od-counterbored-pattern-spacer-16mm-length/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1997/10929/1505-0032-0160-Ang1__65638__62279.1701994259.jpg?c=1",
-    "ourCategory": "shafts"
-  },
-  {
-    "sku": "rd-see-also-4mm-id-x-6mm-od-spacers",
-    "name": "See Also: 4mm ID x 6mm OD Spacers",
-    "productUrl": "/spacers/#4mm-id-x-6mm-od-spacers",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2351/14352/1502-0006-0120__26024.1617640183.1280.1280__19786__42795__13819__49764__74051.1737663913.jpg?c=1",
     "ourCategory": "shafts"
   },
   {
@@ -7084,55 +7112,6 @@
     "ourCategory": "shaft-attachments"
   },
   {
-    "sku": "rd-1315-Series-hyper-hubs-1",
-    "name": "1315 Series Hyper Hubs",
-    "productUrl": "/hyper-hubs-16mm-pattern/#metric-1315",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2099/11960/1315-0016-4008__95667__65380.1716904197.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
-    "sku": "rd-servo-hubs",
-    "name": "Servo-Hubs",
-    "productUrl": "/servo-hubs/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2097/11462/gobilda-servo-hubs-318__15801.1626962985.1280.1280__41364__18126.1711057547.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
-    "sku": "rd-set-screw-hubs",
-    "name": "Set-Screw Hubs",
-    "productUrl": "/set-screw-hubs-16mm-pattern/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2096/11461/1314-0016-0006_Front_Angled__77761__82986__37331.1711057545.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
-    "sku": "rd-1310-series-hyper-hubs",
-    "name": "1310 Series Hyper Hubs",
-    "productUrl": "/hyper-hubs-16mm-pattern/#metric",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2085/11958/1310-0016-4008-Main__18785__94576.1716904109.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
-    "sku": "rd-1313-series-hyper-hubs",
-    "name": "1313 Series Hyper Hubs",
-    "productUrl": "/hyper-hubs-16mm-pattern/#metric-1313",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1965/11959/1313-1632-4012__12190__17310.1716904162.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
-    "sku": "rd-classic-clamping-hubs",
-    "name": "Classic Clamping Hubs",
-    "productUrl": "/classic-clamping-hubs/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1924/15937/1301-0016-4012-REV1__00102__50016.1769807316.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
-    "sku": "rd-sonic-hubs-1",
-    "name": "Sonic Hubs",
-    "productUrl": "/sonic-hubs/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1101/5483/1309-0016-4008__01600__21514.1701992546.jpg?c=1",
-    "ourCategory": "shaft-attachments"
-  },
-  {
     "sku": "1314-0016-0003",
     "name": "1314 Series Steel Set-Screw Hub (3mm Bore)",
     "productUrl": "https://www.gobilda.com/1314-series-steel-set-screw-hub-3mm-bore/",
@@ -7452,6 +7431,27 @@
     "name": "1315 Series Polycarbonate Hyper Hub (8mm REX® Bore) - 2 Pack",
     "productUrl": "https://www.gobilda.com/1315-series-polycarbonate-hyper-hub-8mm-rex-bore-2-pack/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2093/11840/1315-0016-4008__04702.1715798409.jpg?c=1",
+    "ourCategory": "shaft-attachments"
+  },
+  {
+    "sku": "4005-0016-0001",
+    "name": "4005 Series Pattern Mount Universal Joint (16-1)",
+    "productUrl": "https://www.gobilda.com/4005-series-pattern-mount-universal-joint-16-1/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1158/5797/4005-0016-0001-Rev1-Main__11169__84009.1701992649.jpg?c=1",
+    "ourCategory": "shaft-attachments"
+  },
+  {
+    "sku": "2108-4008-0001",
+    "name": "8mm REX® CV Joint (Male to Male)",
+    "productUrl": "https://www.gobilda.com/8mm-rex-cv-joint-male-to-male/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2080/11375/2108-4008-0001_Ang2__57703__81305.1709572418.jpg?c=1",
+    "ourCategory": "shaft-attachments"
+  },
+  {
+    "sku": "2108-4008-0002",
+    "name": "8mm REX® CV Joint (Male to Female)",
+    "productUrl": "https://www.gobilda.com/8mm-rex-cv-joint-male-to-female/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2081/11382/2108-4008-0002_Ang1__57075__73393.1709572448.jpg?c=1",
     "ourCategory": "shaft-attachments"
   },
   {
@@ -8414,13 +8414,6 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "1140-0006-0144",
-    "name": "1140 Series Aluminum Baseplate (6mm Thickness, 144mm Diameter)",
-    "productUrl": "https://www.gobilda.com/1140-series-aluminum-baseplate-6mm-thickness-144mm-diameter/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1357/13741/Ang1__19887.1732226913.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "1139-0024-0056",
     "name": "1139 Series Steel Grid Plates (3 x 7 Hole, 24 x 56mm) - 2 Pack",
     "productUrl": "https://www.gobilda.com/1139-series-steel-grid-plates-3-x-7-hole-24-x-56mm-2-pack/",
@@ -8568,13 +8561,6 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "rd-steel-flat-brackets-1",
-    "name": "Steel Flat Brackets",
-    "productUrl": "/steel-flat-brackets/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1153/5759/1137-0001-0002__18907__63441.1701992638.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "1147-0001-0005",
     "name": "Threaded Steel L-Bracket (5 Hole) - 4 Pack",
     "productUrl": "https://www.gobilda.com/threaded-steel-l-bracket-5-hole-4-pack/",
@@ -8666,13 +8652,6 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "rd-gobilda-pattern-mounts",
-    "name": "Angle Pattern Mounts",
-    "productUrl": "/angle-pattern-mounts/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/979/4903/1202-0001-0003__04197__90218.1701992354.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "1108-0001-0001",
     "name": "1108 Series Flat Pattern Bracket (1-1)",
     "productUrl": "https://www.gobilda.com/1108-series-flat-pattern-bracket-1-1/",
@@ -8733,13 +8712,6 @@
     "name": "Steel Gusset-Plate (3 x 3 Hole) - 4 Pack",
     "productUrl": "https://www.gobilda.com/steel-gusset-plate-3-x-3-hole-4-pack/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1746/9221/1126-0090-0001__49055__18304.1701993717.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-steel-grid-plates-1",
-    "name": "Steel Grid Plates",
-    "productUrl": "/grid-plates/#steel",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1151/5757/1139-0024-0056__58874__73992.1701992637.jpg?c=1",
     "ourCategory": "structure"
   },
   {
@@ -8827,13 +8799,6 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "rd-see-also-angle-brackets",
-    "name": "Angle Brackets",
-    "productUrl": "/brackets/#angle-brackets",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1796/9590/Ang1__48493__30984.1701993838.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "1204-0002-0001",
     "name": "1204 Series Gusseted Angle Mount (2-1)",
     "productUrl": "https://www.gobilda.com/1204-series-gusseted-angle-mount-2-1/",
@@ -8848,45 +8813,10 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "rd-classic-clamping-hubs-32mm-pattern",
-    "name": "Classic Clamping Hubs (32mm Pattern)",
-    "productUrl": "/classic-clamping-hubs/#threaded-32mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1923/10412/1302-0032-0032__19018__36030__68976.1701994098.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "1401-0043-0022",
     "name": "1401 Series 2-Side, 2-Post Clamping Mount (43mm Width, 22mm Bore)",
     "productUrl": "https://www.gobilda.com/1401-series-2-side-2-post-clamping-mount-43mm-width-22mm-bore/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1731/9086/1401-0043-0022-Main-Flipped__33846__75910.1701993675.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-hyper-hubs",
-    "name": "Hyper Hubs",
-    "productUrl": "/hyper-hubs-16mm-pattern/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1109/5512/1310-0016-4008_REV2_PatentsPending__09570__48649.1701992558.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-clamping-hubs-32mm-pattern-1",
-    "name": "Clamping Hubs (32mm Pattern)",
-    "productUrl": "/classic-clamping-hubs/#threaded-32mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/917/4822/1302-0032-0025__03061__35834.1701992318.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-thru-hole-clamping-hubs-32mm-pattern-1",
-    "name": "Thru-Hole Clamping Hubs (32mm Pattern)",
-    "productUrl": "/classic-clamping-hubs/#thru-hole-32mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/913/15289/1305-0032-0025__02935__03781__07121.1759506834.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-clamping-hubs-16mm-pattern-1",
-    "name": "Clamping Hubs (16mm Pattern)",
-    "productUrl": "/classic-clamping-hubs/#threaded-16mm",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/908/15288/1301-0016-4012-REV1__00102__13482.1759506803.jpg?c=1",
     "ourCategory": "structure"
   },
   {
@@ -9093,13 +9023,6 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "rd-see-also-gobilda-aluminum-flat-brackets",
-    "name": "Aluminum Flat Brackets",
-    "productUrl": "/aluminum-flat-brackets",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2366/14468/1108-0001-0002__67792__76888__78888.1740062188.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "1123-0043-0240",
     "name": "1123 Series Pattern Plate (1 x 9 Hole, 43 x 240mm)",
     "productUrl": "https://www.gobilda.com/1123-series-pattern-plate-1-x-9-hole-43-x-240mm/",
@@ -9111,20 +9034,6 @@
     "name": "1123 Series Pattern Plate (1 x 7 Hole, 43 x 192mm)",
     "productUrl": "https://www.gobilda.com/1123-series-pattern-plate-1-x-7-hole-43-x-192mm/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1801/9672/1123-0043-0192-Ang1-Patented__96840__13988.1701993861.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-hub-mount-push-arms",
-    "name": "Control-Arms",
-    "productUrl": "/push-arms/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1742/16248/Ang1__36239.1773353455.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-grid-plates-1",
-    "name": "Grid Plates",
-    "productUrl": "/grid-plates/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/934/4842/1116-0056-0056__68064__42937.1701992327.jpg?c=1",
     "ourCategory": "structure"
   },
   {
@@ -9268,52 +9177,10 @@
     "ourCategory": "structure"
   },
   {
-    "sku": "rd-wheel-adaptor-for-tetrix-wheels",
-    "name": "Wheel Adaptor for Tetrix® Wheels",
-    "productUrl": "/1206-series-pattern-adaptor-16-5-2-pack/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1220/6070/Tetrix-Wheel__04164__66531.1701992739.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-wheel-adaptor-for-nexus-robot-wheels",
-    "name": "Wheel Adaptor for Nexus Robot® Wheels",
-    "productUrl": "/1206-series-pattern-adaptor-16-5-2-pack/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1219/6068/Nexus-Wheels__89651__79856.1701992738.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-wheel-adaptor-for-andymark-wheels",
-    "name": "Wheel Adaptor for AndyMark® Wheels",
-    "productUrl": "/1206-series-pattern-adaptor-16-5-2-pack/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1217/6063/Andymark-Wheel__69322__14082.1701992736.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-wheel-adaptor-for-vex-wheels",
-    "name": "Wheel Adaptor for VEX® Wheels",
-    "productUrl": "/1206-series-pattern-adaptor-16-5-2-pack/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1216/6059/Vex-Wheel__72691__69279.1701992735.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
     "sku": "2105-4008-0029",
     "name": "Flanged Stainless Steel Shaft for REV Motion Pattern (8mm REX®, 29mm Length)",
     "productUrl": "https://www.gobilda.com/flanged-stainless-steel-shaft-for-rev-motion-pattern-8mm-rex-29mm-length/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1361/6652/2105-4008-0029__38479__14942.1701992920.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-motor-mounts-for-andymark-motors",
-    "name": "Motor Mounts for AndyMark® Motors",
-    "productUrl": "/motor-mounts-for-andymark-neverest-motors/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1227/6103/AnyMark-Category__44026__40839.1701992751.jpg?c=1",
-    "ourCategory": "structure"
-  },
-  {
-    "sku": "rd-motor-mounts-for-rev-robotics-motors-1",
-    "name": "Motor Mounts for REV Robotics® Motors",
-    "productUrl": "/motor-mounts-for-rev-robotics-motors/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1225/6101/Rev-Category__91224__29071.1701992749.jpg?c=1",
     "ourCategory": "structure"
   },
   {
@@ -9475,13 +9342,6 @@
     "name": "12V Battery Health Analyzer (NiMH, 3000mAh)",
     "productUrl": "https://www.gobilda.com/12v-battery-health-analyzer-nimh-3000mah/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2282/13603/Ang1__71893__15605.1729336773.jpg?c=1",
-    "ourCategory": "electronics"
-  },
-  {
-    "sku": "rd-see-also-smart-charger",
-    "name": "SEE ALSO: Smart Charger",
-    "productUrl": "/hitec-rdx2-200-ac-dc-multi-function-smart-charger/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2281/13615/RDX2-200_Ang-2__46627__05386__64333.1729336817.jpg?c=1",
     "ourCategory": "electronics"
   },
   {
@@ -9692,13 +9552,6 @@
     "name": "Mecanum Mixer",
     "productUrl": "https://www.gobilda.com/mecanum-mixer/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2403/15123/Ang1__98410.1755704241.jpg?c=1",
-    "ourCategory": "electronics"
-  },
-  {
-    "sku": "rd-see-also-servo-modification-and-monitoring-1",
-    "name": "SEE ALSO: Servo Signal Modification & Monitoring",
-    "productUrl": "/servo-signal-modification-monitoring/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2129/11655/3109-0002-0001_REV1__70059__40089.1701976241.1280.1280__95074__82059.1713448520.jpg?c=1",
     "ourCategory": "electronics"
   },
   {
@@ -10227,6 +10080,48 @@
     "ourCategory": "electronics"
   },
   {
+    "sku": "3124-0001-0001",
+    "name": "Laser Distance Sensor (1m Range, 3.3-5V, Digital or Analog Output)",
+    "productUrl": "https://www.gobilda.com/laser-distance-sensor-1m-range-3-3-5v-digital-or-analog-output/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2451/15439/Ang1_3__12971__11318.1761761925.jpg?c=1",
+    "ourCategory": "electronics"
+  },
+  {
+    "sku": "3122-0001-0001",
+    "name": "HuskyLens AI Camera Vision Sensor with goBILDA® Case",
+    "productUrl": "https://www.gobilda.com/huskylens-ai-camera-vision-sensor-with-gobilda-case/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2268/13406/Ang1__35355__49973.1727447978.jpg?c=1",
+    "ourCategory": "electronics"
+  },
+  {
+    "sku": "3122-0004-0001",
+    "name": "Global Shutter USB Camera with goBILDA® Case (100 FPS)",
+    "productUrl": "https://www.gobilda.com/global-shutter-usb-camera-with-gobilda-case-100-fps/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2517/16724/s%252F671%252FAng1__36585__38235.1779487122.jpg?c=1",
+    "ourCategory": "electronics"
+  },
+  {
+    "sku": "3122-0003-0001",
+    "name": "Rolling Shutter USB Camera with goBILDA® Case (30 FPS)",
+    "productUrl": "https://www.gobilda.com/rolling-shutter-usb-camera-with-gobilda-case-30-fps/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2280/13580/Ang1__75219__33233.1728680752.jpg?c=1",
+    "ourCategory": "electronics"
+  },
+  {
+    "sku": "3122-0002-0001",
+    "name": "Limelight 3A Smart Camera",
+    "productUrl": "https://www.gobilda.com/limelight-3a-smart-camera/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2237/13407/Ang1__01989.1727449275.jpg?c=1",
+    "ourCategory": "electronics"
+  },
+  {
+    "sku": "3121-0001-0020",
+    "name": "20A ATM Series Mini Blade Fuse - 4 Pack",
+    "productUrl": "https://www.gobilda.com/20a-atm-series-mini-blade-fuse-4-pack/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2342/14318/Ang2__39353__15390.1736522184.jpg?c=1",
+    "ourCategory": "electronics"
+  },
+  {
     "sku": "3201-0010-0001",
     "name": "M4 Hardware Starter Pack (2625 Pcs)",
     "productUrl": "https://www.gobilda.com/m4-hardware-starter-pack-2625-pcs/",
@@ -10308,6 +10203,27 @@
     "name": "12mm Tall Rubber Foot (1-1) - 8 Pack",
     "productUrl": "https://www.gobilda.com/12mm-tall-rubber-foot-1-1-8-pack/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1587/8331/2919-0001-0001__94106__99103.1701993428.jpg?c=1",
+    "ourCategory": "hardware"
+  },
+  {
+    "sku": "parent-2812-0004-0007",
+    "name": "M4 x 0.7mm Nylock Nut",
+    "productUrl": "https://www.gobilda.com/m4-x-0-7mm-nylock-nut/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2201/12605/2812-0004-0007__44973__94711__84828.1710941328.1280.1280__64956__25865.1720212902.jpg?c=1",
+    "ourCategory": "hardware"
+  },
+  {
+    "sku": "2811-0004-0007",
+    "name": "2811 Series Zinc-Plated Steel Hex Nut (M4 x 0.7mm, 7mm Hex) - 25 Pack",
+    "productUrl": "https://www.gobilda.com/2811-series-zinc-plated-steel-hex-nut-m4-x-0-7mm-7mm-hex-25-pack/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/529/3388/2811-0004-0007__50076__00155.1701991881.jpg?c=1",
+    "ourCategory": "hardware"
+  },
+  {
+    "sku": "2816-0004-0001",
+    "name": "Hook-Nut (M4 x 0.7mm Thread) - 25 Pack",
+    "productUrl": "https://www.gobilda.com/hook-nut-m4-x-0-7mm-thread-25-pack/",
+    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1664/8696/2816-0004-0001__75053__85447.1701993550.jpg?c=1",
     "ourCategory": "hardware"
   },
   {
@@ -10430,30 +10346,16 @@
     "ourCategory": "kits"
   },
   {
-    "sku": "rd-see-also-servo-gearboxes",
-    "name": "SEE ALSO: Servo Gearboxes",
-    "productUrl": "/servo-gearboxes/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/1782/9448/3215-0001-0003_A__90770__75968__10573.1701993788.jpg?c=1",
-    "ourCategory": "kits"
-  },
-  {
-    "sku": "rd-starterbot-base-with-mecanum-wheels-resource-guide-2026-2027",
-    "name": "StarterBot Base with Mecanum Wheels Resource Guide (2026-2027)",
-    "productUrl": "/ftc-starterbot-base-with-mecanum-wheels-resource-guide-2026-2027/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2550/16972/3200-2627-0002-Ang1__69651.1786568202.jpg?c=1",
-    "ourCategory": "kits"
-  },
-  {
     "sku": "3209-0013-0002",
     "name": "Overlander-6 All-Terrain Robot Platform (25lb Payload, 3.8mph) - With Battery & Charger",
-    "productUrl": "/overlander-6-all-terrain-robot-platform-25lb-payload-3-8mph/?sku&#x3D;3209-0013-0002",
+    "productUrl": "https://www.gobilda.com/overlander-6-all-terrain-robot-platform-25lb-payload-3-8mph/?sku=3209-0013-0002",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2515/16705/j%252F375%252FAng1__15692__23872.1778270561.jpg?c=1",
     "ourCategory": "kits"
   },
   {
     "sku": "3209-0013-0102",
     "name": "Overlander-6 All-Terrain Robot Platform (25lb Payload, 3.8mph) - Without Battery & Charger",
-    "productUrl": "/overlander-6-all-terrain-robot-platform-25lb-payload-3-8mph/?sku&#x3D;3209-0013-0102",
+    "productUrl": "https://www.gobilda.com/overlander-6-all-terrain-robot-platform-25lb-payload-3-8mph/?sku=3209-0013-0102",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2514/16701/m%252F032%252FAng1-no-text__04210__60063.1778270559.jpg?c=1",
     "ourCategory": "kits"
   },
@@ -10462,13 +10364,6 @@
     "name": "Overlander-6 All-Terrain Robot Platform (25lb Payload, 3.8mph)",
     "productUrl": "https://www.gobilda.com/overlander-6-all-terrain-robot-platform-25lb-payload-3-8mph/",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2513/16685/m%252F963%252FAng1__40737__22369.1779286684.jpg?c=1",
-    "ourCategory": "kits"
-  },
-  {
-    "sku": "rd-2026-2027-preseason-ftc-starterbot-built-from-ftc-kit",
-    "name": "2026-2027 Preseason FTC StarterBot (Built from FTC Kit)",
-    "productUrl": "/ftc-starter-bot-resource-guide-2026-2027-season/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2512/16682/Ang1__78137.1777758108.jpg?c=1",
     "ourCategory": "kits"
   },
   {
@@ -10488,22 +10383,15 @@
   {
     "sku": "3209-0013-0101",
     "name": "Overlander-4 All-Terrain Robot Platform (25lb Payload, 3.8mph) - Without Battery & Charger",
-    "productUrl": "/overlander-4-all-terrain-robot-platform-25lb-payload-3-8mph/?sku&#x3D;3209-0013-0101",
+    "productUrl": "https://www.gobilda.com/overlander-4-all-terrain-robot-platform-25lb-payload-3-8mph/?sku=3209-0013-0101",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2390/14912/unnamed__83194.1748458903.jpg?c=1",
     "ourCategory": "kits"
   },
   {
     "sku": "3209-0013-0001",
     "name": "Overlander-4 All-Terrain Robot Platform (25lb Payload, 3.8mph) - With Battery & Charger",
-    "productUrl": "/overlander-4-all-terrain-robot-platform-25lb-payload-3-8mph/?sku&#x3D;3209-0013-0001",
+    "productUrl": "https://www.gobilda.com/overlander-4-all-terrain-robot-platform-25lb-payload-3-8mph/?sku=3209-0013-0001",
     "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2286/13634/Ang1-W-Badge__65580__77718.1729892919.jpg?c=1",
-    "ourCategory": "kits"
-  },
-  {
-    "sku": "rd-ftc-starter-bot-built-from-ftc-kit",
-    "name": "FTC Starter Bot (Built from FTC Kit)",
-    "productUrl": "/ftc-starter-bot-resource-guide-decode/",
-    "imageUrl": "https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/318x318/products/2235/15191/Ang2__32565.1757176846.jpg?c=1",
     "ourCategory": "kits"
   },
   {

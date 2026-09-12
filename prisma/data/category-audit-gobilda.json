@@ -1,0 +1,2106 @@
+[
+  {
+    "slug": "channel",
+    "title": "Channel",
+    "url": "https://www.gobilda.com/channel",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "gorail",
+    "title": "goRAIL®",
+    "url": "https://www.gobilda.com/gorail/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "beams",
+    "title": "Beams",
+    "url": "https://www.gobilda.com/beams",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "shafting-tubing",
+    "title": "Shafting &amp; Tubing",
+    "url": "https://www.gobilda.com/shafting-tubing/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "mounts",
+    "title": "Mounts",
+    "url": "https://www.gobilda.com/mounts",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "clamping-mounts",
+    "title": "Clamping Mounts",
+    "url": "https://www.gobilda.com/clamping-mounts",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "grid-plates",
+    "title": "Grid Plates",
+    "url": "https://www.gobilda.com/grid-plates",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "pattern-plates",
+    "title": "Pattern Plates",
+    "url": "https://www.gobilda.com/pattern-plates",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "brackets",
+    "title": "Brackets",
+    "url": "https://www.gobilda.com/brackets",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "baseplates",
+    "title": "Baseplates",
+    "url": "https://www.gobilda.com/baseplates",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "pattern-adaptors",
+    "title": "Pattern Adaptors",
+    "url": "https://www.gobilda.com/pattern-adaptors",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "pattern-spacers",
+    "title": "Pattern Spacers",
+    "url": "https://www.gobilda.com/pattern-spacers",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "standoffs-spacers",
+    "title": "Standoffs &amp; Spacers",
+    "url": "https://www.gobilda.com/standoffs-spacers",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "threaded-plates",
+    "title": "Threaded Plates",
+    "url": "https://www.gobilda.com/threaded-plates/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "hinges",
+    "title": "Hinges",
+    "url": "https://www.gobilda.com/hinges/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "structure-bundles",
+    "title": "Structure Bundles",
+    "url": "https://www.gobilda.com/structure-bundles",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1120-series-u-channel",
+    "title": "1120 Series U-Channel",
+    "url": "https://www.gobilda.com/1120-series-u-channel",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1121-series-low-side-u-channel",
+    "title": "1121 Series Low-Side U-Channel",
+    "url": "https://www.gobilda.com/1121-series-low-side-u-channel",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1143-series-mini-low-side-u-channel",
+    "title": "1143 Series Mini Low-Side U-Channel",
+    "url": "https://www.gobilda.com/1143-series-mini-low-side-u-channel",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1122-series-rail-channel",
+    "title": "Rail-Channel and U-Wheels",
+    "url": "https://www.gobilda.com/1122-series-rail-channel/",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1109-series-gorail",
+    "title": "1109 Series goRAIL®",
+    "url": "https://www.gobilda.com/1109-series-gorail/",
+    "parentSlug": "gorail",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1118-series-open-gorail",
+    "title": "1118 Series Open goRAIL®",
+    "url": "https://www.gobilda.com/1118-series-open-gorail/",
+    "parentSlug": "gorail",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gorail-accessories",
+    "title": "goRAIL® Accessories",
+    "url": "https://www.gobilda.com/gorail-accessories/",
+    "parentSlug": "gorail",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1101-series-u-beams",
+    "title": "1101 Series U-Beams",
+    "url": "https://www.gobilda.com/1101-series-u-beams",
+    "parentSlug": "beams",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1103-series-l-beams",
+    "title": "1103 Series L-Beams",
+    "url": "https://www.gobilda.com/1103-series-l-beams",
+    "parentSlug": "beams",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1102-series-flat-beams",
+    "title": "1102 Series Flat Beams",
+    "url": "https://www.gobilda.com/1102-series-flat-beams",
+    "parentSlug": "beams",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1106-series-square-beams",
+    "title": "1106 Series Square Beams",
+    "url": "https://www.gobilda.com/1106-series-square-beams",
+    "parentSlug": "beams",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting",
+    "title": "Stainless Steel Round Shafting",
+    "url": "https://www.gobilda.com/stainless-steel-round-shafting",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-d-shafting",
+    "title": "Stainless Steel D-Shafting",
+    "url": "https://www.gobilda.com/stainless-steel-d-shafting/",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-rex-shafting",
+    "title": "Stainless Steel REX® Shafting",
+    "url": "https://www.gobilda.com/stainless-steel-rex-shafting/",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "aluminum-rex-shafting",
+    "title": "Aluminum REX® Shafting",
+    "url": "https://www.gobilda.com/aluminum-rex-shafting/",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "hub-shafts",
+    "title": "Hub-Shafts",
+    "url": "https://www.gobilda.com/hub-shafts",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "aluminum-tubing",
+    "title": "Aluminum Tubing",
+    "url": "https://www.gobilda.com/aluminum-tubing",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "4103-series-gotube",
+    "title": "4103 Series goTUBE",
+    "url": "https://www.gobilda.com/4103-series-gotube",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "flanged-aluminum-tubing",
+    "title": "Flanged Aluminum Tubing",
+    "url": "https://www.gobilda.com/flanged-aluminum-tubing",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "aluminum-tubing-for-lead-screw-square-nut",
+    "title": "Aluminum Tubing for Lead Screw Square Nut",
+    "url": "https://www.gobilda.com/aluminum-tubing-for-lead-screw-square-nut",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "25-tooth-servo-shafts",
+    "title": "25 Tooth Servo Shafts",
+    "url": "https://www.gobilda.com/25-tooth-servo-shafts/",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-standoffs",
+    "title": "8mm REX® Standoffs",
+    "url": "https://www.gobilda.com/m4-standoffs/",
+    "parentSlug": "shafting-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "spacers",
+    "title": "Spacers",
+    "url": "https://www.gobilda.com/spacers",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "offset-standoffs",
+    "title": "Offset Standoffs",
+    "url": "https://www.gobilda.com/offset-standoffs",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-shoulder-standoffs",
+    "title": "M4 Shoulder-Standoffs",
+    "url": "https://www.gobilda.com/m4-shoulder-standoffs",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "shaft-spacers-shims",
+    "title": "Shaft Spacers &amp; Shims",
+    "url": "https://www.gobilda.com/shaft-spacers-shims/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "4mm-id-x-5mm-od-spacers",
+    "title": "4mm ID x 5mm OD Spacers",
+    "url": "https://www.gobilda.com/4mm-id-x-5mm-od-spacers",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "4mm-id-x-6mm-od-spacers",
+    "title": "4mm ID x 6mm OD Spacers",
+    "url": "https://www.gobilda.com/4mm-id-x-6mm-od-spacers",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "4mm-id-x-8mm-od-spacers-1",
+    "title": "4mm ID x 8mm OD Spacers",
+    "url": "https://www.gobilda.com/4mm-id-x-8mm-od-spacers-1/",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "6mm-id-x-8mm-od-spacers",
+    "title": "6mm ID x 8mm OD Spacers",
+    "url": "https://www.gobilda.com/6mm-id-x-8mm-od-spacers",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "8mm-id-x-10mm-od-spacers",
+    "title": "8mm ID x 10mm OD Spacers",
+    "url": "https://www.gobilda.com/8mm-id-x-10mm-od-spacers",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "8mm-id-x-12mm-od-spacers",
+    "title": "8mm ID x 12mm OD Spacers",
+    "url": "https://www.gobilda.com/8mm-id-x-12mm-od-spacers/",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "8mm-rex-bore-x-12mm-rex-spacers",
+    "title": "8mm REX® Bore x 12mm REX® Spacers",
+    "url": "https://www.gobilda.com/8mm-rex-bore-x-12mm-rex-spacers/",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "12mm-id-x-15mm-od-spacers",
+    "title": "12mm ID x 15mm OD Spacers",
+    "url": "https://www.gobilda.com/12mm-id-x-15mm-od-spacers",
+    "parentSlug": "spacers",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "block-mounts",
+    "title": "Block Mounts",
+    "url": "https://www.gobilda.com/block-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "dual-block-mounts",
+    "title": "Dual Block Mounts",
+    "url": "https://www.gobilda.com/dual-block-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "quad-block-pattern-mounts",
+    "title": "Quad Block Pattern Mounts",
+    "url": "https://www.gobilda.com/quad-block-pattern-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1-side-2-post-pattern-mounts",
+    "title": "1-Side, 2-Post Pattern Mounts",
+    "url": "https://www.gobilda.com/1-side-2-post-pattern-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "2-side-2-post-pattern-mounts",
+    "title": "2-Side, 2-Post Pattern Mounts",
+    "url": "https://www.gobilda.com/2-side-2-post-pattern-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "angle-pattern-mounts",
+    "title": "Angle Pattern Mounts",
+    "url": "https://www.gobilda.com/angle-pattern-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gusseted-angle-mounts",
+    "title": "Gusseted Angle Mounts",
+    "url": "https://www.gobilda.com/gusseted-angle-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "flat-mounts",
+    "title": "Flat Mounts",
+    "url": "https://www.gobilda.com/flat-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "surface-mounts",
+    "title": "Surface Mounts",
+    "url": "https://www.gobilda.com/surface-mounts",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts",
+    "title": "Motor Mounts",
+    "url": "https://www.gobilda.com/motor-mounts/",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "servo-mounts",
+    "title": "Servo Mounts",
+    "url": "https://www.gobilda.com/servo-mounts/",
+    "parentSlug": "mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1-side-1-post-clamping-mounts",
+    "title": "1-Side, 1-Post Clamping Mounts",
+    "url": "https://www.gobilda.com/1-side-1-post-clamping-mounts",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "2-side-1-post-clamping-mounts",
+    "title": "2-Side, 1-Post Clamping Mounts",
+    "url": "https://www.gobilda.com/2-side-1-post-clamping-mounts",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1-side-2-post-clamping-mounts",
+    "title": "1-Side, 2-Post Clamping Mounts",
+    "url": "https://www.gobilda.com/1-side-2-post-clamping-mounts",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "2-side-2-post-clamping-mounts",
+    "title": "2-Side, 2-Post Clamping Mounts",
+    "url": "https://www.gobilda.com/2-side-2-post-clamping-mounts",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "clamping-hubs-16mm-pattern",
+    "title": "Face Tapped (16mm Pattern)",
+    "url": "https://www.gobilda.com/clamping-hubs-16mm-pattern/",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "clamping-hubs-32mm-pattern",
+    "title": "Face Tapped (32mm Pattern)",
+    "url": "https://www.gobilda.com/clamping-hubs-32mm-pattern/",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "thru-hole-clamping-hubs-32mm-pattern",
+    "title": "Face Thru-Hole (32mm Pattern)",
+    "url": "https://www.gobilda.com/thru-hole-clamping-hubs-32mm-pattern/",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5202-series-planetary-gear-motors",
+    "title": "Motor Mounts for 5202 Series Planetary Gear Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-5202-series-planetary-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-5201-series-spur-gear-motors",
+    "title": "Motor Mounts for 5201 Series Spur Gear Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-5201-series-spur-gear-motors",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-5000-series-motors",
+    "title": "Motor Mounts for 5000 Series Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-5000-series-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-stepper-motors",
+    "title": "Motor Mounts for Stepper Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-stepper-motors",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-rev-robotics-motors",
+    "title": "Motor Mounts for REV Robotics Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-rev-robotics-motors",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-andymark-neverest-motors",
+    "title": "Motor Mounts for AndyMark NeveRest Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-andymark-neverest-motors",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-other-brands",
+    "title": "Motor Mounts for Other Brands",
+    "url": "https://www.gobilda.com/motor-mounts-for-other-brands",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-rev-hd-hex-planetary-gear-motor",
+    "title": "Motor Mounts for REV HD Hex Planetary Gear Motor",
+    "url": "https://www.gobilda.com/motor-mounts-for-rev-hd-hex-planetary-gear-motor",
+    "parentSlug": "motor-mounts-for-rev-robotics-motors",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-rev-core-hex-motor",
+    "title": "Motor Mounts for REV Core Hex Motor",
+    "url": "https://www.gobilda.com/motor-mounts-for-rev-core-hex-motor",
+    "parentSlug": "motor-mounts-for-rev-robotics-motors",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-neverest-orbital-gear-motors",
+    "title": "Motor Mounts for NeveRest Orbital Gear Motors",
+    "url": "https://www.gobilda.com/motor-mounts-for-neverest-orbital-gear-motors",
+    "parentSlug": "motor-mounts-for-andymark-neverest-motors",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-mounts-for-neverest-classic-gear-motor",
+    "title": "Motor Mounts for NeveRest Classic Gear Motor",
+    "url": "https://www.gobilda.com/motor-mounts-for-neverest-classic-gear-motor",
+    "parentSlug": "motor-mounts-for-andymark-neverest-motors",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "angle-brackets",
+    "title": "Angle Brackets",
+    "url": "https://www.gobilda.com/angle-brackets",
+    "parentSlug": "brackets",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "aluminum-flat-brackets",
+    "title": "Aluminum Flat Brackets",
+    "url": "https://www.gobilda.com/aluminum-flat-brackets",
+    "parentSlug": "brackets",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "steel-flat-brackets",
+    "title": "Steel Flat Brackets",
+    "url": "https://www.gobilda.com/steel-flat-brackets",
+    "parentSlug": "brackets",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motors",
+    "title": "Motors",
+    "url": "https://www.gobilda.com/motors",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "servos",
+    "title": "Servos",
+    "url": "https://www.gobilda.com/servos",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "linear-servos",
+    "title": "Linear Servos",
+    "url": "https://www.gobilda.com/linear-servos/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "wheels-tires",
+    "title": "Wheels &amp; Tires",
+    "url": "https://www.gobilda.com/wheels-tires",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "intake-wheels",
+    "title": "Intake",
+    "url": "https://www.gobilda.com/intake-wheels/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "tracks",
+    "title": "Tracks",
+    "url": "https://www.gobilda.com/tracks",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gears",
+    "title": "Gears",
+    "url": "https://www.gobilda.com/gears",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "sprockets-chain",
+    "title": "Sprockets &amp; Chain",
+    "url": "https://www.gobilda.com/sprockets-chain",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "timing-belts-pulleys",
+    "title": "Timing Belts &amp; Pulleys",
+    "url": "https://www.gobilda.com/timing-belts-pulleys/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "round-belts-pulleys",
+    "title": "Round Belts &amp; Pulleys",
+    "url": "https://www.gobilda.com/round-belts-pulleys",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "cable-pulleys",
+    "title": "Cable &amp; Pulleys",
+    "url": "https://www.gobilda.com/cable-pulleys",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "lead-screws",
+    "title": "Lead Screws",
+    "url": "https://www.gobilda.com/lead-screws",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-slides",
+    "title": "Linear Slides",
+    "url": "https://www.gobilda.com/linear-slides",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-motion-guides",
+    "title": "Linear Motion Guides",
+    "url": "https://www.gobilda.com/linear-motion-guides",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "hubs",
+    "title": "Hubs",
+    "url": "https://www.gobilda.com/hubs",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "bearings",
+    "title": "Bearings",
+    "url": "https://www.gobilda.com/bearings",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "collars",
+    "title": "Collars",
+    "url": "https://www.gobilda.com/collars",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "couplers",
+    "title": "Couplers",
+    "url": "https://www.gobilda.com/couplers",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "cv-universal-joints",
+    "title": "CV &amp; Universal Joints",
+    "url": "https://www.gobilda.com/cv-universal-joints/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "shocks",
+    "title": "Shocks",
+    "url": "https://www.gobilda.com/shocks",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "control-arms",
+    "title": "Control-Arms",
+    "url": "https://www.gobilda.com/control-arms/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linkages-threaded-rods",
+    "title": "Linkages &amp; Threaded Rods",
+    "url": "https://www.gobilda.com/linkages-threaded-rods",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "motion-bundles",
+    "title": "Motion Bundles",
+    "url": "https://www.gobilda.com/motion-bundles",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "yellow-jacket-planetary-gear-motors",
+    "title": "Yellow Jacket Planetary Gear Motors",
+    "url": "https://www.gobilda.com/yellow-jacket-planetary-gear-motors",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "saturn-planetary-gear-motors",
+    "title": "Saturn Planetary Gear Motors",
+    "url": "https://www.gobilda.com/saturn-planetary-gear-motors",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5000-series-motors",
+    "title": "5000 Series Motors",
+    "url": "https://www.gobilda.com/5000-series-motors",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "planetary-gearbox-replacement-parts",
+    "title": "Planetary Gearbox Replacement Parts",
+    "url": "https://www.gobilda.com/planetary-gearbox-replacement-parts/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-controllers",
+    "title": "Motor Controllers",
+    "url": "https://www.gobilda.com/motor-controllers",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "motor-controller-mounts",
+    "title": "Motor Controller Mounts",
+    "url": "https://www.gobilda.com/motor-controller-mounts",
+    "parentSlug": "motor-controllers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "standard-size-servos",
+    "title": "Standard Size Servos",
+    "url": "https://www.gobilda.com/standard-size-servos",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "large-size-servos",
+    "title": "Large Size Servos",
+    "url": "https://www.gobilda.com/large-size-servos",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-gearboxes",
+    "title": "Servo Gearboxes",
+    "url": "https://www.gobilda.com/servo-gearboxes",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "servoblocks",
+    "title": "ServoBlocks®",
+    "url": "https://www.gobilda.com/servoblocks",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-attachments",
+    "title": "Servo Attachments",
+    "url": "https://www.gobilda.com/servo-attachments",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-electronics",
+    "title": "Servo Electronics",
+    "url": "https://www.gobilda.com/servo-electronics",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-replacement-parts",
+    "title": "Servo Replacement Parts",
+    "url": "https://www.gobilda.com/servo-replacement-parts",
+    "parentSlug": "servos",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "mecanum-wheels",
+    "title": "Mecanum Wheels",
+    "url": "https://www.gobilda.com/mecanum-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "omni-wheels",
+    "title": "Omni Wheels",
+    "url": "https://www.gobilda.com/omni-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gripforce-gecko-wheels",
+    "title": "GripForce Gecko™ Wheels",
+    "url": "https://www.gobilda.com/gripforce-gecko-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hogback-traction-wheels",
+    "title": "Hogback Traction Wheels",
+    "url": "https://www.gobilda.com/hogback-traction-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "rhino-wheels",
+    "title": "Rhino Wheels",
+    "url": "https://www.gobilda.com/rhino-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "all-terrain-wheels-tires",
+    "title": "All-Terrain Wheels &amp; Tires",
+    "url": "https://www.gobilda.com/all-terrain-wheels-tires/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "flywheels",
+    "title": "Flywheels",
+    "url": "https://www.gobilda.com/flywheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "disc-wheels",
+    "title": "Disc Wheels",
+    "url": "https://www.gobilda.com/disc-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "v-wheels",
+    "title": "V-Wheels",
+    "url": "https://www.gobilda.com/v-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "w-wheels",
+    "title": "W-Wheels",
+    "url": "https://www.gobilda.com/w-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "caster-wheels",
+    "title": "Caster Wheels",
+    "url": "https://www.gobilda.com/caster-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "track-idler-wheels",
+    "title": "Track Idler Wheels",
+    "url": "https://www.gobilda.com/track-idler-wheels",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "rhino-wheels-32mm-bore",
+    "title": "Rhino Wheels - 32mm Bore",
+    "url": "https://www.gobilda.com/rhino-wheels-32mm-bore/",
+    "parentSlug": "rhino-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "thin-rhino-wheels-14mm-bore",
+    "title": "Thin Rhino Wheels - 14mm Bore",
+    "url": "https://www.gobilda.com/thin-rhino-wheels-14mm-bore/",
+    "parentSlug": "rhino-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "v-wheel-kit-components",
+    "title": "V-Wheel Kit Components",
+    "url": "https://www.gobilda.com/v-wheel-kit-components",
+    "parentSlug": "v-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "v-wheel-kits",
+    "title": "V-Wheel Kits",
+    "url": "https://www.gobilda.com/v-wheel-kits",
+    "parentSlug": "v-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "w-wheel-kits",
+    "title": "W-Wheel Kits",
+    "url": "https://www.gobilda.com/w-wheel-kits",
+    "parentSlug": "w-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "w-wheel-kit-components",
+    "title": "W-Wheel Kit Components",
+    "url": "https://www.gobilda.com/w-wheel-kit-components",
+    "parentSlug": "w-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hub-mount-gears",
+    "title": "Hub Mount Gears",
+    "url": "https://www.gobilda.com/hub-mount-gears",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "pinion-gears",
+    "title": "Pinion Gears",
+    "url": "https://www.gobilda.com/pinion-gears",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-gears",
+    "title": "Servo Gears",
+    "url": "https://www.gobilda.com/servo-gears",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "bevel-gears",
+    "title": "Bevel Gears",
+    "url": "https://www.gobilda.com/bevel-gears",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "worm-gears",
+    "title": "Worm Gears",
+    "url": "https://www.gobilda.com/worm-gears",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gear-racks",
+    "title": "Gear Racks",
+    "url": "https://www.gobilda.com/gear-racks",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "press-fit-sprockets",
+    "title": "Press-Fit Sprockets",
+    "url": "https://www.gobilda.com/press-fit-sprockets",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "set-screw-sprockets",
+    "title": "Set-Screw Sprockets",
+    "url": "https://www.gobilda.com/set-screw-sprockets",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "14mm-bore-metal-hub-mount-sprockets",
+    "title": "14mm Bore Metal Hub-Mount Sprockets",
+    "url": "https://www.gobilda.com/14mm-bore-metal-hub-mount-sprockets",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "14mm-bore-plastic-hub-mount-sprockets",
+    "title": "14mm Bore Plastic Hub-Mount Sprockets",
+    "url": "https://www.gobilda.com/14mm-bore-plastic-hub-mount-sprockets",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "clamping-sprockets",
+    "title": "Clamping Sprockets",
+    "url": "https://www.gobilda.com/clamping-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "32mm-bore-aluminum-hub-mount-sprockets",
+    "title": "32mm Bore Aluminum Hub-Mount Sprockets",
+    "url": "https://www.gobilda.com/32mm-bore-aluminum-hub-mount-sprockets",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "8mm-pitch-chain",
+    "title": "8mm Pitch Chain",
+    "url": "https://www.gobilda.com/8mm-pitch-chain/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "chain-tensioners-and-idlers",
+    "title": "Chain Tensioners and Idlers",
+    "url": "https://www.gobilda.com/chain-tensioners-and-idlers",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "3mm-htd-set-screw-timing-pulleys",
+    "title": "3mm HTD Set Screw Timing Pulleys",
+    "url": "https://www.gobilda.com/3mm-htd-set-screw-timing-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "2mm-gt2-timing-belts",
+    "title": "2mm GT2 Timing Belts",
+    "url": "https://www.gobilda.com/2mm-gt2-timing-belts/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5mm-htd-timing-belts",
+    "title": "5mm HTD Timing Belts",
+    "url": "https://www.gobilda.com/5mm-htd-timing-belts/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "2mm-gt2-pulleys",
+    "title": "2mm GT2 Timing Pulleys",
+    "url": "https://www.gobilda.com/2mm-gt2-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5mm-htd-timing-pulleys",
+    "title": "5mm HTD Timing Pulleys",
+    "url": "https://www.gobilda.com/5mm-htd-timing-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "3406-series-3mm-htd-pitch-timing-belt-15mm-width-5-meter-cut-length",
+    "title": "Cut Length Timing Belts",
+    "url": "https://www.gobilda.com/3406-series-3mm-htd-pitch-timing-belt-15mm-width-5-meter-cut-length/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5mm-htd-timing-belt-accessories",
+    "title": "5mm HTD Timing Belt Accessories",
+    "url": "https://www.gobilda.com/5mm-htd-timing-belt-accessories/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "2mm-gt2-timing-belt-accessories",
+    "title": "2mm GT2 Timing Belt Accessories",
+    "url": "https://www.gobilda.com/2mm-gt2-timing-belt-accessories",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "round-belts",
+    "title": "Round Belts",
+    "url": "https://www.gobilda.com/round-belts",
+    "parentSlug": "round-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "set-screw-round-belt-pulleys",
+    "title": "Set Screw Round Belt Pulleys",
+    "url": "https://www.gobilda.com/set-screw-round-belt-pulleys",
+    "parentSlug": "round-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hub-mount-round-belt-pulleys",
+    "title": "Hub Mount Round Belt Pulleys",
+    "url": "https://www.gobilda.com/hub-mount-round-belt-pulleys",
+    "parentSlug": "round-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "channel-based-linear-motion-guides",
+    "title": "Channel Based Linear Motion Guides",
+    "url": "https://www.gobilda.com/channel-based-linear-motion-guides",
+    "parentSlug": "linear-motion-guides",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gorail-based",
+    "title": "goRAIL Based",
+    "url": "https://www.gobilda.com/gorail-based",
+    "parentSlug": "linear-motion-guides",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "v-guide-based",
+    "title": "V-Guide Based",
+    "url": "https://www.gobilda.com/v-guide-based",
+    "parentSlug": "linear-motion-guides",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "shaft-based",
+    "title": "Shaft Based",
+    "url": "https://www.gobilda.com/shaft-based",
+    "parentSlug": "linear-motion-guides",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "gorail-slide-blocks",
+    "title": "goRAIL® Slide-Blocks",
+    "url": "https://www.gobilda.com/gorail-slide-blocks/",
+    "parentSlug": "gorail-based",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-ball-bearings",
+    "title": "Linear Ball Bearings",
+    "url": "https://www.gobilda.com/linear-ball-bearings/",
+    "parentSlug": "shaft-based",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "shop-by-hub-bore",
+    "title": "Shop by Hub Bore",
+    "url": "https://www.gobilda.com/shop-by-hub-bore",
+    "parentSlug": "hubs",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "shop-by-hub-style",
+    "title": "Shop by Hub Style",
+    "url": "https://www.gobilda.com/shop-by-hub-style",
+    "parentSlug": "hubs",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "25-tooth-servo-hubs",
+    "title": "Servo Hubs",
+    "url": "https://www.gobilda.com/25-tooth-servo-hubs/",
+    "parentSlug": "shop-by-hub-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "set-screw-hubs-16mm-pattern",
+    "title": "Set-Screw Hubs (16mm Pattern)",
+    "url": "https://www.gobilda.com/set-screw-hubs-16mm-pattern",
+    "parentSlug": "shop-by-hub-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "classic-clamping-hubs",
+    "title": "Classic Clamping Hubs",
+    "url": "https://www.gobilda.com/classic-clamping-hubs",
+    "parentSlug": "shop-by-hub-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "sonic-hubs",
+    "title": "Sonic Hubs",
+    "url": "https://www.gobilda.com/sonic-hubs",
+    "parentSlug": "shop-by-hub-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hyper-hubs-16mm-pattern",
+    "title": "Hyper Hubs (16mm Pattern)",
+    "url": "https://www.gobilda.com/hyper-hubs-16mm-pattern",
+    "parentSlug": "shop-by-hub-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "1602-series-1-side-2-post-pillow-blocks",
+    "title": "1602 Series 1-Side, 2-Post Pillow Blocks",
+    "url": "https://www.gobilda.com/1602-series-1-side-2-post-pillow-blocks",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "1605-series-1-side-1-post-pillow-blocks",
+    "title": "1605 Series 1-Side, 1-Post Pillow Blocks",
+    "url": "https://www.gobilda.com/1605-series-1-side-1-post-pillow-blocks",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "1606-series-2-side-1-post-pillow-blocks",
+    "title": "1606 Series 2-Side, 1-Post Pillow Blocks",
+    "url": "https://www.gobilda.com/1606-series-2-side-1-post-pillow-blocks",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "1604-series-2-side-2-post-pillow-blocks",
+    "title": "1604 Series 2-Side, 2-Post Pillow Blocks",
+    "url": "https://www.gobilda.com/1604-series-2-side-2-post-pillow-blocks",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "dual-bearing-pillow-blocks",
+    "title": "Dual-Bearing Pillow Blocks",
+    "url": "https://www.gobilda.com/dual-bearing-pillow-blocks",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "idler-bearing-hubs",
+    "title": "Idler Bearing-Hubs",
+    "url": "https://www.gobilda.com/idler-bearing-hubs",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "face-thru-hole-pillow-blocks",
+    "title": "Face Thru-Hole Pillow Blocks",
+    "url": "https://www.gobilda.com/face-thru-hole-pillow-blocks",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "drop-center-bearing-plates",
+    "title": "Drop-Center Bearing Plates",
+    "url": "https://www.gobilda.com/drop-center-bearing-plates/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "flanged-ball-bearings",
+    "title": "Flanged Ball Bearings",
+    "url": "https://www.gobilda.com/flanged-ball-bearings",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "non-flanged-ball-bearings",
+    "title": "Non-Flanged Ball Bearings",
+    "url": "https://www.gobilda.com/non-flanged-ball-bearings",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "v-groove-ball-bearings",
+    "title": "V-Groove Ball Bearings",
+    "url": "https://www.gobilda.com/v-groove-ball-bearings",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "thrust-ball-bearings",
+    "title": "Thrust Ball Bearings",
+    "url": "https://www.gobilda.com/thrust-ball-bearings",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "idler-bearings",
+    "title": "Idler Bearings",
+    "url": "https://www.gobilda.com/idler-bearings",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hyper-couplers",
+    "title": "Hyper Couplers",
+    "url": "https://www.gobilda.com/hyper-couplers",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "clamping-shaft-couplers",
+    "title": "Clamping Shaft Couplers",
+    "url": "https://www.gobilda.com/clamping-shaft-couplers",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "flexible-clamping-shaft-couplers",
+    "title": "Flexible Clamping Shaft Couplers",
+    "url": "https://www.gobilda.com/flexible-clamping-shaft-couplers",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "25-tooth-servo-couplers",
+    "title": "25 Tooth Servo Couplers",
+    "url": "https://www.gobilda.com/25-tooth-servo-couplers/",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-ball-linkages",
+    "title": "M4 Ball Linkages",
+    "url": "https://www.gobilda.com/m4-ball-linkages",
+    "parentSlug": "linkages-threaded-rods",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-threaded-rods",
+    "title": "M4 Threaded Rods",
+    "url": "https://www.gobilda.com/m4-threaded-rods",
+    "parentSlug": "linkages-threaded-rods",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "control-bundles",
+    "title": "Control Bundles",
+    "url": "https://www.gobilda.com/control-bundles",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "sensors",
+    "title": "Sensors",
+    "url": "https://www.gobilda.com/sensors/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "cameras",
+    "title": "Cameras",
+    "url": "https://www.gobilda.com/cameras/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "odometry",
+    "title": "Odometry",
+    "url": "https://www.gobilda.com/odometry",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "transmitters-receivers",
+    "title": "Transmitters &amp; Receivers",
+    "url": "https://www.gobilda.com/transmitters-receivers",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "signal-mixers",
+    "title": "Signal Mixers",
+    "url": "https://www.gobilda.com/signal-mixers",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "batteries",
+    "title": "Batteries",
+    "url": "https://www.gobilda.com/batteries",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "voltage-regulators-becs",
+    "title": "Voltage Regulators (BECs)",
+    "url": "https://www.gobilda.com/voltage-regulators-becs",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "power-distribution-boards",
+    "title": "Power Distribution Boards",
+    "url": "https://www.gobilda.com/power-distribution-boards",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "wiring",
+    "title": "Wiring",
+    "url": "https://www.gobilda.com/wiring",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "switches",
+    "title": "Switches",
+    "url": "https://www.gobilda.com/switches",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "lights",
+    "title": "Lights",
+    "url": "https://www.gobilda.com/lights",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "fuses",
+    "title": "Fuses",
+    "url": "https://www.gobilda.com/fuses/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "6v-batteries",
+    "title": "6V Batteries",
+    "url": "https://www.gobilda.com/6v-batteries",
+    "parentSlug": "batteries",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "12v-batteries",
+    "title": "12V Batteries",
+    "url": "https://www.gobilda.com/12v-batteries",
+    "parentSlug": "batteries",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "20v-batteries",
+    "title": "20V Batteries",
+    "url": "https://www.gobilda.com/20v-batteries",
+    "parentSlug": "batteries",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "battery-chargers",
+    "title": "Battery Chargers",
+    "url": "https://www.gobilda.com/battery-chargers",
+    "parentSlug": "batteries",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "battery-testers",
+    "title": "Battery Testers",
+    "url": "https://www.gobilda.com/battery-testers/",
+    "parentSlug": "batteries",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "battery-mounts-trays",
+    "title": "Battery Mounts &amp; Trays",
+    "url": "https://www.gobilda.com/battery-mounts-trays",
+    "parentSlug": "batteries",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "wire",
+    "title": "Wire",
+    "url": "https://www.gobilda.com/wire/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-tjc8-servo",
+    "title": "Connector Style: TJC8 Servo",
+    "url": "https://www.gobilda.com/connector-style-tjc8-servo/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-tjc8-power",
+    "title": "Connector Style: TJC8 Power",
+    "url": "https://www.gobilda.com/connector-style-tjc8-power/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-3-5mm-bullet",
+    "title": "Connector Style: 3.5mm Bullet",
+    "url": "https://www.gobilda.com/connector-style-3-5mm-bullet/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt30",
+    "title": "Connector Style: XT30",
+    "url": "https://www.gobilda.com/connector-style-xt30/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt60",
+    "title": "Connector Style: XT60",
+    "url": "https://www.gobilda.com/connector-style-xt60/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt90",
+    "title": "Connector Style: XT90",
+    "url": "https://www.gobilda.com/connector-style-xt90/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-anderson-powerpole",
+    "title": "Connector Style: Anderson Powerpole",
+    "url": "https://www.gobilda.com/connector-style-anderson-powerpole/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-vh-series",
+    "title": "Connector Style: JST VH Series",
+    "url": "https://www.gobilda.com/connector-style-jst-vh-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-ph-series",
+    "title": "Connector Style: JST PH Series",
+    "url": "https://www.gobilda.com/connector-style-jst-ph-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-xh-series",
+    "title": "Connector Style: JST XH Series",
+    "url": "https://www.gobilda.com/connector-style-jst-xh-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-tamiya",
+    "title": "Connector Style: Tamiya",
+    "url": "https://www.gobilda.com/connector-style-tamiya/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "jumper-wires",
+    "title": "Jumper Wires",
+    "url": "https://www.gobilda.com/jumper-wires/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "male-to-female-jumper-wires",
+    "title": "Male to Female Jumper Wires",
+    "url": "https://www.gobilda.com/male-to-female-jumper-wires",
+    "parentSlug": "jumper-wires",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "female-to-female-jumper-wires",
+    "title": "Female to Female Jumper Wires",
+    "url": "https://www.gobilda.com/female-to-female-jumper-wires",
+    "parentSlug": "jumper-wires",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "male-to-male-jumper-wires",
+    "title": "Male to Male Jumper Wires",
+    "url": "https://www.gobilda.com/male-to-male-jumper-wires",
+    "parentSlug": "jumper-wires",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "jumper-wire-adaptors",
+    "title": "Jumper Wire Adaptors",
+    "url": "https://www.gobilda.com/jumper-wire-adaptors",
+    "parentSlug": "jumper-wires",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "limit-switches",
+    "title": "Limit Switches",
+    "url": "https://www.gobilda.com/limit-switches",
+    "parentSlug": "switches",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "pwm-switches",
+    "title": "PWM Switches",
+    "url": "https://www.gobilda.com/pwm-switches",
+    "parentSlug": "switches",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "rocker-switches",
+    "title": "Rocker Switches",
+    "url": "https://www.gobilda.com/rocker-switches/",
+    "parentSlug": "switches",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "screws",
+    "title": "Screws",
+    "url": "https://www.gobilda.com/screws",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": false
+  },
+  {
+    "slug": "washers",
+    "title": "Washers",
+    "url": "https://www.gobilda.com/washers",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "hole-reducers",
+    "title": "Hole Reducers",
+    "url": "https://www.gobilda.com/hole-reducers",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "nuts",
+    "title": "Nuts",
+    "url": "https://www.gobilda.com/nuts/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "springs",
+    "title": "Springs",
+    "url": "https://www.gobilda.com/springs",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "tools",
+    "title": "Tools",
+    "url": "https://www.gobilda.com/tools",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "rubber-tubing-cord",
+    "title": "Rubber Tubing &amp; Cord",
+    "url": "https://www.gobilda.com/rubber-tubing-cord/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "ptfe-tubing",
+    "title": "PTFE Tubing",
+    "url": "https://www.gobilda.com/ptfe-tubing",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "cable",
+    "title": "Cable",
+    "url": "https://www.gobilda.com/cable",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "wire-management",
+    "title": "Wire Management",
+    "url": "https://www.gobilda.com/wire-management/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": false
+  },
+  {
+    "slug": "cinch-straps",
+    "title": "Cinch-Straps",
+    "url": "https://www.gobilda.com/cinch-straps/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "grommets",
+    "title": "Grommets",
+    "url": "https://www.gobilda.com/grommets",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "rubber-feet",
+    "title": "Rubber Feet",
+    "url": "https://www.gobilda.com/rubber-feet",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "magnets",
+    "title": "Magnets",
+    "url": "https://www.gobilda.com/magnets",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "debris-shields",
+    "title": "Debris-Shields",
+    "url": "https://www.gobilda.com/debris-shields/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "thread-locker",
+    "title": "Thread Locker",
+    "url": "https://www.gobilda.com/thread-locker",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "lubricants",
+    "title": "Lubricants",
+    "url": "https://www.gobilda.com/lubricants",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "hardware-bundles",
+    "title": "Hardware Bundles",
+    "url": "https://www.gobilda.com/hardware-bundles",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-socket-head-screws",
+    "title": "M4 Socket Head Screws",
+    "url": "https://www.gobilda.com/m4-socket-head-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "premium-m4-socket-head-thread-locking-screws",
+    "title": "Premium M4 Socket Head Thread-Locking Screws",
+    "url": "https://www.gobilda.com/premium-m4-socket-head-thread-locking-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-thread-forming-socket-head-screws",
+    "title": "M4 Thread-Forming Socket Head Screws",
+    "url": "https://www.gobilda.com/m4-thread-forming-socket-head-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-hex-head-screws",
+    "title": "M4 Hex Head Screws",
+    "url": "https://www.gobilda.com/m4-hex-head-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-button-head-screws",
+    "title": "M4 Button Head Screws",
+    "url": "https://www.gobilda.com/m4-button-head-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-low-profile-socket-head-screws",
+    "title": "M4 Low Profile Socket Head Screws",
+    "url": "https://www.gobilda.com/m4-low-profile-socket-head-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m3-socket-head-screws",
+    "title": "M3 Socket Head Screws",
+    "url": "https://www.gobilda.com/m3-socket-head-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m5-set-screws",
+    "title": "M5 Set Screws",
+    "url": "https://www.gobilda.com/m5-set-screws",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "ftc-kits",
+    "title": "FTC Kits",
+    "url": "https://www.gobilda.com/ftc-kits",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "chassis-kits",
+    "title": "Chassis Kits",
+    "url": "https://www.gobilda.com/chassis-kits",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-motion-kits",
+    "title": "Linear Motion Kits",
+    "url": "https://www.gobilda.com/linear-motion-kits",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "pan-kits",
+    "title": "Pan Kits",
+    "url": "https://www.gobilda.com/pan-kits",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "bundles",
+    "title": "Bundles",
+    "url": "https://www.gobilda.com/bundles",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": false
+  }
+]

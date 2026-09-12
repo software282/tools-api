@@ -132,6 +132,17 @@ export async function crawlCatalog(opts: {
         const rawHref = attrs['href'];
         const title = attrs['title'] ? decodeEntities(attrs['title']) : null;
         if (!sku || !rawHref || !title) continue;
+        // Not every `data-card-type="product"` card is a real, orderable
+        // product: both sites also render "related/see-also" cross-sell
+        // widget cards with this identical markup, distinguishable only by
+        // their sku being the literal site-assigned string "rd-<slug>"
+        // instead of a real vendor part number — e.g. sku
+        // "rd-see-also-servoblocks", name "SEE ALSO: ServoBlocks®", or sku
+        // "rd-5103-series-planetary-gearboxes" pointing at a URL fragment
+        // (#anchor) on a shared family page rather than its own product.
+        // Found the hard way: 251 of these ended up seeded as real Part rows
+        // before this filter existed.
+        if (sku.startsWith('rd-')) continue;
         // Product cards sometimes carry a bare path and/or an
         // entity-encoded query (`/x/?sku&#x3D;3216`); absolutise it the same
         // way category hrefs are handled above.

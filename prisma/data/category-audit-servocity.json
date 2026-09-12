@@ -1,0 +1,2682 @@
+[
+  {
+    "slug": "channel",
+    "title": "Channel",
+    "url": "https://www.servocity.com/channel/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "grid-plates",
+    "title": "Grid Plates",
+    "url": "https://www.servocity.com/grid-plates/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "pattern-plates",
+    "title": "Pattern Plates",
+    "url": "https://www.servocity.com/pattern-plates/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "brackets",
+    "title": "Brackets",
+    "url": "https://www.servocity.com/brackets/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "extrusion",
+    "title": "T-Slot Extrusion",
+    "url": "https://www.servocity.com/extrusion/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "beams",
+    "title": "Beams",
+    "url": "https://www.servocity.com/beams/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "tubing",
+    "title": "Tubing",
+    "url": "https://www.servocity.com/tubing/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "clamping-mounts",
+    "title": "Clamping Mounts",
+    "url": "https://www.servocity.com/clamping-mounts/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "block-mounts",
+    "title": "Block Mounts",
+    "url": "https://www.servocity.com/block-mounts/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "pattern-mounts",
+    "title": "1-Side, 2-Post Pattern Mounts",
+    "url": "https://www.servocity.com/pattern-mounts/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts",
+    "title": "Motor Mounts",
+    "url": "https://www.servocity.com/motor-mounts/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "servos-accessories",
+    "title": "Servo Mounts",
+    "url": "https://www.servocity.com/servos-accessories/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "linear-actuator-mounts",
+    "title": "Linear Actuator Mounts",
+    "url": "https://www.servocity.com/linear-actuator-mounts/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "round-baseplates",
+    "title": "Round Baseplates",
+    "url": "https://www.servocity.com/round-baseplates/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "adaptors",
+    "title": "Adaptors",
+    "url": "https://www.servocity.com/adaptors/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "pattern-spacers",
+    "title": "Pattern Spacers",
+    "url": "https://www.servocity.com/pattern-spacers/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "standoffs-spacers",
+    "title": "Standoffs &amp; Spacers",
+    "url": "https://www.servocity.com/standoffs-spacers/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "screw-plates",
+    "title": "Screw Plates",
+    "url": "https://www.servocity.com/screw-plates/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "hinges",
+    "title": "Hinges",
+    "url": "https://www.servocity.com/hinges/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "structure-bundles",
+    "title": "Structure Bundles",
+    "url": "https://www.servocity.com/structure-bundles/",
+    "parentSlug": null,
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-1120-series-u-channel",
+    "title": "goBILDA 1120 Series U-Channel",
+    "url": "https://www.servocity.com/gobilda-1120-series-u-channel/",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-1121-series-low-side-u-channel",
+    "title": "goBILDA 1121 Series Low-Side U-Channel",
+    "url": "https://www.servocity.com/gobilda-1121-series-low-side-u-channel/",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-1143-series-mini-low-side-u-channel",
+    "title": "goBILDA® 1143 Series Mini Low-Side U-Channel",
+    "url": "https://www.servocity.com/gobilda-1143-series-mini-low-side-u-channel/",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "1122-series-rail-channel",
+    "title": "Rail-Channel and U-Wheels",
+    "url": "https://www.servocity.com/1122-series-rail-channel/",
+    "parentSlug": "channel",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-gorail",
+    "title": "goBILDA® goRAIL®",
+    "url": "https://www.servocity.com/gobilda-gorail/",
+    "parentSlug": "extrusion",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "aluminum-tubing",
+    "title": "Aluminum Tubing",
+    "url": "https://www.servocity.com/aluminum-tubing/",
+    "parentSlug": "tubing",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "gobilda-4103-series-gotube",
+    "title": "goBILDA 4103 Series goTUBE",
+    "url": "https://www.servocity.com/gobilda-4103-series-gotube/",
+    "parentSlug": "tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-tubing",
+    "title": "Stainless Steel Tubing",
+    "url": "https://www.servocity.com/stainless-steel-tubing/",
+    "parentSlug": "tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "flanged-aluminum-tubing",
+    "title": "Flanged Aluminum Tubing",
+    "url": "https://www.servocity.com/flanged-aluminum-tubing/",
+    "parentSlug": "tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "imperial-aluminum-tubing",
+    "title": "Imperial Aluminum Tubing",
+    "url": "https://www.servocity.com/imperial-aluminum-tubing/",
+    "parentSlug": "aluminum-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "metric-aluminum-tubing",
+    "title": "Metric Aluminum Tubing",
+    "url": "https://www.servocity.com/metric-aluminum-tubing/",
+    "parentSlug": "aluminum-tubing",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-clamping-mounts",
+    "title": "goBILDA Clamping Mounts",
+    "url": "https://www.servocity.com/gobilda-clamping-mounts/",
+    "parentSlug": "clamping-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-tt-gear-motors",
+    "title": "Motor Mounts for TT Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-tt-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-n20-gear-motors",
+    "title": "Motor Mounts for N20 Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-n20-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-mini-econ-spur-gear-motors",
+    "title": "Motor Mounts for Mini Econ Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-mini-econ-spur-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-econ-spur-gear-motors",
+    "title": "Motor Mounts for Econ Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-econ-spur-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-standard-spur-gear-motors",
+    "title": "Motor Mounts for Standard Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-standard-spur-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-precision-spur-gear-motors",
+    "title": "Motor Mounts for Precision Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-precision-spur-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-premium-planetary-gear-motors",
+    "title": "Motor Mounts for Premium Planetary Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-premium-planetary-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5000-series-motors",
+    "title": "Motor Mounts for 5000 Series Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5000-series-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5200-series-spur-gear-motors",
+    "title": "Motor Mounts for 5200 Series Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5200-series-spur-gear-motors",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5201-series-spur-gear-motors",
+    "title": "Motor Mounts for 5201 Series Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5201-series-spur-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-hd-premium-planetary-gear-motors",
+    "title": "Motor Mounts for HD Premium Planetary Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-hd-premium-planetary-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-32mm-5202-series-gear-motor",
+    "title": "Motor Mounts for ⌀32mm 5202 Series Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-32mm-5202-series-gear-motor/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-36mm-5202-series-gear-motors",
+    "title": "Motor Mounts for ⌀36mm 5202 Series Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-36mm-5202-series-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5203-series-gear-motors",
+    "title": "Motor Mounts for 5203 Series Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5203-series-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5204-series-gear-motors",
+    "title": "Motor Mounts for 5204 Series Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5204-series-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5303-series-gear-motors",
+    "title": "Motor Mounts for 5303 Series Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5303-series-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-5304-series-gear-motors",
+    "title": "Motor Mounts for 5304 Series Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-5304-series-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-neverest-orbital-20-gear-motors",
+    "title": "Motor Mounts for NeveRest Orbital 20 Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-neverest-orbital-20-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-neverest-classic-gear-motors",
+    "title": "Motor Mounts for NeveRest Classic Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-neverest-classic-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-rev-hd-hex-planetary-gear-motors",
+    "title": "Motor Mounts for REV HD Hex Planetary Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-rev-hd-hex-planetary-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-rev-hd-hex-spur-gear-motors",
+    "title": "Motor Mounts for REV HD Hex Spur Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-rev-hd-hex-spur-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-rev-core-hex-gear-motors",
+    "title": "Motor Mounts for REV Core Hex Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-rev-core-hex-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-tetrix-max-gear-motors",
+    "title": "Motor Mounts for Tetrix Max Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-tetrix-max-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-rev-ultraplanetary-gearbox",
+    "title": "Motor Mounts for REV UltraPlanetary Gearbox",
+    "url": "https://www.servocity.com/motor-mounts-for-rev-ultraplanetary-gearbox/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-tetrix-torquenado-gear-motors",
+    "title": "Motor Mounts for Tetrix TorqueNADO Gear Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-tetrix-torquenado-gear-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-mounts-for-stepper-motors",
+    "title": "Motor Mounts for Stepper Motors",
+    "url": "https://www.servocity.com/motor-mounts-for-stepper-motors/",
+    "parentSlug": "motor-mounts",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-staff-picks",
+    "title": "Servo Staff Picks",
+    "url": "https://www.servocity.com/servo-staff-picks/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servos",
+    "title": "Servos",
+    "url": "https://www.servocity.com/servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "multi-turn-servos",
+    "title": "Multi-Turn Servos",
+    "url": "https://www.servocity.com/multi-turn-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "continuous-rotation-servos",
+    "title": "Continuous Rotation Servos",
+    "url": "https://www.servocity.com/continuous-rotation-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "waterproof-servos",
+    "title": "Waterproof Servos",
+    "url": "https://www.servocity.com/waterproof-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "low-profile-servos",
+    "title": "Low Profile Servos",
+    "url": "https://www.servocity.com/low-profile-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "slim-wing-servos",
+    "title": "Slim Wing Servos",
+    "url": "https://www.servocity.com/slim-wing-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-gearboxes",
+    "title": "Servo Gearboxes",
+    "url": "https://www.servocity.com/servo-gearboxes/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-actuators",
+    "title": "Linear Servos",
+    "url": "https://www.servocity.com/linear-actuators/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "servo-horns",
+    "title": "Servo Horns",
+    "url": "https://www.servocity.com/servo-horns/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-hubs",
+    "title": "Servo Hubs",
+    "url": "https://www.servocity.com/servo-hubs/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "all-servo-gears",
+    "title": "Servo Gears",
+    "url": "https://www.servocity.com/all-servo-gears/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": false
+  },
+  {
+    "slug": "servo-sprockets",
+    "title": "Servo Sprockets",
+    "url": "https://www.servocity.com/servo-sprockets/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-to-shaft-couplers",
+    "title": "Servo to Shaft Couplers",
+    "url": "https://www.servocity.com/servo-to-shaft-couplers/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-winch-pulleys",
+    "title": "Servo Winch Pulleys",
+    "url": "https://www.servocity.com/servo-winch-pulleys/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-mount-wheels",
+    "title": "Servo Wheels",
+    "url": "https://www.servocity.com/servo-mount-wheels/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-shafts",
+    "title": "Servo Shafts",
+    "url": "https://www.servocity.com/servo-shafts/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-mounts-for-small-size-servos",
+    "title": "Servo Mounts for Small Size Servos",
+    "url": "https://www.servocity.com/servo-mounts-for-small-size-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-mounts-for-standard-size-servos",
+    "title": "Servo Mounts for Standard Size Servos",
+    "url": "https://www.servocity.com/servo-mounts-for-standard-size-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-mounts-for-large-size-servos",
+    "title": "Servo Mounts for Large Size Servos",
+    "url": "https://www.servocity.com/servo-mounts-for-large-size-servos/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servoblocks",
+    "title": "ServoBlocks®",
+    "url": "https://www.servocity.com/servoblocks/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-controllers",
+    "title": "Servo Controllers",
+    "url": "https://www.servocity.com/servo-controllers/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-programmers",
+    "title": "Servo Programmers",
+    "url": "https://www.servocity.com/servo-programmers/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-signal-boosters",
+    "title": "Servo Signal Boosters",
+    "url": "https://www.servocity.com/servo-signal-boosters/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-signal-modification-monitoring",
+    "title": "Servo Signal Modification &amp; Monitoring",
+    "url": "https://www.servocity.com/servo-signal-modification-monitoring/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-power",
+    "title": "Servo Power",
+    "url": "https://www.servocity.com/servo-power/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-tjc8-servo",
+    "title": "Servo Wiring",
+    "url": "https://www.servocity.com/connector-style-tjc8-servo/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-gear-sets",
+    "title": "Servo Gear Sets",
+    "url": "https://www.servocity.com/servo-gear-sets/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-grease",
+    "title": "Servo Grease",
+    "url": "https://www.servocity.com/servo-grease/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-screws",
+    "title": "Servo Screws",
+    "url": "https://www.servocity.com/servo-screws/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "servo-cases",
+    "title": "Servo Cases",
+    "url": "https://www.servocity.com/servo-cases/",
+    "parentSlug": "servos-accessories",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "lightweight-linear-actuators",
+    "title": "Lightweight Linear Actuators",
+    "url": "https://www.servocity.com/lightweight-linear-actuators/",
+    "parentSlug": "linear-actuators",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "heavy-duty-linear-actuators",
+    "title": "Heavy-Duty Linear Actuators",
+    "url": "https://www.servocity.com/heavy-duty-linear-actuators/",
+    "parentSlug": "linear-actuators",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "super-duty-linear-actuators",
+    "title": "Super-Duty Linear Actuators",
+    "url": "https://www.servocity.com/super-duty-linear-actuators/",
+    "parentSlug": "linear-actuators",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "lightweight-linear-servos",
+    "title": "Lightweight Linear Servos",
+    "url": "https://www.servocity.com/lightweight-linear-servos/",
+    "parentSlug": "linear-actuators",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "heavy-duty-linear-servos",
+    "title": "Heavy-Duty Linear Servos (Position Control)",
+    "url": "https://www.servocity.com/heavy-duty-linear-servos/",
+    "parentSlug": "linear-actuators",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "heavy-duty-linear-servos-speed-control",
+    "title": "Heavy-Duty Linear Servos (Speed Control)",
+    "url": "https://www.servocity.com/heavy-duty-linear-servos-speed-control/",
+    "parentSlug": "linear-actuators",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "32-pitch-servo-gears",
+    "title": "32 Pitch Servo Gears",
+    "url": "https://www.servocity.com/32-pitch-servo-gears/",
+    "parentSlug": "all-servo-gears",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "mod-0-8-pitch-servo-gears",
+    "title": "MOD 0.8 Pitch Servo Gears",
+    "url": "https://www.servocity.com/mod-0-8-pitch-servo-gears/",
+    "parentSlug": "all-servo-gears",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "metric-spacers",
+    "title": "Metric Spacers",
+    "url": "https://www.servocity.com/metric-spacers/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "round-6-32-threaded-standoffs",
+    "title": "Round 6-32 Threaded Standoffs",
+    "url": "https://www.servocity.com/round-6-32-threaded-standoffs/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-standoffs",
+    "title": "M4 Standoffs",
+    "url": "https://www.servocity.com/m4-standoffs/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-shoulder-standoffs",
+    "title": "M4 Shoulder-Standoffs",
+    "url": "https://www.servocity.com/m4-shoulder-standoffs/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "aluminum-spacers-for-6-screw-size",
+    "title": "Aluminum Spacers for #6 Screw Size",
+    "url": "https://www.servocity.com/aluminum-spacers-for-6-screw-size/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "offset-standoffs",
+    "title": "Offset Standoffs",
+    "url": "https://www.servocity.com/offset-standoffs/",
+    "parentSlug": "standoffs-spacers",
+    "topNav": "structure",
+    "isLeaf": true
+  },
+  {
+    "slug": "motors",
+    "title": "Motors &amp; Accessories",
+    "url": "https://www.servocity.com/motors/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "wheels-tires",
+    "title": "Wheels &amp; Tires",
+    "url": "https://www.servocity.com/wheels-tires/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "intake-wheels",
+    "title": "Intake",
+    "url": "https://www.servocity.com/intake-wheels/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "tracks",
+    "title": "Tracks",
+    "url": "https://www.servocity.com/tracks/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gears",
+    "title": "Gears",
+    "url": "https://www.servocity.com/gears/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "sprockets-chain",
+    "title": "Sprockets &amp; Chain",
+    "url": "https://www.servocity.com/sprockets-chain/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "timing-belts-pulleys",
+    "title": "Timing Belts &amp; Pulleys",
+    "url": "https://www.servocity.com/timing-belts-pulleys/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "o-ring-belts-pulleys",
+    "title": "O-Ring Belts &amp; Pulleys",
+    "url": "https://www.servocity.com/o-ring-belts-pulleys/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "cable-pulleys",
+    "title": "Cable &amp; Pulleys",
+    "url": "https://www.servocity.com/cable-pulleys/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "lead-screws",
+    "title": "Lead Screws",
+    "url": "https://www.servocity.com/lead-screws/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-slides",
+    "title": "Linear Slides",
+    "url": "https://www.servocity.com/linear-slides/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-motion-for-t-slot-extrusion",
+    "title": "Linear Motion for T-Slot Extrusion",
+    "url": "https://www.servocity.com/linear-motion-for-t-slot-extrusion/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-motion-for-channel",
+    "title": "Linear Motion for Channel",
+    "url": "https://www.servocity.com/linear-motion-for-channel/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-motion-for-v-guide",
+    "title": "Linear Motion for V-Guide",
+    "url": "https://www.servocity.com/linear-motion-for-v-guide/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-bearings",
+    "title": "Linear Bearings",
+    "url": "https://www.servocity.com/linear-bearings/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "bearings",
+    "title": "Bearings",
+    "url": "https://www.servocity.com/bearings/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "shafting",
+    "title": "Shafting",
+    "url": "https://www.servocity.com/shafting",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "shaft-spacers-shims",
+    "title": "Shaft Spacers &amp; Shims",
+    "url": "https://www.servocity.com/shaft-spacers-shims/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hubs",
+    "title": "Hubs",
+    "url": "https://www.servocity.com/hubs/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "collars",
+    "title": "Collars",
+    "url": "https://www.servocity.com/collars/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "couplers",
+    "title": "Couplers",
+    "url": "https://www.servocity.com/couplers/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "control-arms",
+    "title": "Control-Arms",
+    "url": "https://www.servocity.com/control-arms/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "linkages-threaded-rods",
+    "title": "Linkages &amp; Threaded Rods",
+    "url": "https://www.servocity.com/linkages-threaded-rods/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "shocks",
+    "title": "Shocks",
+    "url": "https://www.servocity.com/shocks/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "cv-universal-joints",
+    "title": "CV &amp; Universal Joints",
+    "url": "https://www.servocity.com/cv-universal-joints/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "motion-bundles",
+    "title": "Motion Bundles",
+    "url": "https://www.servocity.com/motion-bundles/",
+    "parentSlug": null,
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5000-series-motors",
+    "title": "5000 Series Motors",
+    "url": "https://www.servocity.com/5000-series-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "tt-gear-motors",
+    "title": "TT Gear Motors",
+    "url": "https://www.servocity.com/tt-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "econ-spur-gear-motors",
+    "title": "Econ Spur Gear Motors",
+    "url": "https://www.servocity.com/econ-spur-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "premium-n20-gear-motors",
+    "title": "Premium N20 Gear Motors",
+    "url": "https://www.servocity.com/premium-n20-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "mini-econ-spur-gear-motors",
+    "title": "Mini Econ Spur Gear Motors",
+    "url": "https://www.servocity.com/mini-econ-spur-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "standard-spur-gear-motors",
+    "title": "Standard Spur Gear Motors",
+    "url": "https://www.servocity.com/standard-spur-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "precision-spur-gear-motors",
+    "title": "Precision Spur Gear Motors",
+    "url": "https://www.servocity.com/precision-spur-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "premium-planetary-gear-motors",
+    "title": "Premium Planetary Gear Motors",
+    "url": "https://www.servocity.com/premium-planetary-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hd-premium-planetary-gear-motors",
+    "title": "HD Premium Planetary Gear Motors",
+    "url": "https://www.servocity.com/hd-premium-planetary-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-controllers",
+    "title": "Motor Controllers",
+    "url": "https://www.servocity.com/motor-controllers/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5202-series-yellow-jacket-planetary-gear-motors",
+    "title": "5202 Series Yellow Jacket Planetary Gear Motors",
+    "url": "https://www.servocity.com/5202-series-yellow-jacket-planetary-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5203-series-yellow-jacket-planetary-gear-motors",
+    "title": "5203 Series Yellow Jacket Planetary Gear Motors",
+    "url": "https://www.servocity.com/5203-series-yellow-jacket-planetary-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "rubber-end-caps",
+    "title": "Rubber End Caps",
+    "url": "https://www.servocity.com/rubber-end-caps/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5204-series-yellow-jacket-planetary-gear-motors",
+    "title": "5204 Series Yellow Jacket Planetary Gear Motors",
+    "url": "https://www.servocity.com/5204-series-yellow-jacket-planetary-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "planetary-gearbox-replacement-parts",
+    "title": "Planetary Gearbox Replacement Parts",
+    "url": "https://www.servocity.com/planetary-gearbox-replacement-parts/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-power-boards",
+    "title": "Motor Power Boards",
+    "url": "https://www.servocity.com/motor-power-boards/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "saturn-planetary-gear-motors",
+    "title": "Saturn Planetary Gear Motors",
+    "url": "https://www.servocity.com/saturn-planetary-gear-motors/",
+    "parentSlug": "motors",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "mecanum-wheels",
+    "title": "Mecanum Wheels",
+    "url": "https://www.servocity.com/mecanum-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "omni-wheels",
+    "title": "Omni Wheels",
+    "url": "https://www.servocity.com/omni-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gecko-wheels",
+    "title": "GripForce Gecko™ Wheels",
+    "url": "https://www.servocity.com/gecko-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hogback-traction-wheels",
+    "title": "Hogback Traction Wheels",
+    "url": "https://www.servocity.com/hogback-traction-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "rhino-wheels",
+    "title": "Rhino Wheels",
+    "url": "https://www.servocity.com/rhino-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "disc-wheels",
+    "title": "Disc Wheels",
+    "url": "https://www.servocity.com/disc-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "skate-wheels",
+    "title": "Skate Wheels",
+    "url": "https://www.servocity.com/skate-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "all-terrain-wheels-tires",
+    "title": "All-Terrain Wheels &amp; Tires",
+    "url": "https://www.servocity.com/all-terrain-wheels-tires/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "flywheels",
+    "title": "Flywheels",
+    "url": "https://www.servocity.com/flywheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "foam-wheels",
+    "title": "Foam Wheels",
+    "url": "https://www.servocity.com/foam-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "press-fit-wheels-for-n20-gear-motors",
+    "title": "Press Fit Wheels for N20 Gear Motors",
+    "url": "https://www.servocity.com/press-fit-wheels-for-n20-gear-motors/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "press-fit-wheels-for-tt-gear-motors",
+    "title": "Press Fit Wheels for TT Gear Motors",
+    "url": "https://www.servocity.com/press-fit-wheels-for-tt-gear-motors/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "caster-wheels",
+    "title": "Caster Wheels",
+    "url": "https://www.servocity.com/caster-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "ball-transfers",
+    "title": "Ball Transfers",
+    "url": "https://www.servocity.com/ball-transfers/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "guide-wheels",
+    "title": "Guide Wheels",
+    "url": "https://www.servocity.com/guide-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "track-idler-wheels",
+    "title": "Track Idler Wheels",
+    "url": "https://www.servocity.com/track-idler-wheels/",
+    "parentSlug": "wheels-tires",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "abs-disc-wheels",
+    "title": "ABS Disc Wheels",
+    "url": "https://www.servocity.com/abs-disc-wheels/",
+    "parentSlug": "disc-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-acetal-disc-wheels",
+    "title": "goBILDA Acetal Disc Wheels",
+    "url": "https://www.servocity.com/gobilda-acetal-disc-wheels/",
+    "parentSlug": "disc-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "acrylic-disc-wheels",
+    "title": "Acrylic Disc Wheels",
+    "url": "https://www.servocity.com/acrylic-disc-wheels/",
+    "parentSlug": "disc-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "skate-wheel-accessories",
+    "title": "Skate Wheel Accessories",
+    "url": "https://www.servocity.com/skate-wheel-accessories/",
+    "parentSlug": "skate-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-v-wheels",
+    "title": "goBILDA® V-Wheels",
+    "url": "https://www.servocity.com/gobilda-v-wheels/",
+    "parentSlug": "guide-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-w-wheels",
+    "title": "goBILDA W-Wheels",
+    "url": "https://www.servocity.com/gobilda-w-wheels/",
+    "parentSlug": "guide-wheels",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "pinion-gears",
+    "title": "Pinion Gears",
+    "url": "https://www.servocity.com/pinion-gears/",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "32-pitch-press-fit-acetal-gears",
+    "title": "32 Pitch Press-Fit Acetal Gears",
+    "url": "https://www.servocity.com/32-pitch-press-fit-acetal-gears/",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hub-mount-gears",
+    "title": "Hub-Mount Gears",
+    "url": "https://www.servocity.com/hub-mount-gears/",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "gear-racks",
+    "title": "Gear Racks",
+    "url": "https://www.servocity.com/gear-racks/",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "bevel-gears",
+    "title": "Bevel Gears",
+    "url": "https://www.servocity.com/bevel-gears/",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "worm-gears",
+    "title": "Worm Gears",
+    "url": "https://www.servocity.com/worm-gears/",
+    "parentSlug": "gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "mod-0-8-pitch-pinion-gears",
+    "title": "MOD 0.8 Pitch Pinion Gears",
+    "url": "https://www.servocity.com/mod-0-8-pitch-pinion-gears/",
+    "parentSlug": "pinion-gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "32-pitch-pinion-gears",
+    "title": "32 Pitch Pinion Gears",
+    "url": "https://www.servocity.com/32-pitch-pinion-gears/",
+    "parentSlug": "pinion-gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-hub-mount-gears",
+    "title": "goBILDA Hub-Mount Gears",
+    "url": "https://www.servocity.com/gobilda-hub-mount-gears/",
+    "parentSlug": "hub-mount-gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "32-pitch-brass-bevel-gears",
+    "title": "32 Pitch, Brass Bevel Gears",
+    "url": "https://www.servocity.com/32-pitch-brass-bevel-gears/",
+    "parentSlug": "bevel-gears",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "8mm-pitch-05b-sprockets",
+    "title": "8mm Pitch (05B) Sprockets",
+    "url": "https://www.servocity.com/8mm-pitch-05b-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "8mm-pitch-chain",
+    "title": "8mm Pitch Chain",
+    "url": "https://www.servocity.com/8mm-pitch-chain/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "25-14-pitch-set-screw-sprockets",
+    "title": "#25 (1/4&quot; Pitch) Set-Screw Sprockets",
+    "url": "https://www.servocity.com/25-14-pitch-set-screw-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "25-1-4-pitch-hub-mount-sprockets",
+    "title": "#25 (1/4&quot; Pitch), Hub Mount Sprockets",
+    "url": "https://www.servocity.com/25-1-4-pitch-hub-mount-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "25-1-4-pitch-aluminum-servo-sprockets",
+    "title": "#25 (1/4&quot; Pitch), Aluminum Servo Sprockets",
+    "url": "https://www.servocity.com/25-1-4-pitch-aluminum-servo-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "25-1-4-pitch-chain-accessories",
+    "title": "#25 (1/4&quot; Pitch) Chain &amp; Accessories",
+    "url": "https://www.servocity.com/25-1-4-pitch-chain-accessories/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "0-1227-pitch-press-fit-nylon-sprockets",
+    "title": "0.1227&quot; Pitch, Press-Fit, Nylon Sprockets",
+    "url": "https://www.servocity.com/0-1227-pitch-press-fit-nylon-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "0-1227-pitch-nylon-servo-sprockets",
+    "title": "0.1227&quot; Pitch, Nylon Servo Sprockets",
+    "url": "https://www.servocity.com/0-1227-pitch-nylon-servo-sprockets/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "0-1227-pitch-chain",
+    "title": "0.1227&quot; Pitch Chain",
+    "url": "https://www.servocity.com/0-1227-pitch-chain/",
+    "parentSlug": "sprockets-chain",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "2mm-gt2-timing-belts",
+    "title": "2mm GT2 Timing Belts",
+    "url": "https://www.servocity.com/2mm-gt2-timing-belts/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "2mm-gt2-timing-pulleys",
+    "title": "2mm GT2 Timing Pulleys",
+    "url": "https://www.servocity.com/2mm-gt2-timing-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "2mm-gt2-timing-belt-accessories",
+    "title": "2mm GT2 Timing Belt Accessories",
+    "url": "https://www.servocity.com/2mm-gt2-timing-belt-accessories/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5mm-htd-timing-belts",
+    "title": "5mm HTD Timing Belts",
+    "url": "https://www.servocity.com/5mm-htd-timing-belts/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5mm-htd-timing-pulleys",
+    "title": "5mm HTD Timing Pulleys",
+    "url": "https://www.servocity.com/5mm-htd-timing-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "all-xl-series-3-8-width-timing-belts",
+    "title": "XL Series 3/8&quot; Width Timing Belts",
+    "url": "https://www.servocity.com/all-xl-series-3-8-width-timing-belts/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "5mm-htd-timing-belt-accessories",
+    "title": "5mm HTD Timing Belt Accessories",
+    "url": "https://www.servocity.com/5mm-htd-timing-belt-accessories/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "xl-series-timing-pulleys",
+    "title": "XL Series Timing Pulleys",
+    "url": "https://www.servocity.com/xl-series-timing-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "3mm-htd-timing-belts",
+    "title": "3mm HTD Timing Belts",
+    "url": "https://www.servocity.com/3mm-htd-timing-belts/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "3mm-htd-timing-pulleys",
+    "title": "3mm HTD Timing Pulleys",
+    "url": "https://www.servocity.com/3mm-htd-timing-pulleys/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "3mm-htd-timing-belt-accessories",
+    "title": "3mm HTD Timing Belt Accessories",
+    "url": "https://www.servocity.com/3mm-htd-timing-belt-accessories/",
+    "parentSlug": "timing-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "metric-round-belts-pulleys",
+    "title": "Metric Round Belts &amp; Pulleys",
+    "url": "https://www.servocity.com/metric-round-belts-pulleys/",
+    "parentSlug": "o-ring-belts-pulleys",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-pillow-blocks",
+    "title": "goBILDA® Pillow Blocks",
+    "url": "https://www.servocity.com/gobilda-pillow-blocks/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "drop-center-bearing-plates",
+    "title": "Drop-Center Bearing Plates",
+    "url": "https://www.servocity.com/drop-center-bearing-plates/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "flanged-ball-bearings",
+    "title": "Flanged Ball Bearings",
+    "url": "https://www.servocity.com/flanged-ball-bearings/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "non-flanged-ball-bearings",
+    "title": "Non-Flanged Ball Bearings",
+    "url": "https://www.servocity.com/non-flanged-ball-bearings/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "idler-bearing-hubs",
+    "title": "Idler Bearing-Hubs",
+    "url": "https://www.servocity.com/idler-bearing-hubs/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "idler-bearings",
+    "title": "Idler Bearings",
+    "url": "https://www.servocity.com/idler-bearings/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "v-groove-bearings",
+    "title": "V-Groove Bearings",
+    "url": "https://www.servocity.com/v-groove-bearings/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "thrust-ball-bearings",
+    "title": "Thrust Ball Bearings",
+    "url": "https://www.servocity.com/thrust-ball-bearings/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "turntables",
+    "title": "Turntables",
+    "url": "https://www.servocity.com/turntables/",
+    "parentSlug": "bearings",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "1-4-stainless-steel-d-shafting",
+    "title": "1/4&quot; Stainless Steel D-Shafting",
+    "url": "https://www.servocity.com/1-4-stainless-steel-d-shafting/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-rex-shafting",
+    "title": "goBILDA REX® Shafting",
+    "url": "https://www.servocity.com/gobilda-rex-shafting/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "6mm-stainless-steel-d-shafting",
+    "title": "6mm Stainless Steel D-Shafting",
+    "url": "https://www.servocity.com/6mm-stainless-steel-d-shafting/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-1-8-diameter",
+    "title": "Stainless Steel Round Shafting (1/8&quot; Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-1-8-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-3-16-diameter",
+    "title": "Stainless Steel Round Shafting (3/16&quot; Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-3-16-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-1-4-diameter",
+    "title": "Stainless Steel Round Shafting (1/4&quot; Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-1-4-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-5-16-diameter",
+    "title": "Stainless Steel Round Shafting (5/16&quot; Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-5-16-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-3-8-diameter",
+    "title": "Stainless Steel Round Shafting (3/8&quot; Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-3-8-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-1-2-diameter",
+    "title": "Stainless Steel Round Shafting (1/2&quot; Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-1-2-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-4mm-diameter",
+    "title": "Stainless Steel Round Shafting (4mm Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-4mm-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-5mm-diameter",
+    "title": "Stainless Steel Round Shafting (5mm Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-5mm-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-6mm-diameter",
+    "title": "Stainless Steel Round Shafting (6mm Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-6mm-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-8mm-diameter",
+    "title": "Stainless Steel Round Shafting (8mm Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-8mm-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-10mm-diameter",
+    "title": "Stainless Steel Round Shafting (10mm Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-10mm-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "stainless-steel-round-shafting-12mm-diameter",
+    "title": "Stainless Steel Round Shafting (12mm Diameter)",
+    "url": "https://www.servocity.com/stainless-steel-round-shafting-12mm-diameter/",
+    "parentSlug": "shafting",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "shop-by-style",
+    "title": "Shop by Style",
+    "url": "https://www.servocity.com/shop-by-style/",
+    "parentSlug": "hubs",
+    "topNav": "motion",
+    "isLeaf": false
+  },
+  {
+    "slug": "gobilda-set-screw-hubs",
+    "title": "goBILDA® Set-Screw Hubs",
+    "url": "https://www.servocity.com/gobilda-set-screw-hubs/",
+    "parentSlug": "shop-by-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-classic-clamping-hubs",
+    "title": "goBILDA Classic Clamping Hubs",
+    "url": "https://www.servocity.com/gobilda-classic-clamping-hubs/",
+    "parentSlug": "shop-by-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-sonic-hubs",
+    "title": "goBILDA Sonic Hubs",
+    "url": "https://www.servocity.com/gobilda-sonic-hubs/",
+    "parentSlug": "shop-by-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "gobilda-hyper-hubs",
+    "title": "goBILDA Hyper Hubs",
+    "url": "https://www.servocity.com/gobilda-hyper-hubs/",
+    "parentSlug": "shop-by-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "hubs-for-12mm-hex-drive-wheels",
+    "title": "goBILDA Hubs for 12mm Hex® Drive Wheels",
+    "url": "https://www.servocity.com/hubs-for-12mm-hex-drive-wheels/",
+    "parentSlug": "shop-by-style",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "clamping-collars",
+    "title": "Clamping Collars",
+    "url": "https://www.servocity.com/clamping-collars/",
+    "parentSlug": "collars",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "lead-screw-clamping-collars",
+    "title": "Lead Screw Clamping Collars",
+    "url": "https://www.servocity.com/lead-screw-clamping-collars/",
+    "parentSlug": "collars",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "set-screw-collars",
+    "title": "Set-Screw Collars",
+    "url": "https://www.servocity.com/set-screw-collars/",
+    "parentSlug": "collars",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "set-screw-couplers",
+    "title": "Set-Screw Couplers",
+    "url": "https://www.servocity.com/set-screw-couplers/",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "clamping-couplers",
+    "title": "Clamping Couplers",
+    "url": "https://www.servocity.com/clamping-couplers/",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "flexible-clamping-couplers",
+    "title": "Flexible Clamping Couplers",
+    "url": "https://www.servocity.com/flexible-clamping-couplers/",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "heavy-duty-clamping-couplers",
+    "title": "Heavy Duty Clamping Couplers",
+    "url": "https://www.servocity.com/heavy-duty-clamping-couplers/",
+    "parentSlug": "couplers",
+    "topNav": "motion",
+    "isLeaf": true
+  },
+  {
+    "slug": "wiring",
+    "title": "Wiring",
+    "url": "https://www.servocity.com/wiring/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "transmitters-receivers",
+    "title": "Transmitters &amp; Receivers",
+    "url": "https://www.servocity.com/transmitters-receivers/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "control-bundles",
+    "title": "Control Bundles",
+    "url": "https://www.servocity.com/control-bundles/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "sensors",
+    "title": "Sensors",
+    "url": "https://www.servocity.com/sensors/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "cameras",
+    "title": "Cameras",
+    "url": "https://www.servocity.com/cameras/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "odometry",
+    "title": "Odometry",
+    "url": "https://www.servocity.com/odometry/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "signal-mixers",
+    "title": "Signal Mixers",
+    "url": "https://www.servocity.com/signal-mixers/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "joysticks-potentiometers",
+    "title": "Joysticks &amp; Potentiometers",
+    "url": "https://www.servocity.com/joysticks-potentiometers/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "switches-relays",
+    "title": "Switches &amp; Relays",
+    "url": "https://www.servocity.com/switches-relays/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "lights",
+    "title": "Lights",
+    "url": "https://www.servocity.com/lights/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "batteries",
+    "title": "Batteries",
+    "url": "https://www.servocity.com/batteries/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "battery-trays-mounts",
+    "title": "Battery Trays &amp; Mounts",
+    "url": "https://www.servocity.com/battery-trays-mounts/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "battery-chargers",
+    "title": "Battery Chargers",
+    "url": "https://www.servocity.com/battery-chargers/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "battery-testers",
+    "title": "Battery Testers",
+    "url": "https://www.servocity.com/battery-testers/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "fuses",
+    "title": "Fuses",
+    "url": "https://www.servocity.com/fuses/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "voltage-regulators-becs",
+    "title": "Voltage Regulators (BECs)",
+    "url": "https://www.servocity.com/voltage-regulators-becs/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "power-supplies",
+    "title": "Power Supplies",
+    "url": "https://www.servocity.com/power-supplies/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "power-distribution-boards",
+    "title": "Power Distribution Boards",
+    "url": "https://www.servocity.com/power-distribution-boards/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "microcontrollers",
+    "title": "Microcontrollers",
+    "url": "https://www.servocity.com/microcontrollers/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "mounts-for-electronics",
+    "title": "Mounts for Electronics",
+    "url": "https://www.servocity.com/mounts-for-electronics/",
+    "parentSlug": null,
+    "topNav": "electronics",
+    "isLeaf": false
+  },
+  {
+    "slug": "wire",
+    "title": "Wire",
+    "url": "https://www.servocity.com/wire/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-tjc8-power",
+    "title": "Connector Style: TJC8 Power",
+    "url": "https://www.servocity.com/connector-style-tjc8-power/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-3-5mm-bullet",
+    "title": "Connector Style: 3.5mm Bullet",
+    "url": "https://www.servocity.com/connector-style-3-5mm-bullet/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-6mm-bullet",
+    "title": "Connector Style: 6mm Bullet",
+    "url": "https://www.servocity.com/connector-style-6mm-bullet/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt30",
+    "title": "Connector Style: XT30",
+    "url": "https://www.servocity.com/connector-style-xt30/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt60",
+    "title": "Connector Style: XT60",
+    "url": "https://www.servocity.com/connector-style-xt60/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt90",
+    "title": "Connector Style: XT90",
+    "url": "https://www.servocity.com/connector-style-xt90/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-mt30",
+    "title": "Connector Style: MT30",
+    "url": "https://www.servocity.com/connector-style-mt30/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-mt60",
+    "title": "Connector Style: MT60",
+    "url": "https://www.servocity.com/connector-style-mt60/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-xt150-banana",
+    "title": "Connector Style: XT150 Banana",
+    "url": "https://www.servocity.com/connector-style-xt150-banana/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-banana",
+    "title": "Connector Style: Banana",
+    "url": "https://www.servocity.com/connector-style-banana/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-ph-series",
+    "title": "Connector Style: JST PH Series",
+    "url": "https://www.servocity.com/connector-style-jst-ph-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-rcy-series",
+    "title": "Connector Style: JST RCY Series",
+    "url": "https://www.servocity.com/connector-style-jst-rcy-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-vh-series",
+    "title": "Connector Style: JST VH Series",
+    "url": "https://www.servocity.com/connector-style-jst-vh-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-xh-series",
+    "title": "Connector Style: JST XH Series",
+    "url": "https://www.servocity.com/connector-style-jst-xh-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-jst-zh-series",
+    "title": "Connector Style: JST ZH Series",
+    "url": "https://www.servocity.com/connector-style-jst-zh-series/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "jumper-wires",
+    "title": "Jumper Wires",
+    "url": "https://www.servocity.com/jumper-wires/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-type-header-row-pins",
+    "title": "Connector Type: Header Row Pins",
+    "url": "https://www.servocity.com/connector-type-header-row-pins/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "breadboards",
+    "title": "Breadboards",
+    "url": "https://www.servocity.com/breadboards/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "screw-terminals",
+    "title": "Screw Terminals",
+    "url": "https://www.servocity.com/screw-terminals/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-crimp",
+    "title": "Connector Style: Crimp",
+    "url": "https://www.servocity.com/connector-style-crimp/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-alligator-clips",
+    "title": "Connector Style: Alligator Clips",
+    "url": "https://www.servocity.com/connector-style-alligator-clips/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-anderson-powerpole",
+    "title": "Connector Style: Anderson Powerpole",
+    "url": "https://www.servocity.com/connector-style-anderson-powerpole/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-tamiya",
+    "title": "Connector Style: Tamiya",
+    "url": "https://www.servocity.com/connector-style-tamiya/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-deans",
+    "title": "Connector Style: Deans",
+    "url": "https://www.servocity.com/connector-style-deans/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "connector-style-2-1mm-barrel-jack",
+    "title": "Barrel Plugs &amp; Jacks",
+    "url": "https://www.servocity.com/connector-style-2-1mm-barrel-jack/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "usb-cables",
+    "title": "USB Cables",
+    "url": "https://www.servocity.com/usb-cables/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "cat6-cables",
+    "title": "CAT6 Cables",
+    "url": "https://www.servocity.com/cat6-cables/",
+    "parentSlug": "wiring",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "toggle-switches",
+    "title": "Toggle Switches",
+    "url": "https://www.servocity.com/toggle-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "pushbutton-switches",
+    "title": "Pushbutton Switches",
+    "url": "https://www.servocity.com/pushbutton-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "rocker-switches",
+    "title": "Rocker Switches",
+    "url": "https://www.servocity.com/rocker-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "slide-switches",
+    "title": "Slide Switches",
+    "url": "https://www.servocity.com/slide-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "limit-switches",
+    "title": "Limit Switches",
+    "url": "https://www.servocity.com/limit-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "remote-controlled-switches",
+    "title": "Remote Controlled Switches",
+    "url": "https://www.servocity.com/remote-controlled-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "pwm-controlled-switches",
+    "title": "PWM Controlled Switches",
+    "url": "https://www.servocity.com/pwm-controlled-switches/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "relays",
+    "title": "Relays",
+    "url": "https://www.servocity.com/relays/",
+    "parentSlug": "switches-relays",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "motor-controller-mounts",
+    "title": "Motor Controller Mounts",
+    "url": "https://www.servocity.com/motor-controller-mounts/",
+    "parentSlug": "mounts-for-electronics",
+    "topNav": "electronics",
+    "isLeaf": true
+  },
+  {
+    "slug": "screws",
+    "title": "Screws",
+    "url": "https://www.servocity.com/screws/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": false
+  },
+  {
+    "slug": "washers",
+    "title": "Washers",
+    "url": "https://www.servocity.com/washers/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "hole-reducers",
+    "title": "Hole Reducers",
+    "url": "https://www.servocity.com/hole-reducers/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "nuts",
+    "title": "Nuts",
+    "url": "https://www.servocity.com/nuts/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "retaining-rings",
+    "title": "Retaining Rings",
+    "url": "https://www.servocity.com/retaining-rings/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "tools",
+    "title": "Tools",
+    "url": "https://www.servocity.com/tools/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": false
+  },
+  {
+    "slug": "springs",
+    "title": "Springs",
+    "url": "https://www.servocity.com/springs/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "rubber-tubing-cord",
+    "title": "Rubber Tubing &amp; Cord",
+    "url": "https://www.servocity.com/rubber-tubing-cord/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "ptfe-tubing",
+    "title": "PTFE Tubing",
+    "url": "https://www.servocity.com/ptfe-tubing/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "synthetic-cable",
+    "title": "Synthetic Cable",
+    "url": "https://www.servocity.com/synthetic-cable/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "cinch-straps",
+    "title": "Cinch-Straps",
+    "url": "https://www.servocity.com/cinch-straps/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "grommets",
+    "title": "Grommets",
+    "url": "https://www.servocity.com/grommets/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "rubber-feet",
+    "title": "Rubber Feet",
+    "url": "https://www.servocity.com/rubber-feet/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "rubber-edging",
+    "title": "Rubber Edging",
+    "url": "https://www.servocity.com/rubber-edging/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "magnets",
+    "title": "Magnets",
+    "url": "https://www.servocity.com/magnets/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "thread-locker",
+    "title": "Thread Locker",
+    "url": "https://www.servocity.com/thread-locker/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "lubricants",
+    "title": "Lubricants",
+    "url": "https://www.servocity.com/lubricants/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "abs-sheets",
+    "title": "ABS Sheets",
+    "url": "https://www.servocity.com/abs-sheets/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "debris-shields",
+    "title": "Debris-Shields",
+    "url": "https://www.servocity.com/debris-shields/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "hardware-bundles",
+    "title": "Hardware Bundles",
+    "url": "https://www.servocity.com/hardware-bundles/",
+    "parentSlug": null,
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "6-32-socket-head-screws",
+    "title": "6-32 Socket Head Screws",
+    "url": "https://www.servocity.com/6-32-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "6-32-pan-head-screws",
+    "title": "6-32 Pan Head Screws",
+    "url": "https://www.servocity.com/6-32-pan-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "6-32-button-head-screws",
+    "title": "6-32 Button Head Screws",
+    "url": "https://www.servocity.com/6-32-button-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "6-32-flat-head-screws",
+    "title": "6-32 Flat Head Screws",
+    "url": "https://www.servocity.com/6-32-flat-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "1-4-20-socket-head-screws",
+    "title": "1/4&quot;-20 Socket Head Screws",
+    "url": "https://www.servocity.com/1-4-20-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "set-screws",
+    "title": "Set-Screws",
+    "url": "https://www.servocity.com/set-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m1-6-pan-head-screws",
+    "title": "M1.6 Pan Head Screws",
+    "url": "https://www.servocity.com/m1-6-pan-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m2-6-socket-head-screws",
+    "title": "M2.6 Socket Head Screws",
+    "url": "https://www.servocity.com/m2-6-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m3-socket-head-screws",
+    "title": "M3 Socket Head Screws",
+    "url": "https://www.servocity.com/m3-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m3-pan-head-screws",
+    "title": "M3 Pan Head Screws",
+    "url": "https://www.servocity.com/m3-pan-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-socket-head-screws",
+    "title": "M4 Socket Head Screws",
+    "url": "https://www.servocity.com/m4-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "premium-m4-socket-head-thread-locking-screws",
+    "title": "Premium M4 Socket Head Thread-Locking Screws",
+    "url": "https://www.servocity.com/premium-m4-socket-head-thread-locking-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-thread-forming-socket-head-screws",
+    "title": "M4 Thread-Forming Socket Head Screws",
+    "url": "https://www.servocity.com/m4-thread-forming-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-hex-head-screws",
+    "title": "M4 Hex Head Screws",
+    "url": "https://www.servocity.com/m4-hex-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-low-profile-socket-head-screws",
+    "title": "M4 Low Profile Socket Head Screws",
+    "url": "https://www.servocity.com/m4-low-profile-socket-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "m4-button-head-screws",
+    "title": "M4 Button Head Screws",
+    "url": "https://www.servocity.com/m4-button-head-screws/",
+    "parentSlug": "screws",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "hex-keys",
+    "title": "Hex Keys",
+    "url": "https://www.servocity.com/hex-keys/",
+    "parentSlug": "tools",
+    "topNav": "hardware",
+    "isLeaf": true
+  },
+  {
+    "slug": "ftc-kits",
+    "title": "FTC Kits",
+    "url": "https://www.servocity.com/ftc-kits/",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "robot-chassis-kits",
+    "title": "Robot Chassis Kits",
+    "url": "https://www.servocity.com/robot-chassis-kits/",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "linear-motion-kits",
+    "title": "Linear Motion Kits",
+    "url": "https://www.servocity.com/linear-motion-kits/",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "gripper-kits",
+    "title": "Gripper Kits",
+    "url": "https://www.servocity.com/gripper-kits/",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  },
+  {
+    "slug": "pan-tilt-kits",
+    "title": "Pan &amp; Tilt Kits",
+    "url": "https://www.servocity.com/pan-tilt-kits/",
+    "parentSlug": null,
+    "topNav": "kits",
+    "isLeaf": true
+  }
+]

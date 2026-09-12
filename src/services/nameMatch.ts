@@ -44,6 +44,70 @@ export interface NameCandidate {
   name: string;
 }
 
+/** Every standalone number in a string, normalized (so "6.0" and "6" agree). */
+function extractNumbers(s: string): string[] {
+  return (s.match(/\d+(?:\.\d+)?/g) ?? []).map((n) => String(parseFloat(n)));
+}
+
+/**
+ * Whether two part names carry the exact same multiset of numbers — bore
+ * size, tooth count, gear ratio, RPM, length, whatever the spec is.
+ *
+ * Word-overlap similarity alone cannot tell "...280mm Pitch Length, 140
+ * Tooth" from "...184mm Pitch Length, 92 Tooth": every other word is
+ * identical, so two genuinely different SKUs (different belt lengths) score
+ * as a near-perfect match. `pickBestNameMatch`'s AMBIGUITY_MARGIN guards
+ * against picking the *wrong one* among several close candidates, but does
+ * nothing when only one such variant happens to be in the candidate pool —
+ * there's no ambiguity to detect, just a wrong match. Catalog dedup (unlike
+ * interactive receipt-line matching, where a human can correct a bad match)
+ * needs this stronger, mandatory second gate before ever treating a name
+ * match as a true duplicate rather than a different-spec sibling.
+ */
+export function sameNumericSpec(a: string, b: string): boolean {
+  const na = extractNumbers(a).sort();
+  const nb = extractNumbers(b).sort();
+  if (na.length !== nb.length) return false;
+  return na.every((n, i) => n === nb[i]);
+}
+
+// Words that mark a materially different (separately orderable) variant even
+// when every number in the name matches — e.g. "Premium N20 Gear Motor
+// (10:1 Ratio, 2600 RPM, with Encoder)" vs "...(10:1 Ratio, 2600 RPM)" is a
+// real encoder/no-encoder SKU pair, not a naming quirk of the same part.
+// Every entry here was found the same way: a real pair from this catalog
+// that scored as a near-duplicate on word overlap despite being genuinely
+// different SKUs — color (disc wheels, banana plugs), rotation direction
+// (servo "Stock" vs "Increased Rotation"), and duty/size class (servo horns,
+// servo savers) round out encoder/male/female as the next-largest patterns.
+const DISTINGUISHING_QUALIFIERS = [
+  'encoder',
+  'male',
+  'female',
+  'stock rotation',
+  'increased rotation',
+  'black',
+  'blue',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'clear',
+  'silver',
+  'gold',
+  'heavy duty',
+  'standard duty',
+  'super-duty',
+  'giant scale',
+];
+
+/** Whether two names agree on which of DISTINGUISHING_QUALIFIERS each contains. */
+export function sameQualifiers(a: string, b: string): boolean {
+  const la = a.toLowerCase();
+  const lb = b.toLowerCase();
+  return DISTINGUISHING_QUALIFIERS.every((word) => la.includes(word) === lb.includes(word));
+}
+
 /**
  * Pick the single best name match, or null when there isn't a clear winner.
  *
