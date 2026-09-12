@@ -27,7 +27,10 @@ const schema = z.object({
   // this key encrypts those at rest. Generate with:
   //   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
   ENCRYPTION_KEY: z.string().min(16, 'ENCRYPTION_KEY must be at least 16 characters'),
-  ANTHROPIC_RECEIPT_MODEL: z.string().default('claude-opus-5'),
+  // Receipt extraction is structured extraction (read printed text, map it to
+  // known fields), not deep reasoning — Sonnet-tier performs close to Opus
+  // here for a fraction of the per-token cost. See .env.example.
+  ANTHROPIC_RECEIPT_MODEL: z.string().default('claude-sonnet-5'),
 
   OCR_CONFIDENCE_THRESHOLD: z.coerce.number().min(0).max(100).default(70),
 
