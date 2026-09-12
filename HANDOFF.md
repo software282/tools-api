@@ -7,7 +7,102 @@ otherwise take an hour of re-deriving.
 
 ---
 
-## Session update — 2026-09-10 (supersedes stale bits below)
+## Session update — 2026-09-11/12 (supersedes stale bits below)
+
+**Seattle Solvers team data wiped, per George's request.** Team "Seattle
+Solvers" (#23511): all `InventoryItem`, `ExpenseEntry`, and `Receipt`
+(+ its `ReceiptLineItem`s) rows deleted. Team and both user accounts
+untouched. The other team on this system ("Catastrophe" #99532) already had
+zero inventory/expenses, nothing to do there.
+
+**New feature: email Seattle Solvers staff when a team submits a part to the
+shared library.** `src/lib/email.ts` (Resend HTTP API, plain `fetch`, no new
+npm dependency), fired from `POST /parts` in `src/modules/parts/routes.ts`
+whenever `submitToLibrary` actually creates a new GLOBAL/PENDING part.
+Recipients (`PART_SUBMISSION_NOTIFY_EMAILS`) and the sign-in link
+(`FRONTEND_URL`) are env-configurable, defaulting to
+george.conlan@eastsidecatholicschool.org + software@seattlesolvers.com and
+`https://tools.seattlesolvers.com`. **`RESEND_API_KEY` is not yet set** —
+until it is (Render env vars), sending is a no-op (logged, never fatal); the
+domain also needs verifying in Resend with DNS records added via Cloudflare.
+
+**goBILDA + ServoCity merged into one manufacturer, full ServoCity catalog
+imported, several real bugs found and fixed.** The `Manufacturer` row
+(slug `gobilda`, id unchanged) is now named "ServoCity/GoBilda" — same id,
+`vendor: 'GOBILDA'` unchanged, so no Part FK moved and goBILDA-format
+receipt parsing still works as before. Catalog went from 1,512 parts to
+**2,506** (Belts: 5 → 103, confirming the "missing pulleys" complaint is
+fixed — `timing-belts-pulleys` was a real goBILDA category entirely absent
+from `scripts/scrape-gobilda.ts`'s old hand-transcribed list).
+
+New/changed scripts, all sharing `scripts/lib/catalogCrawl.ts`:
+- `scripts/discover-categories.ts` — read-only category-tree audit (used
+  once to find the gap; output kept at `prisma/data/category-audit*.{json,md}`
+  for reference, not re-run regularly).
+- `scripts/scrape-gobilda.ts` — gap-fill categories added to `TOP_CATEGORIES`.
+- `scripts/scrape-servocity.ts` — new, same crawl logic (identical
+  BigCommerce theme/markup on both sites), its own category list (92
+  entries: 50 share goBILDA's naming, 42 are ServoCity-specific, mapped by
+  hand from sibling categories on the same nav page).
+- `prisma/seed.ts` — loads `servocity-parts.json` under the merged
+  `gobilda`-slug manufacturer, plus a cross-catalog dedup pass (see below).
+
+**Three real bugs found this session, not just data entry:**
+1. `catalogCrawl.ts`'s `fetchPage()` had no request timeout — one
+   unresponsive request hung an entire scrape indefinitely. Stalled an
+   overnight ServoCity run for ~10 hours with zero errors/progress before
+   being caught and killed. Fixed with `AbortSignal.timeout(30_000)`.
+2. **This repo can live inside a OneDrive-synced folder.** Both scrapers
+   used to checkpoint (rewrite the real `prisma/data/*.json`) after every
+   top-level category — ~89 rapid rewrites of the same cloud-synced file.
+   A burst of fast categories checkpointing within seconds of each other lost
+   a race with OneDrive's sync engine: the script finished and logged the
+   true final count, but the file on disk silently reverted to an earlier,
+   smaller snapshot with **no error thrown**. Fixed: checkpoints now go to a
+   local `os.tmpdir()` path during the crawl; the real file is written once,
+   at the very end. **If you ever see a scraper's logged final count not
+   match the file on disk again, this is why — don't trust the file without
+   re-checking.**
+3. Both sites render "related/see-also" cross-sell widget cards using the
+   *identical* `data-card-type="product"` markup as real products —
+   distinguishable only by `data-sku` being a literal `"rd-<slug>"` string
+   (e.g. sku `rd-see-also-servoblocks`, name `SEE ALSO: ServoBlocks®`)
+   instead of a real vendor part number. 251 of these had already been
+   seeded as real `Part` rows (90 from the original 2026-09-04 goBILDA
+   import, predating this session; 161 from this session's ServoCity run)
+   before `catalogCrawl.ts` was fixed to skip any `sku` starting with `rd-`.
+   Deleted all 251 from the live DB (verified zero
+   InventoryItem/ExpenseEntry/ReceiptLineItem/Notification rows referenced
+   any of them first).
+
+**Cross-catalog dedup (`prisma/seed.ts` + new `src/services/nameMatch.ts`)
+needed two follow-up fixes after shipping — read this before trusting its
+first-pass output ever again.** The word-overlap fuzzy matcher
+(`pickBestNameMatch`, originally built for receipt-line matching where a
+human can correct a bad match) is *not* safe on its own for permanently
+skipping catalog rows: two names differing only in a spec number
+(`sameNumericSpec`) or a qualifier word — encoder/no-encoder, color,
+male/female, duty class (`sameQualifiers`) — score as near-duplicates on
+word overlap alone. First real run wrongly auto-skipped 991 genuinely
+distinct parts as "duplicates" this way. Both gates are now required before
+treating anything as a real duplicate; recovered ~900 of those 991 across
+three iterations (991 → 187 → 72 → 37 remaining). `tests/nameMatch.test.ts`
+locks in the real false-positive examples that were found. **The remaining
+37 skips in `prisma/data/dedup-report.md` are mostly plausible true
+duplicates, but a few (e.g. "Gear Motor Input Board B/D" matched against
+"Board A") are likely still wrong** — `DISTINGUISHING_QUALIFIERS` in
+`nameMatch.ts` is a known-incomplete, evidence-driven list, not a solved
+problem; extend it the same way (find a real false-positive in the report,
+add the word that distinguishes it) if this dedup pass runs again later.
+
+**Not done / explicitly out of scope this session:** no ServoCity receipt
+parser was built (the `Vendor` enum and OCR parsers are untouched — a real
+ServoCity invoice upload still has nowhere correct to go). Frontend changes
+from this session (build step, favicon — see below) were pushed; this
+session's backend commits were not pushed to `origin/main` — confirm with
+George before pushing further catalog-import commits, given their size.
+
+---
 
 **Frontend now has a real build step — the "zero build step, static site"
 description further down is stale.** The site was loading React's
