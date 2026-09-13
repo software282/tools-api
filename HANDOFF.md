@@ -7,6 +7,107 @@ otherwise take an hour of re-deriving.
 
 ---
 
+## Session update — 2026-09-12 (later same day, supersedes stale bits below)
+
+**Security: Claude Code is now denied read access to `.env`/`.env.local` in
+this repo.** George's explicit request, after a long stretch of this session
+running direct DB scripts — the concern was standing risk, not anything that
+went wrong. Added `.claude/settings.json` (project-level, committed, so it
+applies to any Claude Code session opened in this repo, not just this one):
+```json
+{ "permissions": { "deny": ["Read(.env)", "Read(.env.local)", "Grep(.env)", "Grep(.env.local)"] } }
+```
+Verified live: both the Read tool and Bash (`cat`/`node readFileSync`)
+refuse `.env`; `.env.example` (placeholders only) still works normally.
+**This is a real behavioral change for future sessions** — any script that
+needs `DATABASE_URL` etc. still works fine (dotenv loads `.env` at Node
+runtime, unaffected — this only blocks Claude's own Read/Grep/cat of the
+file), but Claude can no longer casually view secret values in this repo.
+Rotating the actual Supabase DB password was recommended but is George's
+side to do — not done as part of this change.
+
+**Receipt-extraction model switched from Opus 5 to Sonnet 5**
+(`ANTHROPIC_RECEIPT_MODEL` in `src/config/env.ts` + `.env.example`).
+Receipt parsing is structured extraction (read printed text, map to known
+fields), not deep reasoning — Sonnet performs close to Opus here at 2-3x
+lower cost. This is a rarely-hit fallback path already (most receipts are
+pasted text/HTML and never call Claude at all — see `claudeShared.ts`), so
+the dollar impact either way is small. **If `ANTHROPIC_RECEIPT_MODEL` is
+explicitly set in Render's production env vars (not just defaulted in
+code), that override needs updating there too** — the code-default change
+alone won't affect a deployment that pins its own value.
+
+**Diagnosed, not a bug: "waking the server up" that never resolves on the
+school network.** `tools-api-9vfr.onrender.com` gets an actual "Web Filter
+Violation" response (confirmed via curl) when hit from the Eastside
+Catholic school network — a content filter (Lightspeed/GoGuardian/Securly-
+type) blocking the domain outright, most likely a blanket rule against
+`*.onrender.com`-style dynamic-hosting domains (the same reason
+`*.vercel.app`/`*.pages.dev` sites often get blocked on school networks).
+The frontend (`tools.seattlesolvers.com`, its own domain) loads fine on the
+same network — it's specifically the backend's raw Render URL that's
+blocked, which the app's `<Waking>` retry screen can't distinguish from a
+real cold start, so it just spins forever. **Two real fixes, neither done
+yet**: (a) give the backend its own custom domain via Cloudflare (like the
+frontend already has) — the actual fix, works on any network, but needs a
+step in Render's own dashboard (adding the custom domain there) that
+requires Render access nobody in this session had; (b) ask the school's IT
+to allowlist the onrender.com hostname — faster but doesn't help on any
+other filtered network. George's call was "if that's the only issue we're
+fine" — parked, not forgotten, if it comes up again.
+
+**Basic SEO added to the frontend** (`Seattle Solvers Parts Inventory
+Frontend/index.html`, `Solvers Tools.html`, new `robots.txt`/`sitemap.xml`
+at the repo root): a `<meta name="description">`, a canonical link tag, and
+a robots.txt pointing at the new sitemap.xml — previously there was no
+description at all and no robots.txt/sitemap, so the site could only be
+reached by typing the URL directly. `build.cjs` now also copies
+`robots.txt`/`sitemap.xml` into `dist/` alongside the existing `assets/`
+copy step (was missing before — a `node build.cjs` run wipes and rebuilds
+`dist/` from scratch every time, so anything not explicitly copied is
+lost). **`dist-deploy.zip` is built and ready but not yet confirmed
+deployed** — same manual drag-into-Cloudflare-Pages step as always (project
+`parts`). **Also not yet done**: George was going to set up Google Search
+Console (Domain property for `seattlesolvers.com`, DNS TXT verification —
+offered to add the TXT record via Cloudflare once he has it, since Cloudflare
+already manages that domain's DNS) and submit the sitemap; hasn't sent the
+verification string yet as of this writing.
+
+Investigated whether Cloudflare Pages deploys could go through the
+Cloudflare MCP directly instead of manual zip-and-drag (a long-standing
+"someday" item from earlier HANDOFF entries) — **checked, and it's not a
+quick win**: direct-upload deployments need a content-hash manifest plus a
+separate per-file asset-upload step (the same protocol `wrangler pages
+deploy` uses internally), not a single "upload this zip" call. Not
+attempted; stick with manual deploy unless someone wants to build that
+properly.
+
+**`software@seattlesolvers.com` (the SUPER_ADMIN account) had its password
+reset** at George's request (he'd forgotten it) — direct DB mutation
+(bcrypt-hashed via the same `bcryptjs` + cost-10 convention `prisma/seed.ts`
+uses), with `tokenVersion` incremented alongside it to invalidate every
+existing session for that account, matching how the app's own
+change-password flow already behaves. Done via a one-off script written
+directly into `scripts/`, run once, then deleted immediately afterward (it
+briefly contained the new password in plaintext) — nothing about this is
+committed to git or persisted anywhere outside the database itself. The new
+password was not echoed back after setting it; only George has it.
+
+Confirmed **not a bug**, no code change: a receipt line showed "Not in the
+library" for a part that does in fact exist. Root cause was purely timing —
+`matchLineItems` runs once at parse time and the result is stored on the
+`ReceiptLineItem`, not re-evaluated live; the part in question was added to
+the shared catalog (during this same session's ServoCity import) *after*
+that particular receipt had already been parsed. `Pick` on a review screen
+does a live `GET /parts?q=...` search (confirmed in
+`Frontend/app/receipts.jsx`), so it finds newly-added parts fine — the fix
+for any one stuck line is just re-picking it manually. **There is no
+"re-match a parsed receipt" action anywhere** (no button, no endpoint) — if
+this keeps coming up as parts get added to the library after receipts are
+parsed, that's a real gap worth building, not done this session.
+
+---
+
 ## Session update — 2026-09-11/12 (supersedes stale bits below)
 
 **Seattle Solvers team data wiped, per George's request.** Team "Seattle
