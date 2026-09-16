@@ -7,6 +7,52 @@ otherwise take an hour of re-deriving.
 
 ---
 
+## Session update — 2026-09-15, later same day (supersedes stale bits below)
+
+**Reviewed all 37 rows in `prisma/data/dedup-report.md` (the goBILDA/
+ServoCity cross-catalog dedup from the 2026-09-11/12 session) and found the
+matcher had been wrongly merging real, distinct parts — a bug, not noise.**
+Two concrete failure modes, both now covered by tests in
+`tests/nameMatch.test.ts`:
+- `sameQualifiers` only checked whether each name *contained* a known word,
+  not how many times. "Female / Female to Male JST Y-Extension" vs "Male /
+  Male to Female JST Y-Extension" both contain both words once overall, so
+  presence-only checking saw them as identical — they're opposite-gender,
+  incompatible cable ends. The real signal is the *count* (Female ×2 vs ×1).
+- A fixed list of "known distinguishing words" can never anticipate every
+  real one. "Gear Motor Input Board A/B/D" (three different boards) and
+  "Whippersnapper/Sprout/Bogie/Zip/Junior Runt Rover™" (five separately-named
+  kits) both slipped through — a bare trailing letter and a differing proper
+  product name were never going to be on anyone's word list.
+
+**Fix, in `src/services/nameMatch.ts`**: replaced the fixed-word-list
+`sameQualifiers` with word-frequency comparison — strip a small set of
+generic connectives (with/to/and/or/...) and bare numbers
+(`sameNumericSpec` already owns those), then require every remaining word to
+match in *count*, not just presence. This subsumes everything the old list
+caught (encoder/color/duty-class variants — verified, all prior tests still
+pass) with nothing left to maintain going forward, since it needs no
+enumerated list at all.
+
+**Re-ran `npm run seed` against the fix: all 37 were genuine false
+positives — 0 real duplicates.** All 37 parts now exist as their own rows
+(verified directly against the database, e.g. `605114`/`605120` really are
+"Gear Motor Input Board B"/"D", not a mis-named "Board A"). Also fixed
+`seedParts()` to always rewrite `dedup-report.md`, even with zero skips —
+the previous report sat unchanged for days describing merges that, as of
+this fix, had just been reversed; a stale "everything's fine" report is
+worse than no report.
+
+**Worth doing next time a *new* catalog gets merged in**: this class of bug
+is specific to cross-catalog dedup (auto-merging with no human review per
+row) — re-read `prisma/data/dedup-report.md` after any future dedup run
+before trusting it, the same way this session did. The fix is general
+(no catalog-specific knowledge baked in), so it should hold up, but a fresh
+vendor's naming conventions could still surface a new edge case the same
+way male/female-count and proper-names did here.
+
+---
+
 ## Session update — 2026-09-15 (supersedes stale bits below)
 
 **Merged a large new Claude Design export into the live frontend** — the
