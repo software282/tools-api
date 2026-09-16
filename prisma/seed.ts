@@ -313,23 +313,31 @@ async function seedParts() {
       `${dedupSkips.length} skipped as likely duplicates (${imageBackfills.size} backfilled an image) (${scraped.length} in data set)`,
   );
 
-  if (dedupSkips.length) {
-    const lines = [
-      '# Dedup report',
-      '',
-      `Generated ${new Date().toISOString()} by \`npm run seed\`.`,
-      '',
-      '| scraped name | scraped sku | matched existing part | confidence | image backfilled? |',
-      '| --- | --- | --- | --- | --- |',
-      ...dedupSkips.map(
-        (s) =>
-          `| ${s.scrapedName} | ${s.scrapedSku ?? ''} | ${s.matchedName} (\`${s.matchedId}\`) | ${s.confidence} | ${s.backfilledImage ? 'yes' : 'no'} |`,
-      ),
-      '',
-    ];
-    writeFileSync(path.join(dataDir, 'data', 'dedup-report.md'), lines.join('\n'));
-    console.log(`  dedup report: prisma/data/dedup-report.md (${dedupSkips.length} skips)`);
-  }
+  // Always (re)write this, even with zero skips — a stale report from a
+  // prior run claiming a merge that this run correctly did NOT make is
+  // actively misleading, not just uninformative (see HANDOFF.md: this
+  // happened for real, and the file sat unchanged for days looking current).
+  const lines = [
+    '# Dedup report',
+    '',
+    `Generated ${new Date().toISOString()} by \`npm run seed\`.`,
+    '',
+    dedupSkips.length
+      ? '| scraped name | scraped sku | matched existing part | confidence | image backfilled? |'
+      : 'No parts were skipped as likely duplicates this run.',
+    ...(dedupSkips.length
+      ? [
+          '| --- | --- | --- | --- | --- |',
+          ...dedupSkips.map(
+            (s) =>
+              `| ${s.scrapedName} | ${s.scrapedSku ?? ''} | ${s.matchedName} (\`${s.matchedId}\`) | ${s.confidence} | ${s.backfilledImage ? 'yes' : 'no'} |`,
+          ),
+        ]
+      : []),
+    '',
+  ];
+  writeFileSync(path.join(dataDir, 'data', 'dedup-report.md'), lines.join('\n'));
+  console.log(`  dedup report: prisma/data/dedup-report.md (${dedupSkips.length} skips)`);
 }
 
 async function main() {

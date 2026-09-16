@@ -55,6 +55,42 @@ describe('sameQualifiers', () => {
     expect(sameQualifiers('8mm REX® CV Joint (Male to Female)', '8mm REX® CV Joint (Male to Male)')).toBe(false);
   });
 
+  it('rejects opposite-gender cable ends even though each name contains both words', () => {
+    // Found in prisma/data/dedup-report.md: these two matched at confidence
+    // 1.0 and got silently merged — a presence-only check ("does this name
+    // contain 'female'? does it contain 'male'?") is true for BOTH names on
+    // BOTH words here, since each end is mentioned once on each side. Only
+    // the *count* of each word reveals they're opposite, incompatible
+    // connectors: "Female, Female-to-Male" vs "Male, Male-to-Female".
+    expect(
+      sameQualifiers(
+        '3.0" Female / Female to Male JST Y-Extension',
+        '3.0" Male / Male to Female JST Y-Extension',
+      ),
+    ).toBe(false);
+  });
+
+  it('rejects a bare trailing letter that denotes a different model/variant', () => {
+    // Also from the dedup report: "Input Board B" and "Input Board D" both
+    // silently merged into "Input Board A" at confidence 1.0 — three
+    // different boards, not one board with three names. A single trailing
+    // letter carries no digits (so sameNumericSpec can't catch it) and isn't
+    // a known spec word (so the old fixed qualifier list couldn't either).
+    expect(sameQualifiers('Gear Motor Input Board A', 'Gear Motor Input Board B')).toBe(false);
+    expect(sameQualifiers('6-32 Hardware Pack A', '6-32 Hardware Pack B')).toBe(false);
+  });
+
+  it('rejects differing proper/product names no fixed word list could predict', () => {
+    // Four separately-named kits in this catalog — Whippersnapper, Sprout,
+    // Bogie, Zip, and Junior Runt Rover — all scored as matches against one
+    // another on word overlap alone (dominated by the shared "Runt Rover™"),
+    // and all got silently collapsed into "Junior Runt Rover™". No amount of
+    // enumerating known qualifier words would have caught this in advance;
+    // counting every non-filler word catches it automatically.
+    expect(sameQualifiers('Whippersnapper Runt Rover™', 'Junior Runt Rover™')).toBe(false);
+    expect(sameQualifiers('Sprout Runt Rover™', 'Junior Runt Rover™')).toBe(false);
+  });
+
   it('accepts names that agree on every qualifier (including having none)', () => {
     expect(sameQualifiers('Aluminum Motor Mount', 'Motor Mount (Aluminum)')).toBe(true);
     expect(sameQualifiers('Motor with Encoder', 'Encoder Motor')).toBe(true);

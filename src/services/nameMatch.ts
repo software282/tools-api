@@ -71,41 +71,60 @@ export function sameNumericSpec(a: string, b: string): boolean {
   return na.every((n, i) => n === nb[i]);
 }
 
-// Words that mark a materially different (separately orderable) variant even
-// when every number in the name matches — e.g. "Premium N20 Gear Motor
-// (10:1 Ratio, 2600 RPM, with Encoder)" vs "...(10:1 Ratio, 2600 RPM)" is a
-// real encoder/no-encoder SKU pair, not a naming quirk of the same part.
-// Every entry here was found the same way: a real pair from this catalog
-// that scored as a near-duplicate on word overlap despite being genuinely
-// different SKUs — color (disc wheels, banana plugs), rotation direction
-// (servo "Stock" vs "Increased Rotation"), and duty/size class (servo horns,
-// servo savers) round out encoder/male/female as the next-largest patterns.
-const DISTINGUISHING_QUALIFIERS = [
-  'encoder',
-  'male',
-  'female',
-  'stock rotation',
-  'increased rotation',
-  'black',
-  'blue',
-  'red',
-  'orange',
-  'yellow',
-  'green',
-  'clear',
-  'silver',
-  'gold',
-  'heavy duty',
-  'standard duty',
-  'super-duty',
-  'giant scale',
-];
+// Generic connective words that never distinguish one part from another, so
+// they're dropped entirely rather than compared. Deliberately excludes
+// articles ("a", "an", "the"): this catalog uses a bare trailing letter as a
+// real, distinct model suffix — "Gear Motor Input Board A" vs "...Board B"
+// vs "...Board D" are three different boards, not one board named three
+// ways — so a stray "a" has to count as a real word, not get discarded as
+// an article the way it would in ordinary prose.
+const FILLER_WORDS = new Set([
+  'with', 'to', 'and', 'or', 'for', 'of', 'in', 'on', 'at', 'by',
+  'series', 'kit', 'kits', 'pack', 'set',
+]);
 
-/** Whether two names agree on which of DISTINGUISHING_QUALIFIERS each contains. */
+/**
+ * Word-frequency map of a name, skipping filler words and bare numbers.
+ * Numbers are excluded here on purpose — `sameNumericSpec` above already
+ * owns number comparison (it extracts and sorts every number in the string,
+ * order-independent); duplicating that logic here with a different scheme
+ * ("does this token look like a whole number") would just be two subtly
+ * different definitions of "the same number" fighting each other.
+ */
+function wordCounts(s: string): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const word of normalize(s).split(' ')) {
+    if (!word || FILLER_WORDS.has(word) || /^\d+$/.test(word)) continue;
+    counts.set(word, (counts.get(word) ?? 0) + 1);
+  }
+  return counts;
+}
+
+/**
+ * Whether two names agree on every non-filler, non-numeric word *and* its
+ * exact count — not just which words are present.
+ *
+ * The count matters, not just presence: "Female / Female to Male JST
+ * Y-Extension" and "Male / Male to Female JST Y-Extension" both contain
+ * both words, so a presence-only check ("does each name contain 'male'? does
+ * each contain 'female'?") sees them as identical — the actual difference is
+ * that one says "Female" twice and "Male" once, the other the reverse
+ * (opposite-gender cable ends, i.e. two different, incompatible products).
+ * Counting words catches that, along with everything a fixed list of "known
+ * distinguishing words" (encoder, color, duty class, rotation direction, ...)
+ * caught before, *and* words no fixed list could ever enumerate in advance —
+ * a differing proper name ("Whippersnapper Runt Rover™" vs "Junior Runt
+ * Rover™", four separately-named kits in this catalog that all scored as a
+ * match against one another before this fix) blocks a merge the same way a
+ * spec word does, with no need to know in advance that "Whippersnapper" was
+ * ever going to show up in a product name.
+ */
 export function sameQualifiers(a: string, b: string): boolean {
-  const la = a.toLowerCase();
-  const lb = b.toLowerCase();
-  return DISTINGUISHING_QUALIFIERS.every((word) => la.includes(word) === lb.includes(word));
+  const ca = wordCounts(a);
+  const cb = wordCounts(b);
+  if (ca.size !== cb.size) return false;
+  for (const [word, count] of ca) if (cb.get(word) !== count) return false;
+  return true;
 }
 
 /**
