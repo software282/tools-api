@@ -7,6 +7,71 @@ otherwise take an hour of re-deriving.
 
 ---
 
+## Session update — 2026-09-15 (supersedes stale bits below)
+
+**Merged a large new Claude Design export into the live frontend** — the
+lead's `Seattle Solvers parts inventory Updated Frontend.zip` (backend repo
+root, not committed — same as every prior Design export, see the frontend
+repo's `MERGE-NOTES.md`, which now has a full 2026-09-15 write-up). Adds a
+public/signed-out landing page (About/Parts/Hardware browsable without
+logging in), a shared `<Topbar>`, dark theme as the first-paint default
+(Orbitron/Inter fonts), and three new screens: `about.jsx` (static),
+`hardware.jsx` (fasteners browsed by size), `builds.jsx` (build-list/BOM/
+allocation tracking). Frontend repo commit `951830b`.
+
+**Read `Seattle Solvers Parts Inventory Frontend/MERGE-NOTES.md` in full
+before the next Design export** — it has the complete file-by-file merge
+outcome. Short version: `api.jsx` was NOT merged wholesale (the export
+ships a ~1200-line fake in-browser demo backend every time; kept the real
+126-line live-only client, added new method entries for Builds/Hardware by
+hand). Several real regressions were caught and re-applied — `<Waking>`
+(the cold-start retry screen) was gone entirely, `NotificationBell`'s
+notification-to-part jump was dropped, `receipts.jsx` lost delete-receipt
+confirmation and error handling on confirm, `ui.jsx` lost `ConfirmModal`
+(plus its CSS, since the export's `styles.css` never defined it). Also
+caught a real **bundling bug**, not an export problem: `parts.jsx` and the
+new `hardware.jsx` both declared top-level `const PAGE_SIZE` — harmless as
+separate `<script>` tags, a fatal `SyntaxError` once `build.cjs`
+flat-concatenates every screen into one bundle, which silently killed the
+*entire app* (blank `#root`, no error shown anywhere except the browser
+console) — only caught by actually rendering the built `dist/index.html` in
+headless Chrome, not by syntax-checking each file individually. Renamed to
+`HARDWARE_PAGE_SIZE`. **Any future merge that adds a new screen must grep
+every bundled file for top-level name collisions** — `dedupeReactHooks()` in
+`build.cjs` only handles the `const { x } = React;` destructuring pattern.
+
+**One feature deliberately not shipped**: the export's new "receipt storage
+retention" settings section calls `PATCH /teams/current` with a
+`receiptFileRetention` field that route's zod schema doesn't have — Zod
+silently strips unknown fields, so it would return 200 and appear to save
+while doing nothing, forever, with no way for a user to tell. Left out of
+`settings.jsx` entirely (that file needed no other changes — it already had
+everything else this export's version had, plus the account/team panels the
+export dropped).
+
+**Builds and Hardware are live but backend-less on purpose.** Both call
+routes that don't exist yet (`/build-lists`, `/inventory/:id/allocations`,
+`/parts/:id/bom`, `/parts/hardware-facets`, `/inventory/convertible`,
+`/inventory/:id/convert`, `/inventory/:id/expand-kit`) — this is the
+existing, intentional graceful-degradation path (`api.stale(path)` /
+`<StaleRouteNote>`), not a bug to fix. **Not built this session** — deciding
+whether/which of these becomes a real feature is a separate, larger
+conversation with George's lead, not routine merge work.
+
+**`dist-deploy.zip` is rebuilt and ready, not yet confirmed deployed** —
+same manual drag-into-Cloudflare-Pages step as always (project `parts`).
+
+**Verification method worth repeating next time**: `node --check` (or
+esbuild's syntax check) on each file individually does NOT catch a
+duplicate top-level `const` across files — only rendering the actual bundled
+`dist/index.html` does. Serve `dist/` over local HTTP (not `file://` —
+Chrome headless silently refuses `fetch()` from a `file://` origin, which
+looks identical to a real bug) and render it in headless Chrome
+(`--headless --disable-gpu --dump-dom`), checking both the DOM actually
+mounted something and the console log for errors.
+
+---
+
 ## Session update — 2026-09-12 (later same day, supersedes stale bits below)
 
 **Security: Claude Code is now denied read access to `.env`/`.env.local` in
