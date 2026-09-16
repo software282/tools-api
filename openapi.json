@@ -4404,7 +4404,7 @@
     },
     "/api/v1/admin/teams": {
       "get": {
-        "summary": "Every team using the site — name and number",
+        "summary": "Every team using the site — name, number, and member count",
         "tags": [
           "admin"
         ],
@@ -4432,15 +4432,58 @@
                       },
                       "name": {
                         "type": "string"
+                      },
+                      "memberCount": {
+                        "type": "integer"
                       }
                     },
                     "required": [
                       "id",
                       "number",
-                      "name"
+                      "name",
+                      "memberCount"
                     ],
                     "additionalProperties": false
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/teams/{id}": {
+      "delete": {
+        "summary": "Remove a team from the site entirely",
+        "tags": [
+          "admin"
+        ],
+        "description": "Destructive and immediate, not reversible. Its inventory, receipts, expense history, and notifications are all deleted along with it. Any part it submitted to the shared library stays (other teams already rely on it) but loses its \"submitted by\" attribution. Members are not deleted — same as DELETE /teams/members/:userId, their accounts are kept but detached from the team (and demoted off TEAM_ADMIN, since that role only means something on a team); they can join another team with an invite code. Every member loses access immediately, on their very next request.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "enum": [
+                    "null"
+                  ],
+                  "nullable": true
                 }
               }
             }

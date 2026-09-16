@@ -181,22 +181,68 @@ const routes = async (app: FastifyInstance) => {
       ...adminOnly,
       schema: {
         tags: ['admin'],
-        summary: 'Every team using the site — name and number',
+        summary: 'Every team using the site — name, number, and member count',
         description:
           'Every team that has ever signed up, not just the ones active in the ' +
           "last 7 days (see /admin/stats's topTeamsLast7Days for that narrower, " +
           'activity-ranked view). Ordered by team number.',
         security: [{ bearerAuth: [] }],
         response: {
-          200: z.array(z.object({ id: z.string(), number: z.number().int(), name: z.string() })),
+          200: z.array(
+            z.object({
+              id: z.string(),
+              number: z.number().int(),
+              name: z.string(),
+              memberCount: z.number().int(),
+            }),
+          ),
         },
       },
     },
     async () => {
-      return prisma.team.findMany({
-        select: { id: true, number: true, name: true },
+      const teams = await prisma.team.findMany({
+        select: { id: true, number: true, name: true, _count: { select: { users: true } } },
         orderBy: { number: 'asc' },
       });
+      return teams.map((t) => ({ id: t.id, number: t.number, name: t.name, memberCount: t._count.users }));
+    },
+  );
+
+  r.delete(
+    '/teams/:id',
+    {
+      ...adminOnly,
+      schema: {
+        tags: ['admin'],
+        summary: 'Remove a team from the site entirely',
+        description:
+          'Destructive and immediate, not reversible. Its inventory, receipts, ' +
+          'expense history, and notifications are all deleted along with it. Any ' +
+          'part it submitted to the shared library stays (other teams already ' +
+          "rely on it) but loses its \"submitted by\" attribution. Members are " +
+          'not deleted — same as DELETE /teams/members/:userId, their accounts ' +
+          "are kept but detached from the team (and demoted off TEAM_ADMIN, " +
+          'since that role only means something on a team); they can join ' +
+          'another team with an invite code. Every member loses access ' +
+          'immediately, on their very next request.',
+        security: [{ bearerAuth: [] }],
+        params: z.object({ id: z.string() }),
+        response: { 204: z.null() },
+      },
+    },
+    async (req, reply) => {
+      const team = await prisma.team.findUnique({ where: { id: req.params.id } });
+      if (!team) throw notFound('Team not found');
+
+      await prisma.$transaction([
+        prisma.user.updateMany({
+          where: { teamId: team.id },
+          data: { teamId: null, role: 'MEMBER' },
+        }),
+        prisma.team.delete({ where: { id: team.id } }),
+      ]);
+
+      return reply.status(204).send(null);
     },
   );
 
