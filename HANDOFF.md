@@ -7,6 +7,41 @@ otherwise take an hour of re-deriving.
 
 ---
 
+## Session update — 2026-09-15, end of day (supersedes stale bits below)
+
+**User-reported bug, same day as the design-export merge below: team roster
+names rendered with a duplicated leading letter glued on with no gap**
+("GGeorge Conlan"). Root cause: `app/styles.css` was taken **wholesale** from
+the design export during that merge (reasonable — pure visual file, no
+wiring to lose), but `TeamRoster` and `NotificationBell` (`app/settings.jsx`,
+`app/notifications.jsx`) are both hand-written and were never in any Design
+export, so the export's stylesheet never had their classes at all. Same bug
+class as `ConfirmModal`, which the merge session had already caught and
+patched — this was a second instance of it I missed the first pass.
+
+**Fix**: grepped every className/`cx()` literal across every `app/*.jsx`
+file against the current `styles.css` (not just the files that changed in
+the merge) and found two real gaps — `.roster-*` (7 rules) and `.notif-*`
+(17 rules, plus 2 dark-theme overrides) — both restored verbatim from the
+pre-merge stylesheet (`git show 21f75c2:app/styles.css`). Verified via
+`node build.cjs` + serving `dist/` over local HTTP + headless-Chrome render
+(clean console, no `PAGE_SIZE`-style regression). `.line-main`
+(`receipts.jsx`) and `.part-card-meta` (`parts.jsx`) also came up unstyled
+in the same audit, but were unstyled in the *pre-merge* stylesheet too —
+pre-existing, not caused by this merge, left alone.
+
+`MERGE-NOTES.md`'s procedure now has an explicit step for this: whenever
+`styles.css` is replaced wholesale from a future export, audit *every*
+`.jsx` file's classNames against the new stylesheet, not just the files
+that changed — a component can lose all its styling without itself being
+touched, because the loss happens in the stylesheet.
+
+Committed (`7c3b91e`, frontend repo) and rebuilt `dist-deploy.zip` — **this
+still needs to be re-uploaded to Cloudflare Pages** (same manual drag-the-
+zip-file process as always; no Cloudflare access in this session).
+
+---
+
 ## Session update — 2026-09-15, later same day (supersedes stale bits below)
 
 **Reviewed all 37 rows in `prisma/data/dedup-report.md` (the goBILDA/
