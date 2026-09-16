@@ -4402,6 +4402,52 @@
         }
       }
     },
+    "/api/v1/admin/teams": {
+      "get": {
+        "summary": "Every team using the site — name and number",
+        "tags": [
+          "admin"
+        ],
+        "description": "Every team that has ever signed up, not just the ones active in the last 7 days (see /admin/stats's topTeamsLast7Days for that narrower, activity-ranked view). Ordered by team number.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "number",
+                      "name"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/submissions": {
       "get": {
         "summary": "List parts submitted for the global library, pending review",

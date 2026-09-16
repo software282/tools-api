@@ -176,6 +176,31 @@ const routes = async (app: FastifyInstance) => {
   );
 
   r.get(
+    '/teams',
+    {
+      ...adminOnly,
+      schema: {
+        tags: ['admin'],
+        summary: 'Every team using the site — name and number',
+        description:
+          'Every team that has ever signed up, not just the ones active in the ' +
+          "last 7 days (see /admin/stats's topTeamsLast7Days for that narrower, " +
+          'activity-ranked view). Ordered by team number.',
+        security: [{ bearerAuth: [] }],
+        response: {
+          200: z.array(z.object({ id: z.string(), number: z.number().int(), name: z.string() })),
+        },
+      },
+    },
+    async () => {
+      return prisma.team.findMany({
+        select: { id: true, number: true, name: true },
+        orderBy: { number: 'asc' },
+      });
+    },
+  );
+
+  r.get(
     '/submissions',
     {
       ...adminOnly,
