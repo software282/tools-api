@@ -7,6 +7,54 @@ otherwise take an hour of re-deriving.
 
 ---
 
+## Session update — 2026-09-16 (supersedes stale bits below)
+
+**Everything from the 2026-09-15 entries below is deployed and confirmed
+live** — George uploaded `dist-deploy.zip` to Cloudflare Pages himself
+("went off without a hitch"), so the roster/notification CSS fix and the
+design-export merge are both done, not just committed.
+
+**New this session: SUPER_ADMIN team management, added to the existing
+"Usage" admin screen (Settings → visible only to the SUPER_ADMIN account,
+`app/settings.jsx`'s `StatsScreen`).**
+
+- `GET /admin/teams` (backend `b691279`) — every team's `id`/`number`/`name`/
+  `memberCount`, ordered by number. Broader than `/admin/stats`'s
+  `topTeamsLast7Days`, which only ranks the last 7 days of activity and caps
+  at 10 rows. Frontend `4af246d` lists these as "Name Number" (e.g. "Seattle
+  Solvers 23511") in a new "All teams" table.
+- `DELETE /admin/teams/:id` (backend `a78fbca`) — lets SUPER_ADMIN remove a
+  team outright. Destructive and immediate: the team's `InventoryItem`,
+  `Receipt` (+`ReceiptLineItem`), `ExpenseEntry`, and `Notification` rows are
+  all gone via existing cascade FKs; a part it submitted to the shared
+  library survives (other teams may depend on it) but its
+  `createdByTeamId` is set null, same as when a lone member is removed and
+  their parts outlive them. **Members are not deleted** — same philosophy as
+  the pre-existing `DELETE /teams/members/:userId`: detached from the team
+  and demoted off `TEAM_ADMIN` in the same transaction as the team delete,
+  so their accounts survive and they can join another team with an invite
+  code. `requireAuth`/`authenticateFresh` re-reads role/teamId from the
+  database on every request (see `src/plugins/auth.ts`), so a detached
+  member loses access on their very next call, not whenever their week-long
+  JWT happens to expire.
+- Verified the exact transaction against the **live** database with a
+  throwaway team/users/part/inventory-item/notification before trusting it
+  (script written, run, then deleted — this project's usual pattern for
+  schema/data changes, per the checklist near the bottom of this file).
+  Frontend `dc08270` adds a "Remove" button per row behind the existing
+  `ConfirmModal` pattern (same UX as deleting a receipt), stating the
+  member count and exactly what will and won't be deleted before it's
+  irreversible.
+- Both routes added to `tests/apiContract.test.ts`'s auth-required list;
+  full suite (156 tests) passes; `openapi.json` regenerated and committed.
+
+**Not yet deployed** — `dist-deploy.zip` was rebuilt after these changes but
+had not been re-uploaded to Cloudflare Pages as of this entry; check whether
+George has done that before assuming the team-management UI is live (the
+backend routes already are, via Render auto-deploy on push).
+
+---
+
 ## Session update — 2026-09-15, end of day (supersedes stale bits below)
 
 **User-reported bug, same day as the design-export merge below: team roster
