@@ -56,7 +56,8 @@ const routes = async (app: FastifyInstance) => {
           'There is no other way to see this invite code afterward (rotating it requires ' +
           'already being a team admin, which requires already having an account) — the ' +
           'caller MUST show `warning` and have the user save the code before leaving ' +
-          'the page.',
+          "the page. Everyone after the first joiner lands as a read-only VIEWER — see " +
+          'POST /auth/join.',
         body: createTeamBody,
         response: { 201: createTeamResponse },
       },
@@ -101,7 +102,8 @@ const routes = async (app: FastifyInstance) => {
           'The usual way to get an account: teams have no login of their own, so this is ' +
           'how every member — including whoever created the team — signs up. The first ' +
           'person to join a brand-new team (0 existing members) becomes TEAM_ADMIN ' +
-          'automatically; everyone after that joins as MEMBER.',
+          'automatically; everyone after that joins as a read-only VIEWER until an admin ' +
+          'promotes them (see PATCH /teams/members/:userId).',
         body: joinTeamBody,
         response: { 201: authResultSchema },
       },
@@ -119,14 +121,15 @@ const routes = async (app: FastifyInstance) => {
 
       const passwordHash = await hashPassword(password);
       // Nobody logs into "the team" — the first person to actually join becomes
-      // the admin, and everyone after that is a regular member.
+      // the admin, and everyone after that is a read-only viewer until an
+      // admin promotes them (PATCH /teams/members/:userId).
       const memberCount = await prisma.user.count({ where: { teamId: team.id } });
       const user = await prisma.user.create({
         data: {
           email: email.toLowerCase(),
           passwordHash,
           displayName,
-          role: memberCount === 0 ? 'TEAM_ADMIN' : 'MEMBER',
+          role: memberCount === 0 ? 'TEAM_ADMIN' : 'VIEWER',
           teamId: team.id,
         },
       });

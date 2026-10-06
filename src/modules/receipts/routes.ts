@@ -149,7 +149,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       config: receiptRateLimit,
       schema: {
         tags: ['receipts'],
@@ -194,7 +194,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/upload',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       config: receiptRateLimit,
       schema: {
         tags: ['receipts'],
@@ -381,7 +381,7 @@ const routes = async (app: FastifyInstance) => {
   r.delete(
     '/:id',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['receipts'],
         summary: 'Delete a receipt (e.g. the wrong file, or a bad parse)',
@@ -421,7 +421,7 @@ const routes = async (app: FastifyInstance) => {
   r.patch(
     '/:id/lines/:lineId',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['receipts'],
         summary: 'Correct a parsed line item (fix the matched part, quantity, or name)',
@@ -470,7 +470,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/:id/confirm',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['receipts'],
         summary: 'Apply matched line items to your team inventory',

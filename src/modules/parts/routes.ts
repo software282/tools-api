@@ -85,7 +85,7 @@ const routes = async (app: FastifyInstance) => {
   r.get(
     '/suggest-url',
     {
-      preHandler: app.requireAuth,
+      preHandler: app.requireTeamAdmin,
       config: suggestUrlRateLimit,
       schema: {
         tags: ['parts'],
@@ -96,7 +96,8 @@ const routes = async (app: FastifyInstance) => {
           'Anthropic key (see PATCH /teams/current), or null if your team has not set one ' +
           "or Claude was not confident. Once a product URL is known, its page's own " +
           "og:image is read automatically — reviewers never hand-paste an image URL. " +
-          'Always a suggestion to review, never a verified link.',
+          'Always a suggestion to review, never a verified link. Feeds into adding a ' +
+          'part, so it is gated the same way: TEAM_ADMIN only.',
         security: [{ bearerAuth: [] }],
         querystring: suggestUrlQuery,
         response: { 200: suggestUrlResponse },
@@ -108,7 +109,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['parts'],
         summary: 'Add a custom part for your team, optionally requesting it for the shared library',
@@ -212,7 +213,7 @@ const routes = async (app: FastifyInstance) => {
   r.patch(
     '/:id',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['parts'],
         summary: "Edit one of your team's custom parts",
@@ -256,7 +257,7 @@ const routes = async (app: FastifyInstance) => {
   r.delete(
     '/:id',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['parts'],
         summary: "Delete one of your team's custom parts",

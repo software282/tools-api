@@ -196,7 +196,7 @@ const routes = async (app: FastifyInstance) => {
   r.put(
     '/:partId',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['inventory'],
         summary: 'Set the quantity (and optional location/notes) of a part',
@@ -256,7 +256,7 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/:partId/adjust',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['inventory'],
         summary: 'Adjust a part quantity by a delta (e.g. +5 after a purchase, -1 when used)',
@@ -322,7 +322,7 @@ const routes = async (app: FastifyInstance) => {
   r.delete(
     '/:partId',
     {
-      preHandler: [app.requireAuth, app.requireTeam],
+      preHandler: app.requireTeamAdmin,
       schema: {
         tags: ['inventory'],
         summary: 'Stop tracking a part (removes the row from your inventory sheet)',

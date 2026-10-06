@@ -30,10 +30,12 @@ const updateTeamBody = z.object({
   anthropicApiKey: z.string().min(20).max(200).nullable().optional(),
 });
 
-// Team admins can only move members between MEMBER and TEAM_ADMIN. Granting
-// SUPER_ADMIN is a Seattle Solvers staff action, not a team-level one.
+// Team admins can only move members between VIEWER and TEAM_ADMIN — promoting
+// someone gifts them admin without costing the promoter their own (any number
+// of admins can coexist on a team). Granting SUPER_ADMIN is a Seattle Solvers
+// staff action, not a team-level one.
 const updateMemberBody = z.object({
-  role: z.enum(['MEMBER', 'TEAM_ADMIN']),
+  role: z.enum(['VIEWER', 'TEAM_ADMIN']),
 });
 
 const joinBody = z.object({
@@ -161,7 +163,9 @@ const routes = async (app: FastifyInstance) => {
         tags: ['teams'],
         summary: "Promote or demote a member of your team",
         description:
-          'Takes effect immediately — the target does not need to log out and back in.',
+          'Takes effect immediately — the target does not need to log out and back in. ' +
+          'Promoting someone to TEAM_ADMIN does not demote you; a team can have more than ' +
+          'one admin at once.',
         security: [{ bearerAuth: [] }],
         params: z.object({ userId: z.string() }),
         body: updateMemberBody,
@@ -190,7 +194,7 @@ const routes = async (app: FastifyInstance) => {
         tags: ['teams'],
         summary: 'Remove a member from your team',
         description:
-          "Keeps their account but detaches it from the team, so their receipts and submitted parts retain their author. They can join another team (or yours again) with an invite code via POST /teams/join. Access is revoked immediately.",
+          "Keeps their account but detaches it from the team (and demotes them off TEAM_ADMIN to a plain VIEWER, since that role only means something on a team), so their receipts and submitted parts retain their author. They can join another team (or yours again) with an invite code via POST /teams/join. Access is revoked immediately.",
         security: [{ bearerAuth: [] }],
         params: z.object({ userId: z.string() }),
         response: { 204: z.null() },
@@ -204,7 +208,7 @@ const routes = async (app: FastifyInstance) => {
       );
       await prisma.user.update({
         where: { id: target.id },
-        data: { teamId: null, role: 'MEMBER' },
+        data: { teamId: null, role: 'VIEWER' },
       });
       return reply.status(204).send(null);
     },
@@ -246,14 +250,15 @@ const routes = async (app: FastifyInstance) => {
       if (!team) throw notFound('No team found for that invite code', 'INVALID_INVITE');
 
       // Same rule as POST /auth/join: nobody logs into "the team" itself, so the
-      // first real account to join a brand-new team becomes its admin. A
-      // Seattle Solvers SUPER_ADMIN has no team by design (see prisma/seed.ts) —
-      // never demote one to TEAM_ADMIN just for satisfying that check.
+      // first real account to join a brand-new team becomes its admin, and
+      // everyone else lands as a read-only VIEWER. A Seattle Solvers
+      // SUPER_ADMIN has no team by design (see prisma/seed.ts) — never demote
+      // one to TEAM_ADMIN just for satisfying that check.
       const memberCount = await prisma.user.count({ where: { teamId: team.id } });
       const promoteToAdmin = memberCount === 0 && self.role !== 'SUPER_ADMIN';
       await prisma.user.update({
         where: { id: req.auth!.sub },
-        data: { teamId: team.id, role: promoteToAdmin ? 'TEAM_ADMIN' : undefined },
+        data: { teamId: team.id, role: promoteToAdmin ? 'TEAM_ADMIN' : 'VIEWER' },
       });
       return serializePublicTeam(team);
     },

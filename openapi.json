@@ -31,7 +31,7 @@
         "tags": [
           "auth"
         ],
-        "description": "Creates only the Team — no login account, no token. Every person, including whoever calls this, gets their own account the same way everyone else does: POST /auth/join with the returned inviteCode. The first person to join a new team becomes TEAM_ADMIN automatically; everyone after that joins as MEMBER. There is no other way to see this invite code afterward (rotating it requires already being a team admin, which requires already having an account) — the caller MUST show `warning` and have the user save the code before leaving the page.",
+        "description": "Creates only the Team — no login account, no token. Every person, including whoever calls this, gets their own account the same way everyone else does: POST /auth/join with the returned inviteCode. The first person to join a new team becomes TEAM_ADMIN automatically; everyone after that joins as MEMBER. There is no other way to see this invite code afterward (rotating it requires already being a team admin, which requires already having an account) — the caller MUST show `warning` and have the user save the code before leaving the page. Everyone after the first joiner lands as a read-only VIEWER — see POST /auth/join.",
         "requestBody": {
           "required": true,
           "content": {
@@ -117,7 +117,7 @@
         "tags": [
           "auth"
         ],
-        "description": "The usual way to get an account: teams have no login of their own, so this is how every member — including whoever created the team — signs up. The first person to join a brand-new team (0 existing members) becomes TEAM_ADMIN automatically; everyone after that joins as MEMBER.",
+        "description": "The usual way to get an account: teams have no login of their own, so this is how every member — including whoever created the team — signs up. The first person to join a brand-new team (0 existing members) becomes TEAM_ADMIN automatically; everyone after that joins as a read-only VIEWER until an admin promotes them (see PATCH /teams/members/:userId).",
         "requestBody": {
           "required": true,
           "content": {
@@ -183,6 +183,7 @@
                         "role": {
                           "type": "string",
                           "enum": [
+                            "VIEWER",
                             "MEMBER",
                             "TEAM_ADMIN",
                             "SUPER_ADMIN"
@@ -303,6 +304,7 @@
                         "role": {
                           "type": "string",
                           "enum": [
+                            "VIEWER",
                             "MEMBER",
                             "TEAM_ADMIN",
                             "SUPER_ADMIN"
@@ -400,6 +402,7 @@
                         "role": {
                           "type": "string",
                           "enum": [
+                            "VIEWER",
                             "MEMBER",
                             "TEAM_ADMIN",
                             "SUPER_ADMIN"
@@ -518,6 +521,7 @@
                         "role": {
                           "type": "string",
                           "enum": [
+                            "VIEWER",
                             "MEMBER",
                             "TEAM_ADMIN",
                             "SUPER_ADMIN"
@@ -694,6 +698,7 @@
                         "role": {
                           "type": "string",
                           "enum": [
+                            "VIEWER",
                             "MEMBER",
                             "TEAM_ADMIN",
                             "SUPER_ADMIN"
@@ -1811,7 +1816,7 @@
         "tags": [
           "parts"
         ],
-        "description": "Deterministic for vendors with a known SKU-to-URL formula (currently REV); otherwise a web-search-grounded guess from Claude, billed to your team's own Anthropic key (see PATCH /teams/current), or null if your team has not set one or Claude was not confident. Once a product URL is known, its page's own og:image is read automatically — reviewers never hand-paste an image URL. Always a suggestion to review, never a verified link.",
+        "description": "Deterministic for vendors with a known SKU-to-URL formula (currently REV); otherwise a web-search-grounded guess from Claude, billed to your team's own Anthropic key (see PATCH /teams/current), or null if your team has not set one or Claude was not confident. Once a product URL is known, its page's own og:image is read automatically — reviewers never hand-paste an image URL. Always a suggestion to review, never a verified link. Feeds into adding a part, so it is gated the same way: TEAM_ADMIN only.",
         "parameters": [
           {
             "schema": {
@@ -4003,6 +4008,7 @@
                       "role": {
                         "type": "string",
                         "enum": [
+                          "VIEWER",
                           "MEMBER",
                           "TEAM_ADMIN",
                           "SUPER_ADMIN"
@@ -4034,7 +4040,7 @@
         "tags": [
           "teams"
         ],
-        "description": "Takes effect immediately — the target does not need to log out and back in.",
+        "description": "Takes effect immediately — the target does not need to log out and back in. Promoting someone to TEAM_ADMIN does not demote you; a team can have more than one admin at once.",
         "requestBody": {
           "required": true,
           "content": {
@@ -4045,7 +4051,7 @@
                   "role": {
                     "type": "string",
                     "enum": [
-                      "MEMBER",
+                      "VIEWER",
                       "TEAM_ADMIN"
                     ]
                   }
@@ -4094,6 +4100,7 @@
                     "role": {
                       "type": "string",
                       "enum": [
+                        "VIEWER",
                         "MEMBER",
                         "TEAM_ADMIN",
                         "SUPER_ADMIN"
@@ -4122,7 +4129,7 @@
         "tags": [
           "teams"
         ],
-        "description": "Keeps their account but detaches it from the team, so their receipts and submitted parts retain their author. They can join another team (or yours again) with an invite code via POST /teams/join. Access is revoked immediately.",
+        "description": "Keeps their account but detaches it from the team (and demotes them off TEAM_ADMIN to a plain VIEWER, since that role only means something on a team), so their receipts and submitted parts retain their author. They can join another team (or yours again) with an invite code via POST /teams/join. Access is revoked immediately.",
         "parameters": [
           {
             "schema": {

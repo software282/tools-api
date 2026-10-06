@@ -237,7 +237,7 @@ const routes = async (app: FastifyInstance) => {
       await prisma.$transaction([
         prisma.user.updateMany({
           where: { teamId: team.id },
-          data: { teamId: null, role: 'MEMBER' },
+          data: { teamId: null, role: 'VIEWER' },
         }),
         prisma.team.delete({ where: { id: team.id } }),
       ]);

@@ -14,7 +14,16 @@ datasource db {
 // ─────────────────────────── Enums ───────────────────────────
 
 enum Role {
+  // Legacy — no code path assigns this anymore (see the 2026-10-05 migration,
+  // which converted every existing team member to VIEWER). Kept in the enum
+  // rather than dropped: removing a Postgres enum value means recreating the
+  // whole type, not worth it for a value nothing writes.
   MEMBER
+  // The default for everyone who joins a team except its first member. Can
+  // view everything the team can see, but every write route that touches
+  // shared team data (parts, inventory, receipts, team settings) requires
+  // TEAM_ADMIN — see requireTeamAdmin in src/plugins/auth.ts.
+  VIEWER
   TEAM_ADMIN
   SUPER_ADMIN
 }
@@ -93,7 +102,7 @@ model User {
   email        String   @unique
   passwordHash String
   displayName  String
-  role         Role     @default(MEMBER)
+  role         Role     @default(VIEWER)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
