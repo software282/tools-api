@@ -149,13 +149,13 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/',
     {
-      preHandler: app.requireTeamAdmin,
+      preHandler: [app.requireAuth, app.requireTeam],
       config: receiptRateLimit,
       schema: {
         tags: ['receipts'],
         summary: 'Paste an order confirmation (the usual way to add a receipt)',
         description:
-          'Send the text of an order confirmation email or web receipt. Plain text and HTML email bodies both work — HTML is detected automatically. Nothing is deciphered here: the characters are already exact, so no OCR and normally no model call is involved. Returns the parsed receipt with matched parts for review; call /confirm to apply it to inventory.',
+          'Send the text of an order confirmation email or web receipt. Plain text and HTML email bodies both work — HTML is detected automatically. Nothing is deciphered here: the characters are already exact, so no OCR and normally no model call is involved. Returns the parsed receipt with matched parts for review; call /confirm to apply it to inventory. Any team member can submit one, VIEWER included — finishing it (correcting a match, applying it to inventory, or deleting it) is TEAM_ADMIN-only.',
         security: [{ bearerAuth: [] }],
         body: textReceiptBody,
         response: { 201: receiptSchema },
@@ -194,13 +194,13 @@ const routes = async (app: FastifyInstance) => {
   r.post(
     '/upload',
     {
-      preHandler: app.requireTeamAdmin,
+      preHandler: [app.requireAuth, app.requireTeam],
       config: receiptRateLimit,
       schema: {
         tags: ['receipts'],
         summary: 'Upload a receipt file — a digital PDF invoice, or a photo of a paper receipt',
         description:
-          "multipart/form-data with fields `vendor` and `file`. A PDF is read from its text layer, so a downloaded invoice needs no OCR. An image (jpg/png/webp/gif) is OCR'd, falling back to Claude vision only when that is not good enough — this is the physical-receipt path. For an emailed confirmation prefer POST /receipts, which is exact and cheaper.",
+          "multipart/form-data with fields `vendor` and `file`. A PDF is read from its text layer, so a downloaded invoice needs no OCR. An image (jpg/png/webp/gif) is OCR'd, falling back to Claude vision only when that is not good enough — this is the physical-receipt path. For an emailed confirmation prefer POST /receipts, which is exact and cheaper. Any team member can upload one, VIEWER included — finishing it (correcting a match, applying it to inventory, or deleting it) is TEAM_ADMIN-only.",
         consumes: ['multipart/form-data'],
         security: [{ bearerAuth: [] }],
         response: { 201: receiptSchema },
